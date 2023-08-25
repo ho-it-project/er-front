@@ -17,5 +17,6 @@
   "useTabs": false,
   "vueIndentScriptAndStyle": false,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindAttributes": ["className"]
+  "tailwindAttributes": ["className"],
+  "tailwindConfig": "./tailwind.config.js"
 }

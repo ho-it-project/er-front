@@ -6,11 +6,7 @@ const apiPrefix = process.env.NEXT_PUBLIC_API_PREFIX;
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      "loremflickr.com",
-      "pearluk.s3.ap-northeast-2.amazonaws.com",
-      "pearlukdev.s3.ap-northeast-2.amazonaws.com",
-    ],
+    domains: [],
     formats: ["image/avif", "image/webp"],
   },
   async rewrites() {
@@ -22,6 +18,14 @@ const nextConfig = {
           : "http://localhost:8000/api/:path*",
       },
     ];
+  },
+  webpack: (config, { webpack }) => {
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /import2/, // adjust the module name
+      })
+    );
+    return config;
   },
 };
 

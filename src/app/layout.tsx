@@ -1,4 +1,3 @@
-import DefaultLayout from "@/components/layout/DefaultLayout";
 import LayoutProvider from "@/lib/provider/LayoutProvider";
 import { SWRProvider } from "@/lib/provider/SwrProvider";
 import type { Metadata } from "next";
@@ -23,9 +22,7 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <SWRProvider>
           {/* <AuthProvider> */}
-          <LayoutProvider>
-            <DefaultLayout>{children}</DefaultLayout>
-          </LayoutProvider>
+          <LayoutProvider>{children}</LayoutProvider>
           {/* </AuthProvider> */}
         </SWRProvider>
       </body>
