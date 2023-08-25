@@ -8,7 +8,7 @@
     "plugin:testing-library/react",
     "plugin:jest-dom/recommended"
   ],
-  "plugins": ["testing-library", "@typescript-eslint"],
+  "plugins": ["testing-library", "@typescript-eslint", "next/babel"],
   "overrides": [
     {
       "files": ["__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
