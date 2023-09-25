@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 @layer base {
-  html,
+  html {
+    font-size: 10px;
+  }
   body {
-    font-size: 14px;
+    /* font-size: 1.6rem; */
+    /* @apply bg-slate-100; */
+    @apply bg-bg;
+    @apply text-black;
   }
 }
 
-@layer components {
+/* @layer components {
   h2.title {
     @apply my-5 text-xl;
   }
@@ -53,6 +58,6 @@
   .ellipsis-text {
     @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
   }
-}
+} */
 
-@import "./_spinner.css";
+/* @import "./_spinner.css"; */

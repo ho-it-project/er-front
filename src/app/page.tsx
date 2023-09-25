@@ -1,16 +1,32 @@
-import EMStest from "@/components/pages/home/EMStest";
-import ERtest from "@/components/pages/home/ERtest";
+import Board from "@/components/board/page";
+import ScrollContainer from "@/containers/home/scrollContainer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <h1 className="bg-slate-100 text-4xl font-bold">Hellow</h1>
-      <h1 className="bg-slate-100 text-4xl font-bold">ER FRONT</h1>
-      <ERtest />
-      <br />
-      <br />
-      <br />
-      <EMStest />
-    </main>
+    <Board>
+      <div>
+        <span className="absolute -top-[4rem] flex h-[5rem] w-[26rem] items-center rounded-2xl bg-white">
+          <span className="ml-[3rem] text-[1.8rem] font-[700] text-main">
+            B1 응급병동
+          </span>
+        </span>
+        <span className="absolute -top-[4rem] left-[30rem] flex h-[5rem] w-[26rem] items-center rounded-2xl bg-white opacity-70">
+          <span className="ml-[3rem] text-[1.8rem] font-[700] text-main">
+            B1 음압병동
+          </span>
+        </span>
+        <span className="absolute -top-[4rem] left-[60rem] flex h-[5rem] w-[26rem] items-center rounded-2xl bg-white opacity-70">
+          <span className="ml-[3rem] text-[1.8rem] font-[700] text-main">
+            1F 소아응급병동
+          </span>
+        </span>
+        <span className="absolute -top-[4rem] left-[90rem] flex h-[5rem] w-[26rem] items-center rounded-2xl bg-white opacity-70">
+          <span className="ml-[3rem] text-[1.8rem] font-[700] text-main">
+            B1 중증응급병동
+          </span>
+        </span>
+        <ScrollContainer />
+      </div>
+    </Board>
   );
 }
