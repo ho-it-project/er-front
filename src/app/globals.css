@@ -3,13 +3,49 @@
 @tailwind utilities;
 
 @layer base {
-  html,
+  html {
+    font-size: 62.5%;
+    /* line-height: 1.285; */
+  }
   body {
-    font-size: 14px;
+    /* font-size: 1.6rem; */
+    /* @apply bg-slate-100; */
+    @apply bg-bg;
+    @apply text-black;
+    font-family: "inter";
+  }
+}
+::-webkit-scrollbar {
+  opacity: 0.3;
+  width: 0.7rem;
+}
+::-webkit-scrollbar-track {
+  width: 0.2rem;
+  border-radius: 0.5rem;
+  opacity: 0.3;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #0aa7ac;
+  opacity: 0.3;
+}
+@layer components {
+  .card-small {
+    width: 8rem;
+    height: 8rem;
+  }
+  .card-medium {
+    width: 38rem;
+    height: 20rem;
+  }
+
+  .card-x-medium {
+    width: 38rem;
+    height: 38rem;
   }
 }
 
-@layer components {
+/* @layer components {
   h2.title {
     @apply my-5 text-xl;
   }
@@ -53,6 +89,6 @@
   .ellipsis-text {
     @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
   }
-}
+} */
 
-@import "./_spinner.css";
+/* @import "./_spinner.css"; */
