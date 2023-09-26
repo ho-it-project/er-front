@@ -1,10 +1,10 @@
+import Menu from "@/components/Menu";
+import Right from "@/components/RightMenu";
 import LayoutProvider from "@/lib/provider/LayoutProvider";
 import { SWRProvider } from "@/lib/provider/SwrProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Menu from "@/containers/menu/page";
-import Right from "@/containers/right/page";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,19 +17,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // 초기 테마를 설정하는 함수
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
         <SWRProvider>
-          <div className="flex">
-            <Menu />
-            {/* <AuthProvider> */}
-            <LayoutProvider>{children}</LayoutProvider>
-            {/* </AuthProvider> */}
-            <Right />
-          </div>
+          {/* <AuthProvider> */}
+          <LayoutProvider>
+            <div className="flex h-screen justify-between">
+              <Menu />
+              {children}
+              <Right />
+            </div>
+          </LayoutProvider>
+          {/* </AuthProvider> */}
         </SWRProvider>
       </body>
     </html>

@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "jest.setup.js"
-  ],
+, "src/components/Spinner"  ],
   "exclude": ["node_modules", "**/*.test.ts"]
 }

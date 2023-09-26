@@ -14,7 +14,7 @@ export default function TopMiniBox() {
   };
 
   return (
-    <div className="relative mt-[2rem] h-[8rem] w-[8rem]">
+    <div className="relative h-[8rem] w-[8rem]">
       <span
         onClick={openBtn}
         className={`absolute left-0 top-0 z-10 transition-all duration-200 ease-in ${

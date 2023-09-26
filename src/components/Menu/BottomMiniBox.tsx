@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 
+/**
+ * 리팩토링 필요
+ * useMenu 커스텀 훅으로 분리
+ */
 export default function BottomMiniBox() {
   const [expanded, setExpanded] = useState(false);
   const openBtn = () => {

@@ -1,7 +1,5 @@
 "use client";
 
-import Switch from "@/components/switch/page";
-import { useState } from "react";
 import Part from "./part";
 
 const DUMMY = [

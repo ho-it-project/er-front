@@ -1,7 +1,7 @@
 "use client";
 
-import Count from "@/components/count/page";
-import Switch from "@/components/switch/page";
+import Count from "@/components/Count";
+import Switch from "@/components/Switch";
 import { useState } from "react";
 
 interface PartProps {
@@ -11,6 +11,7 @@ interface PartProps {
   cnt: number;
 }
 
+//part가 뭐하는건지 모르겠음 누가봐도 바로 알수있을정도의 이름으로 작성해야함
 export default function Part({ key, title, set, cnt }: PartProps) {
   const [toggle, setToggle] = useState(set);
   const clickedToggle = () => {
