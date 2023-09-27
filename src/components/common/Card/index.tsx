@@ -35,7 +35,7 @@ export const Card = ({
     <div
       className={`card-${size} bg-${bg} rounded-2xl ${
         border === "none" ? `` : `border-${border}`
-      } drop-shadow-${dropShadow} border-2`}
+      } drop-shadow-${dropShadow}`}
     >
       {children}
     </div>

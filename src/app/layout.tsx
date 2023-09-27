@@ -5,6 +5,8 @@ import { SWRProvider } from "@/lib/provider/SwrProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import RightMenu from "@/components/RightMenu";
+import ScrollBox from "@/components/ScrollBox/ScrollBox";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,10 +25,10 @@ export default function RootLayout({
         <SWRProvider>
           {/* <AuthProvider> */}
           <LayoutProvider>
-            <div className="flex h-screen justify-between">
+            <div className="flex h-screen justify-between gap-[2rem]">
               <Menu />
               {children}
-              <Right />
+              <RightMenu />
             </div>
           </LayoutProvider>
           {/* </AuthProvider> */}

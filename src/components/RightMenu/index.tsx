@@ -3,15 +3,48 @@
 import { useState } from "react";
 import RequsetBox from "./RequestBox";
 import StatusBox from "./StatusBox";
+import ScrollBox from "../ScrollBox/ScrollBox";
+
+const DUMMY_REQUEST = [
+  {
+    id: 403829,
+    time: "2:14",
+    name: "김*종",
+    gender: "남",
+    age: 19,
+    place: "서울 119 안전센터",
+    symptom: ["복통", "식은땀", "발열", "구토"],
+  },
+  {
+    id: 403829,
+    time: "2:14",
+    name: "김*종",
+    gender: "남",
+    age: 19,
+    place: "서울 119 안전센터",
+    symptom: ["복통", "식은땀", "발열", "구토"],
+  },
+  {
+    id: 403829,
+    time: "2:14",
+    name: "김*종",
+    gender: "남",
+    age: 19,
+    place: "서울 119 안전센터",
+    symptom: ["복통", "식은땀", "발열", "구토"],
+  },
+  {
+    id: 403829,
+    time: "2:14",
+    name: "김*종",
+    gender: "남",
+    age: 19,
+    place: "서울 119 안전센터",
+    symptom: ["복통", "식은땀", "발열", "구토"],
+  },
+];
 
 export default function RightMenu() {
-  const status = {
-    a: 12,
-    A: 12,
-    aw: 12,
-    b: 1,
-    B: 3,
-  };
   const currentTimer = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -25,24 +58,37 @@ export default function RightMenu() {
   setInterval(() => setTimer(currentTimer()), 1000);
 
   return (
-    <div className="ml-[2rem] mr-[2rem] mt-[4.5rem] w-[38rem]">
+    <div className="mr-[2rem] mt-[4.5rem] w-[38rem]">
       <p className="mb-[0.7rem] h-[1.8rem] text-right text-[1.5rem] font-[600] text-gray">
         {timer}
       </p>
-      <StatusBox status={status} />
-      <div className="mx-auto">
+      <StatusBox />
+      <div className="">
         <div className="mt-[2rem] flex justify-between">
           <button className="h-[8rem] w-[28rem] rounded-2xl bg-main text-[2rem] font-[700] text-white">
             병상 정보 관리
           </button>
           <div className="relative h-[8rem] w-[8rem] rounded-2xl border-2 border-slate-100 bg-white"></div>
         </div>
-        <div className="mt-[4rem]">
+        <div className="mt-[4rem] h-full">
           <h4 className="text-[2rem] font-bold text-main">환자 수용 요청</h4>
-          <div className="flex flex-col">
-            <RequsetBox />
-            <RequsetBox />
-            <RequsetBox />
+          <div className="h-full overflow-y-hidden">
+            <ScrollBox>
+              <div className="flex flex-col gap-[2rem]">
+                {DUMMY_REQUEST.map((q, index) => (
+                  <RequsetBox
+                    id={q.id}
+                    time={q.time}
+                    name={q.name}
+                    gender={q.gender}
+                    age={q.age}
+                    place={q.place}
+                    symptom={q.symptom}
+                    key={index}
+                  />
+                ))}
+              </div>
+            </ScrollBox>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Part from "./part";
+import DepartmentLine from "./deparmentLine";
 
 const DUMMY = [
   { title: "호흡기내과", set: false },
@@ -27,7 +27,7 @@ export default function InternalMedicine() {
       </div>
       <div className="border-l-2 border-L-gray pl-[2rem]">
         {DUMMY.map((i, index) => (
-          <Part key={index} title={i.title} set={i.set} />
+          <DepartmentLine key={index} title={i.title} set={i.set} />
         ))}
       </div>
     </div>

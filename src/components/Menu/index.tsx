@@ -4,7 +4,7 @@ import TopMiniBox from "./TopMiniBox";
 
 export default function Menu() {
   return (
-    <div className="ml-[2rem] mr-[2rem] w-[8rem]">
+    <div className="ml-[2rem] w-[8rem]">
       <div className="flex h-full flex-col justify-between pb-[2rem]">
         <div className="mt-[5.2rem]">
           <Link href={"/"}>

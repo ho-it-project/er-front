@@ -2,26 +2,19 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import useMenu from "./useMenu";
 
 /**
  * 리팩토링 필요
  * useMenu 커스텀 훅으로 분리
  */
 export default function BottomMiniBox() {
-  const [expanded, setExpanded] = useState(false);
-  const openBtn = () => {
-    setExpanded(true);
-  };
-
-  const closeBtn = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpanded(false);
-  };
+  const { expanded, openMenu, closeMenu } = useMenu();
 
   return (
     <div className="relative mt-[2rem] h-[8rem] w-[8rem]">
       <span
-        onClick={openBtn}
+        onClick={openMenu}
         className={`absolute bottom-0 left-0 z-10 transition-all duration-200 ease-in ${
           expanded
             ? "h-[38rem] w-[38rem] bg-white"
@@ -36,7 +29,10 @@ export default function BottomMiniBox() {
           {expanded ? (
             <>
               <span
-                onClick={(e) => closeBtn(e)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeMenu();
+                }}
                 className="absolute right-5 top-3 cursor-pointer text-xl font-bold"
               >
                 X
@@ -51,33 +47,66 @@ export default function BottomMiniBox() {
                     <p>요청 목록</p>
                   </div>
                   <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
-                    <p>병동 정보</p>
-                    <p>상세 보기</p>
+                    <p>병동 정보 관리</p>
                   </div>
                   <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                     <p>타병원 찾기</p>
                   </div>
-                  <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
-                    <p>중증응급질환 관리</p>
-                  </div>
-                  <Link href={"/hrm"} onClick={closeBtn}>
+                  <Link
+                    href={"/message"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
+                    <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
+                      <p>메세지</p>
+                    </div>
+                  </Link>
+                  <Link
+                    href={"/severeEmergencyillness"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
+                    <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
+                      <p>중증응급질환 관리</p>
+                    </div>
+                  </Link>
+                  <Link
+                    href={"/hrm"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
                     <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                       <p>인력 관리</p>
                     </div>
                   </Link>
-                  <Link href={"/department"} onClick={closeBtn}>
+                  <Link
+                    href={"/department"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
                     <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                       <p>진료과 /</p>
                     </div>
                   </Link>
-                  <Link href={"/equipment"} onClick={closeBtn}>
+                  <Link
+                    href={"/equipment"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
                     <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                       <p>장비 관리</p>
                     </div>
                   </Link>
-                  <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
-                    <p>설정</p>
-                  </div>
                 </div>
               </div>
             </>
