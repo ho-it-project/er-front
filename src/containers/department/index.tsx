@@ -1,7 +1,7 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import InternalMedicine from "./internalMedicine";
-import Part from "./part";
 import Surgery from "./surgery";
+import DepartmentLine from "./deparmentLine";
 
 const topNavs = [{ title: "진료과 관리" }];
 const DUMMY1 = [
@@ -27,10 +27,22 @@ export default function DepartmentSettingContainer() {
             <InternalMedicine />
             <Surgery>
               {DUMMY1.map((i, index) => (
-                <Part key={`${i.title} ${index}`} title={i.title} set={i.set} />
+                <DepartmentLine
+                  key={`${i.title} ${index}`}
+                  title={i.title}
+                  set={i.set}
+                />
               ))}
             </Surgery>
-            <div className="h-[59rem] w-[23.3rem] border-2">다른거</div>
+            <div className="h-[59rem] w-[23.3rem]">
+              {DUMMY1.map((i, index) => (
+                <DepartmentLine
+                  key={`${i.title} ${index}`}
+                  title={i.title}
+                  set={i.set}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </TopNavContentWrapper>

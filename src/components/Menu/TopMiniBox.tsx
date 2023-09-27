@@ -1,22 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import useMenu from "./useMenu";
 
 export default function TopMiniBox() {
-  const [expanded, setExpanded] = useState(false);
-  const openBtn = () => {
-    setExpanded(true);
-  };
-
-  const closeBtn = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpanded(false);
-  };
+  const { expanded, openMenu, closeMenu } = useMenu();
 
   return (
     <div className="relative h-[8rem] w-[8rem]">
       <span
-        onClick={openBtn}
+        onClick={openMenu}
         className={`absolute left-0 top-0 z-10 transition-all duration-200 ease-in ${
           expanded
             ? "h-[38rem] w-[38rem] bg-white"
@@ -31,7 +24,10 @@ export default function TopMiniBox() {
           {expanded ? (
             <>
               <span
-                onClick={(e) => closeBtn(e)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeMenu();
+                }}
                 className="absolute right-5 top-3 cursor-pointer text-xl font-bold"
               >
                 X

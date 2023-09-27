@@ -1,5 +1,5 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import Part from "./part";
+import EquipmentLine from "./equipmentLine";
 
 const topNavs = [{ title: "장비 관리" }];
 
@@ -35,12 +35,22 @@ export default function MedicalEquipmentSettingContainer() {
           <div className="mx-auto mt-[20rem] flex h-[33rem] w-[81rem] justify-between">
             <div className="h-[33rem] w-[35rem]">
               {DUMMY1.map((i, index) => (
-                <Part key={index} title={i.title} set={i.set} cnt={i.cnt} />
+                <EquipmentLine
+                  key={index}
+                  title={i.title}
+                  set={i.set}
+                  cnt={i.cnt}
+                />
               ))}
             </div>
             <div className="h-[33rem] w-[35rem]">
               {DUMMY2.map((i, index) => (
-                <Part key={index} title={i.title} set={i.set} cnt={i.cnt} />
+                <EquipmentLine
+                  key={index}
+                  title={i.title}
+                  set={i.set}
+                  cnt={i.cnt}
+                />
               ))}
             </div>
           </div>

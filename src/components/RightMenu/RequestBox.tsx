@@ -1,19 +1,50 @@
-export default function RequsetBox() {
+import { Card } from "../common/Card";
+
+interface RequestProps {
+  id: number;
+  time: string;
+  name: string;
+  gender: string;
+  age: number;
+  place: string;
+  symptom: string[];
+}
+
+export default function RequestBox({
+  id,
+  time,
+  name,
+  gender,
+  age,
+  place,
+  symptom,
+}: RequestProps) {
   return (
-    <div className="relative mx-auto mb-[2rem] h-[19rem] w-[38rem] rounded-xl bg-white px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
-      <span className="absolute -right-3 -top-3 h-[2.1rem] w-[2.1rem] rounded-full bg-main"></span>
-      <div className="mb-[1rem] flex justify-between">
-        <p>403829</p>
-        <p className="text-red">2:14</p>
+    <Card size="medium" dropShadow="xl">
+      <div className="relative px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
+        <div className="mb-[1rem] flex justify-between">
+          <p>{id}</p>
+          <p className="text-red">{time}</p>
+        </div>
+        <div className="mb-[1rem] flex justify-between">
+          <p>
+            {name} / {gender} / {age}세
+          </p>
+          <p>{place}</p>
+        </div>
+        <div className="mt-[5rem]">
+          <p>
+            {symptom.map(
+              (s, index) => `${s}${index !== symptom.length - 1 ? ", " : ""}`
+            )}
+          </p>
+          <p>
+            {symptom.map(
+              (s, index) => `${s} ${index !== symptom.length - 1 ? "," : ""}`
+            )}
+          </p>
+        </div>
       </div>
-      <div className="mb-[1rem] flex justify-between">
-        <p>김*종 / 남 / 19세</p>
-        <p>서울 119 안전센터</p>
-      </div>
-      <div className="mt-[5rem]">
-        <p>복통, 식은땀, 발열, 구토</p>
-        <p>복통, 식은땀, 발열, 구토</p>
-      </div>
-    </div>
+    </Card>
   );
 }

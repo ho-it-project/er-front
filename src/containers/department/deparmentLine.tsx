@@ -3,12 +3,12 @@
 import Switch from "@/components/Switch";
 import { useState } from "react";
 
-interface PartProps {
+interface DepartmentLineProps {
   title: string;
   set: boolean;
 }
 
-export default function Part({ title, set }: PartProps) {
+export default function DepartmentLine({ title, set }: DepartmentLineProps) {
   const [toggle, setToggle] = useState(set);
   const clickedToggle = () => {
     setToggle((prev) => !prev);
