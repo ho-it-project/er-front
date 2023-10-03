@@ -76,7 +76,7 @@ export default function HRMContainer() {
           </div>
         </div>
         <div>
-          <EmployeeListHeader openModal={openModal} />
+          <EmployeeListHeader />
           {DUMMY.map((i, index) => (
             <>
               {clickedNav !== "전체" ? (
