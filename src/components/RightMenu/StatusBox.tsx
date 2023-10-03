@@ -1,9 +1,5 @@
 import Status from "../common/Status";
 
-type Size = {
-  size: "sm" | "md";
-};
-
 const DUMMYSTATUS1 = [
   { title: "일반", status: 12, full: 12, wait: 12 },
   { title: "코호트", status: 1, full: 2 },
@@ -35,7 +31,6 @@ export default function StatusBox() {
         {DUMMYSTATUS2.map((i, index) => (
           <Status
             key={index}
-            size="sm"
             title={i.title}
             status={i.status}
             full={i.full}

@@ -1,8 +1,10 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 interface TopNavItem {
   title: string;
+  link?: string;
 }
 interface TopNavProps {
   items: TopNavItem[];
@@ -17,32 +19,21 @@ export const TopNav = ({ items }: TopNavProps) => {
   return (
     <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
       {items.map((item, index) => (
-        <div
-          key={`${item.title} ${index}`}
+        <Link
+          key={index}
+          href={`${item.link}`}
           className={`w-[26rem]  rounded-2xl bg-white pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main ${
             select === index ? "opacity-100" : "opacity-80"
           }`}
-          onClick={() => navItemClicked(index)}
         >
-          {item.title}
-        </div>
+          <div
+            key={`${item.title} ${index}`}
+            onClick={() => navItemClicked(index)}
+          >
+            {item.title}
+          </div>
+        </Link>
       ))}
     </div>
   );
 };
-
-// export const a = ({ title, set, index }: TopNavProps) => {
-//   return (
-//     <span
-//       className={`absolute -top-[5rem] flex h-[7rem] w-[26rem] rounded-2xl bg-white ${
-//         set ? "opacity-100" : "opacity-80"
-//       }
-//       left-[${index * 30}rem]
-//       `}
-//     >
-//       <span className="pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main">
-//         {title}
-//       </span>
-//     </span>
-//   );
-// };

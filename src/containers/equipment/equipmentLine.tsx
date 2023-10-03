@@ -11,7 +11,6 @@ interface EquipmentLineProps {
   cnt: number;
 }
 
-//part가 뭐하는건지 모르겠음 누가봐도 바로 알수있을정도의 이름으로 작성해야함
 export default function EquipmentLine({
   key,
   title,

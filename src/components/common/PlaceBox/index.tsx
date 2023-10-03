@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-export default function RequestPlaceBox() {
+interface PlaceBox {
+  place: string;
+}
+
+export default function PlaceBox({ place }: PlaceBox) {
   // const [windowWidth, setWindowWitdh] = useState(0);
 
   // useEffect(() => {
@@ -17,7 +21,7 @@ export default function RequestPlaceBox() {
 
   return (
     <div className="flex h-[9rem] items-center rounded-2xl bg-white px-[3rem] py-[2rem] drop-shadow-sm">
-      <h1 className="text-[2.4rem] font-[700] text-main">광진소방서</h1>
+      <h1 className="text-[2.4rem] font-[700] text-main">{place}</h1>
     </div>
   );
 }

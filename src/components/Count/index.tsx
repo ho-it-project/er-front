@@ -8,10 +8,12 @@ interface CountProps {
 }
 
 export default function Count({ cnt, toggle }: CountProps) {
-  const [count, setCount] = useState(toggle ? cnt : 0);
+  const [count, setCount] = useState(cnt);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    setCount(Number(newValue));
+    if (!isNaN(Number(newValue))) {
+      setCount(Number(newValue));
+    }
   };
 
   return (
