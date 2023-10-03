@@ -1,9 +1,7 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import RequestPlaceBox from "../../components/common/PlaceBox";
-import MessageContentWrapper from "../../components/common/ContentWrapper";
-import MessageBox from "./messageBox";
-import PlaceBox from "../../components/common/PlaceBox";
 import ContentWrapper from "../../components/common/ContentWrapper";
+import PlaceBox from "../../components/common/PlaceBox";
+import MessageBox from "./messageBox";
 
 const topNavs = [{ title: "메세지", link: "message" }];
 

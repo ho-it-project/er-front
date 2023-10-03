@@ -1,12 +1,10 @@
 import Menu from "@/components/Menu";
-import Right from "@/components/RightMenu";
+import RightMenu from "@/components/RightMenu";
 import LayoutProvider from "@/lib/provider/LayoutProvider";
 import { SWRProvider } from "@/lib/provider/SwrProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import RightMenu from "@/components/RightMenu";
-import ScrollBox from "@/components/ScrollBox/ScrollBox";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

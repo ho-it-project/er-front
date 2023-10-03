@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import useMenu from "./useMenu";
 
 export default function TopMiniBox() {

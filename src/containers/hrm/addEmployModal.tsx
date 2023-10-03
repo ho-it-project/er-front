@@ -1,4 +1,3 @@
-import { TopNav } from "@/components/TopNav";
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
 import { useState } from "react";
@@ -30,8 +29,6 @@ export default function AddEmployModal({
   isOpen,
   closeModal,
 }: AddEmployModalProps) {
-  if (!isOpen) return null;
-
   const [role, setRole] = useState("");
   const [department, setDepartment] = useState("");
   const [name, setName] = useState("");
@@ -57,6 +54,7 @@ export default function AddEmployModal({
   const ChangePasswordHandler = (value: string) => {
     setPassword(value);
   };
+  if (!isOpen) return null;
 
   return (
     <div className="fixed h-[50rem] w-[82rem] transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
