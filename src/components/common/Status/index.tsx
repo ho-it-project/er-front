@@ -1,9 +1,10 @@
 interface StatusProps {
   title: string;
-  size?: "md" | "sm";
+  size?: "sm" | "md";
   status: number;
   full: number;
   wait?: number;
+  view?: boolean;
 }
 
 export default function Status({
@@ -12,6 +13,7 @@ export default function Status({
   status,
   full,
   wait,
+  view = true,
 }: StatusProps) {
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -29,14 +31,18 @@ export default function Status({
       >
         {title}
       </p>
-      <p className="text-[1.8rem] font-[600]">
-        {status} / {full}
-      </p>
-      {wait != undefined && (
-        <span className="absolute -bottom-[2rem] text-[1.5rem] font-[400]">
-          대기 {wait}
-        </span>
-      )}
+      {view ? (
+        <>
+          <p className="text-[1.8rem] font-[600]">
+            {status} / {full}
+          </p>
+          {wait != undefined && (
+            <span className="absolute -bottom-[2rem] text-[1.5rem] font-[400]">
+              대기 {wait}
+            </span>
+          )}
+        </>
+      ) : null}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { TopNav } from "../TopNav";
 
 interface TopNavItem {
   title: string;
+  link: string;
 }
 interface TopNavProps {
   items: TopNavItem[];

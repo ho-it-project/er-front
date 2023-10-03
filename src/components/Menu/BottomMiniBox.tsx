@@ -49,9 +49,17 @@ export default function BottomMiniBox() {
                   <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                     <p>병동 정보 관리</p>
                   </div>
-                  <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
-                    <p>타병원 찾기</p>
-                  </div>
+                  <Link
+                    href={"/findHospitals"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
+                    <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
+                      <p>타병원 찾기</p>
+                    </div>
+                  </Link>
                   <Link
                     href={"/message"}
                     onClick={(e) => {
@@ -61,17 +69,6 @@ export default function BottomMiniBox() {
                   >
                     <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                       <p>메세지</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href={"/severeEmergencyillness"}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      closeMenu();
-                    }}
-                  >
-                    <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
-                      <p>중증응급질환 관리</p>
                     </div>
                   </Link>
                   <Link
@@ -94,6 +91,7 @@ export default function BottomMiniBox() {
                   >
                     <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                       <p>진료과 /</p>
+                      <p>중증응급질환 관리</p>
                     </div>
                   </Link>
                   <Link
@@ -107,6 +105,9 @@ export default function BottomMiniBox() {
                       <p>장비 관리</p>
                     </div>
                   </Link>
+                  <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
+                    <p>설정</p>
+                  </div>
                 </div>
               </div>
             </>

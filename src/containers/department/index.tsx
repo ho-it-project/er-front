@@ -3,7 +3,10 @@ import InternalMedicine from "./internalMedicine";
 import Surgery from "./surgery";
 import DepartmentLine from "./deparmentLine";
 
-const topNavs = [{ title: "진료과 관리" }];
+const topNavs = [
+  { title: "진료과 관리", link: "/department" },
+  { title: "중증응급질환 관리", link: "/severeEmergencyillness" },
+];
 const DUMMY1 = [
   { title: "산부인과", set: false },
   { title: "방사선종양학과", set: true },

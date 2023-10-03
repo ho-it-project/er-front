@@ -7,7 +7,7 @@ interface ScrollBoxProps {
 
 export default function ScrollBox({ children }: ScrollBoxProps) {
   return (
-    <div className="top-0 h-[100%] overflow-y-scroll">
+    <div className="top-0 h-full overflow-y-scroll">
       <div>{children}</div>
     </div>
   );

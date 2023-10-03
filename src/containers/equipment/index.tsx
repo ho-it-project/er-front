@@ -1,7 +1,7 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import EquipmentLine from "./equipmentLine";
 
-const topNavs = [{ title: "장비 관리" }];
+const topNavs = [{ title: "장비 관리", link: "/equipment" }];
 
 const DUMMY1 = [
   { title: "인공호흡기 일반", set: true, cnt: 1000 },
