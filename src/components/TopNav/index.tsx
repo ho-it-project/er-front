@@ -1,19 +1,23 @@
 "use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 interface TopNavItem {
   title: string;
-  link?: string;
+  link: string;
 }
 interface TopNavProps {
   items: TopNavItem[];
 }
 
 export const TopNav = ({ items }: TopNavProps) => {
-  const [select, setSelect] = useState(0);
-  const navItemClicked = (index: number) => {
-    setSelect(index);
+  const pathname = usePathname();
+
+  const [select, setSelect] = useState(pathname);
+  const navItemClicked = (path: string) => {
+    setSelect(path);
   };
 
   return (
@@ -23,12 +27,12 @@ export const TopNav = ({ items }: TopNavProps) => {
           key={index}
           href={`${item.link}`}
           className={`w-[26rem]  rounded-2xl bg-white pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main ${
-            select === index ? "opacity-100" : "opacity-80"
+            select === item.link ? "opacity-100" : "opacity-80"
           }`}
         >
           <div
             key={`${item.title} ${index}`}
-            onClick={() => navItemClicked(index)}
+            onClick={() => navItemClicked(item.link)}
           >
             {item.title}
           </div>

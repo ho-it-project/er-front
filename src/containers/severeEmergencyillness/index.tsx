@@ -1,10 +1,4 @@
-import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import SevereButton from "./severeButton";
-
-const topNavs = [
-  { title: "진료과 관리", link: "/department" },
-  { title: "중증응급질환 관리", link: "/severeEmergencyillness" },
-];
 
 const DUMMY = [
   { title: "재관류중재술", sub: "심근경색", set: true },
@@ -22,30 +16,28 @@ const DUMMY = [
 export default function SevereEmergencyIllnessContainer() {
   return (
     <>
-      <TopNavContentWrapper topNav={{ items: topNavs }}>
-        <div className="px-[8rem] py-[6rem]">
-          <div className="flex justify-between">
-            <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
-              ? 현재 진료 가능한 중증응급질환을 선택해주세요.
-            </p>
-            <button className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white">
-              저장하기
-            </button>
-          </div>
-          <div className="mx-auto mt-[12rem] h-[62rem] w-[123rem]">
-            <div className="mt-4 grid grid-cols-6 gap-[2rem]">
-              {DUMMY.map((i, index) => (
-                <SevereButton
-                  title={i.title}
-                  sub={i.sub}
-                  key={index}
-                  set={i.set}
-                />
-              ))}
-            </div>
+      <div className="px-[8rem] py-[6rem]">
+        <div className="flex justify-between">
+          <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
+            ? 현재 진료 가능한 중증응급질환을 선택해주세요.
+          </p>
+          <button className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white">
+            저장하기
+          </button>
+        </div>
+        <div className="mx-auto mt-[12rem] h-[62rem] w-[123rem]">
+          <div className="mt-4 grid grid-cols-6 gap-[2rem]">
+            {DUMMY.map((i, index) => (
+              <SevereButton
+                title={i.title}
+                sub={i.sub}
+                key={index}
+                set={i.set}
+              />
+            ))}
           </div>
         </div>
-      </TopNavContentWrapper>
+      </div>
     </>
   );
 }

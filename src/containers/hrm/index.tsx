@@ -52,7 +52,6 @@ export default function HRMContainer() {
     setSearchWord(value);
   };
   const ClickedNavHandler = (value: string) => {
-    console.log(value);
     setClickedNav(value);
   };
 

@@ -76,7 +76,7 @@ export default function FindHospitalsContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: TopNavs }}>
-        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] min-w-[96rem] justify-between bg-white p-[1rem]">
+        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] min-w-[96rem] justify-between bg-white py-[1rem]">
           <Nav onClickNav={ClickedNavHandler} />
           <SearchInput
             size="sm"
