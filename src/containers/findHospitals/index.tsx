@@ -1,13 +1,13 @@
 "use client";
 
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import PlaceBox from "../../components/common/PlaceBox";
-import PlaceDetailBox from "./placeDetailBox";
-import ContentWrapper from "../../components/common/ContentWrapper";
-import HospitalInfo from "./hospitalInfo";
-import { useState } from "react";
 import SearchInput from "@/components/common/SearchInput";
+import { useState } from "react";
+import ContentWrapper from "../../components/common/ContentWrapper";
+import PlaceBox from "../../components/common/PlaceBox";
+import HospitalInfo from "./hospitalInfo";
 import Nav from "./nav";
+import PlaceDetailBox from "./placeDetailBox";
 
 const DUMMY = [
   {
@@ -58,8 +58,8 @@ const TopNavs = [{ title: "타병원 찾기", link: "/findHospitals" }];
 
 export default function FindHospitalsContainer() {
   const [selectedHospital, setSelectedHospital] = useState(DUMMY[0]);
-  const [searchWord, setSearchWord] = useState("");
-  const [clickedNav, setClickedNav] = useState("");
+  const [, setSearchWord] = useState("");
+  const [, setClickedNav] = useState("");
 
   const ChangeSearchInputHandler = (value: string) => {
     setSearchWord(value);
@@ -76,7 +76,7 @@ export default function FindHospitalsContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: TopNavs }}>
-        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] min-w-[96rem] justify-between bg-white p-[1rem]">
+        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] min-w-[96rem] justify-between bg-white py-[1rem]">
           <Nav onClickNav={ClickedNavHandler} />
           <SearchInput
             size="sm"

@@ -1,13 +1,13 @@
 "use client";
 
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import Nav from "./nav";
+import SearchInput from "@/components/common/SearchInput";
+import useModal from "@/hooks/useModal";
+import { useState } from "react";
+import AddEmployModal from "./addEmployModal";
 import EmployeeListHeader from "./employeeListHeader";
 import EmployeeListItem from "./employeeListItem";
-import useModal from "@/hooks/useModal";
-import AddEmployModal from "./addEmployModal";
-import SearchInput from "@/components/common/SearchInput";
-import { useState } from "react";
+import Nav from "./nav";
 
 const TopNavs = [{ title: "인력 관리", link: "/hrm" }];
 
@@ -45,14 +45,13 @@ const DUMMY = [
 export default function HRMContainer() {
   const { isOpen, openModal, closeModal } = useModal();
 
-  const [searchWord, setSearchWord] = useState("");
+  const [, setSearchWord] = useState("");
   const [clickedNav, setClickedNav] = useState("전체");
 
   const ChangeSearchInputHandler = (value: string) => {
     setSearchWord(value);
   };
   const ClickedNavHandler = (value: string) => {
-    console.log(value);
     setClickedNav(value);
   };
 
@@ -76,7 +75,7 @@ export default function HRMContainer() {
           </div>
         </div>
         <div>
-          <EmployeeListHeader openModal={openModal} />
+          <EmployeeListHeader />
           {DUMMY.map((i, index) => (
             <>
               {clickedNav !== "전체" ? (

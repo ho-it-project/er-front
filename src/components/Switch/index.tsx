@@ -12,7 +12,7 @@ export default function Switch({
   return (
     <div
       onClick={clickedToggle}
-      className={`relative h-[3rem] w-[6rem] rounded-full border-2 ${
+      className={`relative h-[3rem] w-[6rem] cursor-pointer rounded-full border-2 ${
         toggle
           ? "border-main"
           : colorType === "gray"
