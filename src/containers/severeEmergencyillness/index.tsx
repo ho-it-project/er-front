@@ -1,10 +1,5 @@
 import SevereButton from "./severeButton";
 
-const topNavs = [
-  { title: "진료과 관리", link: "/department" },
-  { title: "중증응급질환 관리", link: "/severeEmergencyillness" },
-];
-
 const DUMMY = [
   { title: "재관류중재술", sub: "심근경색", set: true },
   { title: "재관류중재술", sub: "뇌경색", set: true },
