@@ -1,6 +1,7 @@
 "use client";
 
 import useModal from "@/hooks/useModal";
+import Image from "next/image";
 import { ChangeEvent } from "react";
 
 interface SearchInputProps {
@@ -28,7 +29,12 @@ export default function SearchInput({
         `}
         >
           <div className="flex h-[4rem] w-full gap-[1rem] rounded-2xl border-2 border-main bg-white py-[0.7rem] pl-[1rem]">
-            <img src="/fi-rs-search.png" />
+            <Image
+              src="/fi-rs-search.png"
+              width={24}
+              height={24}
+              alt="돋보기"
+            />
             <input
               className="w-full bg-white text-[1.6rem] font-[600] focus:outline-none"
               onChange={handleChange}
@@ -47,7 +53,7 @@ export default function SearchInput({
           className="flex h-[4rem] w-[12.5rem] cursor-pointer items-center justify-center gap-[1rem] rounded-2xl border-2 border-main bg-white text-[1.6rem] font-[600] text-main"
           onClick={openModal}
         >
-          <img src="/fi-rs-search.png" />
+          <Image src="/fi-rs-search.png" width={24} height={24} alt="돋보기" />
           <span>검색하기</span>
         </div>
       )}
