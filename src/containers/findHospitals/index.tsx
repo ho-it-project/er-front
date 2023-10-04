@@ -54,10 +54,19 @@ const DUMMY = [
   },
 ];
 
+interface selectedHospitalProps {
+  name: string;
+  sub: string;
+  distance: string;
+  number: string;
+  location: string;
+}
+
 const TopNavs = [{ title: "타병원 찾기", link: "/findHospitals" }];
 
 export default function FindHospitalsContainer() {
-  const [selectedHospital, setSelectedHospital] = useState(DUMMY[0]);
+  const [selectedHospital, setSelectedHospital] =
+    useState<selectedHospitalProps>();
   const [, setSearchWord] = useState("");
   const [, setClickedNav] = useState("");
 
@@ -76,7 +85,7 @@ export default function FindHospitalsContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: TopNavs }}>
-        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] min-w-[96rem] justify-between bg-white py-[1rem]">
+        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] w-full justify-between bg-white py-[1rem]">
           <Nav onClickNav={ClickedNavHandler} />
           <SearchInput
             size="sm"
@@ -85,7 +94,7 @@ export default function FindHospitalsContainer() {
             }}
           />
         </div>
-        <div className="flex min-w-[96rem] flex-col gap-[2rem]">
+        <div className="flex w-full flex-col gap-[2rem]">
           {DUMMY.map((i, index) => (
             <div
               key={index}
@@ -106,19 +115,20 @@ export default function FindHospitalsContainer() {
           ))}
         </div>
       </TopNavContentWrapper>
-      {}
-      <div className="mt-[7rem] flex h-[calc(100%-8rem)] min-w-[32rem] flex-col">
-        <PlaceBox place={selectedHospital.name} />
-        <div className="flex h-[calc(100%-10rem)] w-full justify-between gap-[2rem]">
-          <ContentWrapper>
-            <PlaceDetailBox
-              sub={selectedHospital.sub}
-              number={selectedHospital.number}
-              location={selectedHospital.location}
-            />
-          </ContentWrapper>
+      {selectedHospital && (
+        <div className="mt-[7rem] flex h-[calc(100%-8rem)] min-w-[32rem] transform flex-col duration-300">
+          <PlaceBox place={selectedHospital.name} />
+          <div className="flex h-[calc(100%-10rem)] w-full justify-between gap-[2rem]">
+            <ContentWrapper>
+              <PlaceDetailBox
+                sub={selectedHospital.sub}
+                number={selectedHospital.number}
+                location={selectedHospital.location}
+              />
+            </ContentWrapper>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
