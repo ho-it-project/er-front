@@ -27,7 +27,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(1);
-          onClickNav("권역응급의료센터");
+          onClickNav("LOCAL_EMERGENCY_MEDICAL_INSTITUTION");
         }}
         className={`${selected == 1 ? "text-main" : ""} cursor-pointer`}
       >
@@ -37,7 +37,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(2);
-          onClickNav("지역응급의료센터");
+          onClickNav("REGIONAL_EMERGENCY_MEDICAL_CENTER");
         }}
         className={`${selected == 2 ? "text-main" : ""} cursor-pointer`}
       >
@@ -47,7 +47,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(3);
-          onClickNav("지역응급의료기관");
+          onClickNav("NON_EMERGENCY_MEDICAL_INSTITUTION");
         }}
         className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
       >

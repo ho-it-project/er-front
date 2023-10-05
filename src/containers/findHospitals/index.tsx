@@ -22,8 +22,9 @@ const TopNavs = [{ title: "타병원 찾기", link: "/findHospitals" }];
 export default function FindHospitalsContainer() {
   const [selectedHospital, setSelectedHospital] = useState<EmergencyCenter>();
   const [, setSearchWord] = useState("");
-  const [, setClickedNav] = useState("");
+  const [clickedNav, setClickedNav] = useState("전체");
   const [emergency, setEmergency] = useState<EmergencyCenter[]>();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const { geolocation } = navigator;
@@ -40,6 +41,7 @@ export default function FindHospitalsContainer() {
           .then((data) => {
             setEmergency(data.result.emergency_center_list);
             console.log(data.result.emergency_center_list);
+            setIsLoading(false);
           })
           .catch((error) => {
             console.error("GET 요청 실패", error);
@@ -55,7 +57,6 @@ export default function FindHospitalsContainer() {
     setSearchWord(value);
   };
   const ClickedNavHandler = (value: string) => {
-    console.log(value);
     setClickedNav(value);
   };
 
@@ -78,35 +79,36 @@ export default function FindHospitalsContainer() {
               }}
             />
           </div>
-          {emergency !== undefined && (
-            <div className="flex w-full flex-col gap-[2rem]">
-              {emergency.map((e, index) => (
-                <div
-                  key={index}
-                  className="relative flex cursor-pointer gap-[2rem] pl-[5rem] pr-[4rem]"
-                  onClick={() => ChangeSelectedHospital(index)}
-                >
-                  <span className="absolute left-0 top-0 text-[4rem] font-semibold text-main">
-                    {index + 1}
-                  </span>
-                  <HospitalInfo
-                    name={e.emergency_center_name}
-                    sub={`${
-                      e.emergency_center_type ==
-                      "REGIONAL_EMERGENCY_MEDICAL_CENTER"
-                        ? "지역응급의료센터"
-                        : e.emergency_center_type ==
-                          "NON_EMERGENCY_MEDICAL_INSTITUTION"
-                        ? "지역응급의료기관"
-                        : "권역응급의료센터"
-                    }`}
-                    distance={(e.distance / 1000).toFixed(1)}
-                    number={e.emergency_center_primary_phone}
-                    location={e.emergency_center_address}
-                  />
+          {isLoading ? (
+            <div>로딩중...</div>
+          ) : (
+            <>
+              {emergency !== undefined && (
+                <div className="flex w-full flex-col gap-[2rem]">
+                  {emergency.map((e, index) => (
+                    <>
+                      {clickedNav !== "전체" ? (
+                        <>
+                          {clickedNav == e.emergency_center_type && (
+                            <EmergencyBox
+                              index={index}
+                              ChangeSelectedHospital={ChangeSelectedHospital}
+                              e={e}
+                            />
+                          )}
+                        </>
+                      ) : (
+                        <EmergencyBox
+                          index={index}
+                          ChangeSelectedHospital={ChangeSelectedHospital}
+                          e={e}
+                        />
+                      )}
+                    </>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </TopNavContentWrapper>
@@ -133,5 +135,38 @@ export default function FindHospitalsContainer() {
         </div>
       )}
     </>
+  );
+}
+
+interface EmergencyBoxProps {
+  index: number;
+  ChangeSelectedHospital: (index: number) => void;
+  e: EmergencyCenter;
+}
+
+function EmergencyBox({ index, ChangeSelectedHospital, e }: EmergencyBoxProps) {
+  return (
+    <div
+      key={index}
+      className="relative flex cursor-pointer gap-[2rem] pl-[5rem] pr-[4rem]"
+      onClick={() => ChangeSelectedHospital(index)}
+    >
+      <span className="absolute left-0 top-0 text-[4rem] font-semibold text-main">
+        {index + 1}
+      </span>
+      <HospitalInfo
+        name={e.emergency_center_name}
+        sub={`${
+          e.emergency_center_type == "REGIONAL_EMERGENCY_MEDICAL_CENTER"
+            ? "지역응급의료센터"
+            : e.emergency_center_type == "NON_EMERGENCY_MEDICAL_INSTITUTION"
+            ? "지역응급의료기관"
+            : "권역응급의료센터"
+        }`}
+        distance={(e.distance / 1000).toFixed(1)}
+        number={e.emergency_center_primary_phone}
+        location={e.emergency_center_address}
+      />
+    </div>
   );
 }
