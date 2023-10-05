@@ -38,7 +38,7 @@ export default function SearchInput({
             <input
               className="w-full bg-white text-[1.6rem] font-[600] focus:outline-none"
               onChange={handleChange}
-              placeholder="검색하기"
+              placeholder="이름 검색하기"
             />
           </div>
           <span

@@ -85,34 +85,36 @@ export default function FindHospitalsContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: TopNavs }}>
-        <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] w-full justify-between bg-white py-[1rem]">
-          <Nav onClickNav={ClickedNavHandler} />
-          <SearchInput
-            size="sm"
-            onChange={(value) => {
-              ChangeSearchInputHandler(value);
-            }}
-          />
-        </div>
-        <div className="flex w-full flex-col gap-[2rem]">
-          {DUMMY.map((i, index) => (
-            <div
-              key={index}
-              className="relative flex cursor-pointer gap-[2rem] px-[4rem]"
-              onClick={() => ChangeSelectedHospital(index)}
-            >
-              <span className="absolute left-0 top-0 text-[4rem] font-semibold text-main">
-                {index + 1}
-              </span>
-              <HospitalInfo
-                name={i.name}
-                sub={i.sub}
-                distance={i.distance}
-                number={i.number}
-                location={i.location}
-              />
-            </div>
-          ))}
+        <div className="px-[3rem]">
+          <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] w-full justify-between bg-white py-[1rem] pr-[4rem]">
+            <Nav onClickNav={ClickedNavHandler} />
+            <SearchInput
+              size="sm"
+              onChange={(value) => {
+                ChangeSearchInputHandler(value);
+              }}
+            />
+          </div>
+          <div className="flex w-full flex-col gap-[2rem]">
+            {DUMMY.map((i, index) => (
+              <div
+                key={index}
+                className="relative flex cursor-pointer gap-[2rem] px-[4rem]"
+                onClick={() => ChangeSelectedHospital(index)}
+              >
+                <span className="absolute left-0 top-0 text-[4rem] font-semibold text-main">
+                  {index + 1}
+                </span>
+                <HospitalInfo
+                  name={i.name}
+                  sub={i.sub}
+                  distance={i.distance}
+                  number={i.number}
+                  location={i.location}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </TopNavContentWrapper>
       {selectedHospital && (
