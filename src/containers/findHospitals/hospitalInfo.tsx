@@ -32,17 +32,11 @@ export default function HospitalInfo({
           <span className="text-[2.4rem] font-bold">{name}</span>
           <span className="text-[1.5rem] font-medium">{sub}</span>
         </div>
-        <div className="text-[2rem] font-semibold text-main">{distance}</div>
+        <div className="text-[2rem] font-semibold text-main">{distance}km</div>
       </div>
       <div className="flex h-full w-full min-w-[50rem] flex-col justify-center gap-[2rem]">
-        <span className="flex gap-[2rem] text-[1.5rem] font-medium">
-          <div className="h-[2.4rem] w-[2.4rem] rounded-full bg-L-gray"></div>
-          {number}
-        </span>
-        <span className="flex gap-[2rem] text-[1.5rem] font-medium">
-          <div className="h-[2.4rem] w-[2.4rem] rounded-full bg-L-gray"></div>
-          {location}
-        </span>
+        <InfoItem text={number} />
+        <InfoItem text={location} />
         <span className="flex w-full gap-[1rem]">
           {DUMMYSTATUS.map((s, index) => (
             <Status
@@ -57,6 +51,19 @@ export default function HospitalInfo({
           ))}
         </span>
       </div>
+    </div>
+  );
+}
+
+interface InfoItemProps {
+  text: string;
+}
+
+function InfoItem({ text }: InfoItemProps) {
+  return (
+    <div className="flex gap-[2rem] text-[1.5rem] font-medium">
+      <div className="flex h-[2.4rem] min-w-[2.4rem] flex-wrap rounded-full bg-L-gray"></div>
+      <div className="h-full">{text}</div>
     </div>
   );
 }

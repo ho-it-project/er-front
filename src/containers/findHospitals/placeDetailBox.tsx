@@ -74,7 +74,7 @@ export default function PlaceDetailBox({
   return (
     <div className="flex flex-col px-[3rem] py-[2rem]">
       <div className="h-[18.6rem] w-full bg-bg"></div>
-      <div className="mt-[2rem] flex h-full w-full flex-col justify-center">
+      <div className="mt-[2rem] flex h-full w-full flex-col justify-center overflow-hidden">
         <div className="flex h-full w-full flex-col justify-center gap-[2rem] border-b-2 border-L-gray py-[2rem]">
           <InfoItem text={sub} />
           <InfoItem text={number} />
@@ -94,8 +94,8 @@ interface InfoItemProps {
 function InfoItem({ text }: InfoItemProps) {
   return (
     <div className="flex gap-[2rem] text-[1.5rem] font-medium">
-      <span className="h-[2.4rem] w-[2.4rem] rounded-full bg-L-gray"></span>
-      {text}
+      <div className="flex h-[2.4rem] min-w-[2.4rem] flex-wrap rounded-full bg-L-gray"></div>
+      <div className="h-full">{text}</div>
     </div>
   );
 }
