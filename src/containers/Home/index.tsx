@@ -10,7 +10,7 @@ export default function HomeContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: exTopNavs }}>
-        <div className="px-[3rem]">
+        <div className="px-[1rem]">
           {Array.from({ length: 4 }, (_, index) => (
             <div className="mb-[3rem]" key={index}>
               <h4 className="text-[2rem] font-[600] text-main">

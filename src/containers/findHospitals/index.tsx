@@ -85,7 +85,7 @@ export default function FindHospitalsContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: TopNavs }}>
-        <div className="px-[3rem]">
+        <div>
           <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] w-full justify-between bg-white py-[1rem] pr-[4rem]">
             <Nav onClickNav={ClickedNavHandler} />
             <SearchInput
@@ -118,7 +118,7 @@ export default function FindHospitalsContainer() {
         </div>
       </TopNavContentWrapper>
       {selectedHospital && (
-        <div className="mt-[7rem] flex h-[calc(100%-8rem)] min-w-[32rem] transform flex-col duration-300">
+        <div className="mt-[7rem] flex h-[calc(100%-8rem)] min-w-[32rem] flex-col">
           <PlaceBox place={selectedHospital.name} />
           <div className="flex h-[calc(100%-10rem)] w-full justify-between gap-[2rem]">
             <ContentWrapper>

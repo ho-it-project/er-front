@@ -72,7 +72,7 @@ export default function PlaceDetailBox({
   location,
 }: PlaceDetailBoxProps) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col px-[3rem] py-[2rem]">
       <div className="h-[18.6rem] w-full bg-bg"></div>
       <div className="mt-[2rem] flex h-full w-full flex-col justify-center">
         <div className="flex h-full w-full flex-col justify-center gap-[2rem] border-b-2 border-L-gray py-[2rem]">
