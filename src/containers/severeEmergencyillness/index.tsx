@@ -25,8 +25,8 @@ export default function SevereEmergencyIllnessContainer() {
             저장하기
           </button>
         </div>
-        <div className="mx-auto mt-[12rem] h-[62rem] w-[123rem]">
-          <div className="mt-4 grid grid-cols-6 gap-[2rem]">
+        <div className="mx-auto mt-[12rem] h-[62rem] w-full">
+          <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(200px,200px))] gap-[2rem]">
             {DUMMY.map((i, index) => (
               <SevereButton
                 title={i.title}
