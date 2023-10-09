@@ -95,7 +95,7 @@ export default function FindHospitalsContainer() {
           {emergency !== undefined && (
             <div className="flex w-full flex-col gap-[2rem]">
               {emergency.map((e, index) => (
-                <>
+                <div key={index}>
                   {clickedNav !== "전체" ? (
                     <>
                       {clickedNav == e.emergency_center_type && (
@@ -113,7 +113,7 @@ export default function FindHospitalsContainer() {
                       e={e}
                     />
                   )}
-                </>
+                </div>
               ))}
             </div>
           )}
