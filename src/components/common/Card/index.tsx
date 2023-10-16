@@ -1,5 +1,5 @@
 interface CardProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   size?: "small" | "medium" | "x-medium";
   bg?:
     | "main"
@@ -33,7 +33,7 @@ export const Card = ({
 }: CardProps) => {
   return (
     <div
-      className={`card-${size} bg-${bg} rounded-2xl ${
+      className={`relative card-${size} bg-${bg} rounded-2xl ${
         border === "none" ? `` : `border-${border}`
       } drop-shadow-${dropShadow}`}
     >

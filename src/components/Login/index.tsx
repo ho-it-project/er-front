@@ -1,0 +1,87 @@
+"use client";
+
+import { ChangeEvent, useState } from "react";
+
+export default function LoginBox() {
+  const [emergencyId, setEmergencyId] = useState("");
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const changeEmergecyId = (value: string) => {
+    setEmergencyId(value);
+  };
+  const changeId = (value: string) => {
+    setId(value);
+  };
+  const changePassword = (value: string) => {
+    setPassword(value);
+  };
+
+  const handleLogin = () => {
+    if (emergencyId && id && password) {
+      console.log(emergencyId, id, password);
+    } else {
+      console.log("놉!");
+    }
+  };
+
+  return (
+    <>
+      <div className="fixed left-1/2 top-1/2 z-30 flex h-[81rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 transform flex-col justify-between rounded-2xl bg-white px-[3rem] py-[2rem]">
+        <span className="absolute -top-[8.5rem] left-0 flex h-[9.5rem] w-[47rem] rounded-2xl bg-white px-[3rem] py-[2rem]">
+          <span className="h-[6.6rem] w-[27rem] rounded-2xl bg-L-gray"></span>
+        </span>
+        <div className="flex flex-col gap-[4rem]">
+          <LoginSection
+            title="응급실 ID"
+            value={emergencyId}
+            onChange={(value) => changeEmergecyId(value)}
+          />
+          <LoginSection title="ID" value={id} onChange={changeId} />
+          <LoginSection
+            title="비밀번호"
+            value={password}
+            onChange={changePassword}
+          />
+        </div>
+
+        <div className=" relative flex flex-col gap-[4rem]">
+          <button className="ml-auto w-[15rem] border-b-2 border-L-gray text-[2rem] font-[600] text-gray">
+            ID/비밀번호 찾기
+          </button>
+          <button
+            onClick={handleLogin}
+            className="h-[10rem] w-full rounded-2xl bg-main text-[2.5rem] font-[700] text-white"
+          >
+            로그인
+          </button>
+        </div>
+      </div>
+      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-20"></span>
+    </>
+  );
+}
+
+interface loginSectionProps {
+  title: string;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function LoginSection({ title, value, onChange }: loginSectionProps) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    onChange(value);
+  };
+  return (
+    <div className="flex flex-col gap-[1.5rem]">
+      <p className="text-[2.4rem] font-[700] text-main">{title}</p>
+      <input
+        value={value}
+        onChange={handleChange}
+        placeholder={`${title}를 입력해주세요`}
+        className="h-[8rem] w-[62rem] rounded-xl border-2 border-main bg-white text-center text-[2.4rem] placeholder:text-L-gray"
+      />
+    </div>
+  );
+}
