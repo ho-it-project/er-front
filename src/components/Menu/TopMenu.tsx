@@ -53,9 +53,15 @@ interface InfoProps {
 }
 
 function InFo({ closeMenu }: InfoProps) {
+  const handleMouseLeave = () => {
+    closeMenu();
+  };
   return (
     <Card size="x-medium" bg="white">
-      <div className="absolute left-0 top-0 z-10">
+      <div
+        className="absolute left-0 top-0 z-10"
+        onMouseLeave={handleMouseLeave}
+      >
         <span
           onClick={(e) => {
             e.stopPropagation();

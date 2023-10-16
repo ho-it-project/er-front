@@ -9,9 +9,14 @@ import useMenu from "./useMenu";
  */
 export default function BottomMenu() {
   const { expanded, openMenu, closeMenu } = useMenu();
-
+  const handleMouseLeave = () => {
+    closeMenu();
+  };
   return (
-    <div className="relative mt-[2rem] h-[8rem] w-[8rem]">
+    <div
+      className="relative mt-[2rem] h-[8rem] w-[8rem]"
+      onMouseLeave={handleMouseLeave}
+    >
       <span
         onClick={openMenu}
         className={`absolute bottom-0 left-0 z-10 transition-all duration-200 ease-in ${
@@ -27,15 +32,6 @@ export default function BottomMenu() {
         >
           {expanded ? (
             <>
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  closeMenu();
-                }}
-                className="absolute right-5 top-3 cursor-pointer text-xl font-bold"
-              >
-                X
-              </span>
               <div className="px-[3rem] py-[2rem]">
                 <div className="mb-[2rem] text-[1.2rem] font-[500]">
                   <p>메뉴</p>
