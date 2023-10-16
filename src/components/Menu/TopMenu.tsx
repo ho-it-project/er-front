@@ -7,7 +7,7 @@ import useMenu from "./useMenu";
 
 export default function TopMenu() {
   const { expanded, openMenu, closeMenu } = useMenu();
-  const { isLogin, login, logout, isOpen, openLoginBox } = useLoginStore();
+  const { isLogin, isOpen, openLoginBox } = useLoginStore();
 
   return (
     <>
@@ -108,20 +108,6 @@ function InFo({ closeMenu }: InfoProps) {
             </div>
           </div>
         </div>
-      </div>
-    </Card>
-  );
-}
-
-interface LoginMenuProps {
-  openLoginBox: () => void;
-}
-
-function LoginMenu({ openLoginBox }: LoginMenuProps) {
-  return (
-    <Card size="x-medium">
-      <div className="absolute left-0 top-0 z-10 h-[38rem] w-[38rem] bg-white">
-        <button onClick={openLoginBox}>로그인</button>
       </div>
     </Card>
   );
