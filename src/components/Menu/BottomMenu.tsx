@@ -14,7 +14,7 @@ export default function BottomMenu() {
   };
   return (
     <div
-      className="relative mt-[2rem] h-[8rem] w-[8rem]"
+      className="relative z-10 mt-[2rem] h-[8rem] w-[8rem] drop-shadow-xl"
       onMouseLeave={handleMouseLeave}
     >
       <span

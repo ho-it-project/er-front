@@ -29,7 +29,9 @@ export default function Status({
             : "border-main text-main"
         }`}
       >
-        {title}
+        <span className="truncate" title={title}>
+          {title}
+        </span>
       </p>
       {view ? (
         <>

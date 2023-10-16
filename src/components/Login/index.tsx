@@ -1,37 +1,72 @@
 "use client";
 
+import useLoginStore from "@/states/loginStore";
 import { ChangeEvent, useState } from "react";
 
 export default function LoginBox() {
   const [emergencyId, setEmergencyId] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [fail, setFail] = useState(false);
 
   const changeEmergecyId = (value: string) => {
     setEmergencyId(value);
+    setFail(false);
   };
   const changeId = (value: string) => {
     setId(value);
+    setFail(false);
   };
   const changePassword = (value: string) => {
     setPassword(value);
+    setFail(false);
   };
 
   const handleLogin = () => {
+    // console.log(useLoginStore.getState().isLogin);
+
+    const url = `https://api.ho-it.me/api/er/auth/login`;
     if (emergencyId && id && password) {
-      console.log(emergencyId, id, password);
+      const data = {
+        emergency_center_id: emergencyId,
+        id_card: id,
+        password: password,
+      };
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("data", data);
+          if (data.is_success) {
+            useLoginStore.getState().login();
+            useLoginStore.getState().openLoginBox();
+          } else {
+            setFail(true);
+            setPassword("");
+          }
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
     } else {
-      console.log("놉!");
+      setFail(true);
+      setPassword("");
     }
   };
 
   return (
     <>
-      <div className="fixed left-1/2 top-1/2 z-30 flex h-[81rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 transform flex-col justify-between rounded-2xl bg-white px-[3rem] py-[2rem]">
+      <div className="scale-80 fixed left-1/2 top-1/2 z-30 flex h-[81rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 scale-75 transform flex-col justify-between rounded-2xl bg-white px-[3rem] py-[2rem]">
         <span className="absolute -top-[8.5rem] left-0 flex h-[9.5rem] w-[47rem] rounded-2xl bg-white px-[3rem] py-[2rem]">
           <span className="h-[6.6rem] w-[27rem] rounded-2xl bg-L-gray"></span>
         </span>
-        <div className="flex flex-col gap-[4rem]">
+        <div className="relative mt-[4rem] flex flex-col gap-[4rem]">
           <LoginSection
             title="응급실 ID"
             value={emergencyId}
@@ -43,6 +78,12 @@ export default function LoginBox() {
             value={password}
             onChange={changePassword}
           />
+          {fail && (
+            <span className="relative bottom-[3rem] ml-auto px-[3rem] text-[1.5rem] font-[600] text-red">
+              * 등록되지 않은 아이디거나, 아이디 또는 비밀번호가 회원정보와
+              일치하지 않습니다.
+            </span>
+          )}
         </div>
 
         <div className=" relative flex flex-col gap-[4rem]">
@@ -57,7 +98,7 @@ export default function LoginBox() {
           </button>
         </div>
       </div>
-      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-20"></span>
+      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-50"></span>
     </>
   );
 }

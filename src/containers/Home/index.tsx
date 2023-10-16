@@ -16,7 +16,7 @@ export default function HomeContainer() {
               <h4 className="text-[2rem] font-[600] text-main">
                 {index + 1} 구역
               </h4>
-              <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(240px,240px))] gap-[2rem]">
+              <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(24rem,24rem))] gap-[2rem]">
                 {Array.from({ length: 8 }, (_, index) => (
                   <PatientCard key={index} />
                 ))}
