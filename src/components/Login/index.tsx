@@ -23,10 +23,8 @@ export default function LoginBox() {
   };
 
   const handleLogin = () => {
-    // console.log(useLoginStore.getState().isLogin);
-
-    const url = `https://api.ho-it.me/api/er/auth/login`;
-    if (emergencyId && id && password) {
+    const url = process.env.NEXT_PUBLIC_ER_AUTH_LOGIN;
+    if (emergencyId && id && password && url) {
       const data = {
         emergency_center_id: emergencyId,
         id_card: id,
@@ -42,7 +40,6 @@ export default function LoginBox() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("data", data);
           if (data.is_success) {
             useLoginStore.getState().login();
             useLoginStore.getState().openLoginBox();
