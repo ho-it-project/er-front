@@ -23,7 +23,7 @@ export default function LoginBox() {
   };
 
   const handleLogin = () => {
-    const url = process.env.NEXT_PUBLIC_ER_AUTH_LOGIN;
+    const url = process.env.NEXT_PUBLIC_ER_DOMAIN + "/auth/login";
     if (emergencyId && id && password && url) {
       const data = {
         emergency_center_id: emergencyId,
