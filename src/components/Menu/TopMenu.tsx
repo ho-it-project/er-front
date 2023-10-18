@@ -1,27 +1,23 @@
 "use client";
 
-import useLoginStore from "@/states/loginStore";
 import { Transition } from "@headlessui/react";
 import { ReactNode } from "react";
-import LoginBox from "../Login";
 import useMenu from "./useMenu";
 
 export default function TopMenu() {
   const { expanded, openMenu, closeMenu } = useMenu();
-  const { isLogin, isOpen, openLoginBox } = useLoginStore();
 
   return (
     <>
       <MenuBoxTransition expanded={expanded}>
-        {isLogin && <InFo closeMenu={closeMenu} />}
+        <InFo closeMenu={closeMenu} />
       </MenuBoxTransition>
       <MenuBoxTransition expanded={!expanded}>
         <div
-          onClick={isLogin ? openMenu : openLoginBox}
+          onClick={openMenu}
           className="absolute left-0 top-0 z-10 h-[8rem] w-[8rem] cursor-pointer rounded-3xl bg-L-gray transition-transform duration-200"
         ></div>
       </MenuBoxTransition>
-      {isOpen && <LoginBox />}
     </>
   );
 }

@@ -59,7 +59,7 @@ export default function LoginBox() {
 
   return (
     <>
-      <div className="scale-80 fixed left-1/2 top-1/2 z-30 flex h-[81rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 scale-75 transform flex-col justify-between rounded-2xl bg-white px-[3rem] py-[2rem]">
+      <div className="fixed left-1/2 top-1/2 z-30 flex h-[81rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 transform flex-col justify-between rounded-2xl bg-white px-[3rem] py-[2rem]">
         <span className="absolute -top-[8.5rem] left-0 flex h-[9.5rem] w-[47rem] rounded-2xl bg-white px-[3rem] py-[2rem]">
           <span className="h-[6.6rem] w-[27rem] rounded-2xl bg-L-gray"></span>
         </span>
@@ -95,7 +95,7 @@ export default function LoginBox() {
           </button>
         </div>
       </div>
-      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-50"></span>
+      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-70"></span>
     </>
   );
 }

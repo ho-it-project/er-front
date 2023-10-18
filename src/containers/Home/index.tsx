@@ -1,5 +1,9 @@
+"use client";
+
+import LoginBox from "@/components/LoginBox";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import PatientCard from "@/components/pages/home/patientCard";
+import useLoginStore from "@/states/loginStore";
 const exTopNavs = [
   { title: "B1 응급병동", link: "/" },
   { title: "B1 음압병동", link: "/" },
@@ -7,8 +11,10 @@ const exTopNavs = [
   { title: "B1 중증응급병동", link: "/" },
 ];
 export default function HomeContainer() {
+  const { isLogin } = useLoginStore();
   return (
     <>
+      {!isLogin && <LoginBox />}
       <TopNavContentWrapper topNav={{ items: exTopNavs }}>
         <div className="px-[1rem]">
           {Array.from({ length: 4 }, (_, index) => (
