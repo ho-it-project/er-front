@@ -27,7 +27,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(1);
-          onClickNav("LOCAL_EMERGENCY_MEDICAL_INSTITUTION");
+          onClickNav("LOCAL_EMERGENCY_MEDICAL_CENTER");
         }}
         className={`${selected == 1 ? "text-main" : ""} cursor-pointer`}
       >
@@ -47,7 +47,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(3);
-          onClickNav("NON_EMERGENCY_MEDICAL_INSTITUTION");
+          onClickNav("LOCAL_EMERGENCY_MEDICAL_INSTITUTION");
         }}
         className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
       >

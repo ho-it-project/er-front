@@ -5,6 +5,7 @@
 @layer base {
   html {
     font-size: 62.5%;
+    /* font-size: 50%; */
     /* line-height: 1.285; */
   }
   body {

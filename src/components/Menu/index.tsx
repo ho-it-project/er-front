@@ -1,6 +1,6 @@
 import Link from "next/link";
-import BottomMiniBox from "./BottomMiniBox";
-import TopMiniBox from "./TopMiniBox";
+import BottomMenu from "./BottomMenu";
+import TopMenu from "./TopMenu";
 
 export default function Menu() {
   return (
@@ -11,10 +11,10 @@ export default function Menu() {
             <div className="h-[4rem] w-[8rem] rounded-3xl bg-white"></div>
           </Link>
           <div className="mt-[2rem]">
-            <TopMiniBox />
+            <TopMenu />
           </div>
         </div>
-        <BottomMiniBox />
+        <BottomMenu />
       </div>
     </div>
   );
