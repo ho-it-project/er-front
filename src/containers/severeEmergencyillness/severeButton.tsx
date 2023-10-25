@@ -16,7 +16,9 @@ export default function SevereButton({ sub, set }: SevereButtonProps) {
   return (
     <div
       className={`relative flex h-[5rem] w-[15rem] cursor-pointer items-center justify-center rounded-3xl
-        ${selected ? "bg-main text-white" : "bg-bg text-gray"}
+        ${
+          selected ? "bg-main text-white" : "bg-bg text-gray"
+        } transition-all duration-300
   `}
       onClick={handleClicked}
     >
