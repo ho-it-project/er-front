@@ -99,7 +99,7 @@ const SEVERE_DUMMY = [
 export default function SevereEmergencyIllnessContainer() {
   return (
     <>
-      <div className="px-[8rem] py-[6rem]">
+      <div className="px-[6rem] py-[6rem]">
         <div className="flex justify-between">
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
             • 현재 진료 가능한 중증응급질환을 선택해주세요.
@@ -109,7 +109,7 @@ export default function SevereEmergencyIllnessContainer() {
           </button>
         </div>
         <div className="mt-[12rem] h-[62rem] w-full">
-          <div className="flex flex-wrap gap-[4rem]">
+          <div className="flex flex-wrap gap-[4rem] ">
             {SEVERE_DUMMY.map((severe, index) => (
               <SevereBox title={severe.title} key={index}>
                 {severe.sub.map((sub, index) => (

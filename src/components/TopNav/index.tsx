@@ -32,20 +32,18 @@ export const TopNav = ({ items }: TopNavProps) => {
           }`}
         >
           <div
-            className="flex justify-between"
+            className="relative flex justify-between"
             key={`${item.title} ${index}`}
             onClick={() => navItemClicked(item.link)}
           >
             {item.title}
             <Link href={"/"}>
-              <span>
-                <Image
-                  src="/fi-rr-cross-small.png"
-                  width={24}
-                  height={24}
-                  alt="돋보기"
-                />
-              </span>
+              <Image
+                src="/fi-rr-cross-small.png"
+                width={24}
+                height={24}
+                alt="돋보기"
+              />
             </Link>
           </div>
         </Link>
