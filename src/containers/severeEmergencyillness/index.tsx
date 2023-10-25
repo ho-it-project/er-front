@@ -1,16 +1,55 @@
+import SevereBox from "./severeBox";
 import SevereButton from "./severeButton";
 
-const DUMMY = [
-  { title: "재관류중재술", sub: "심근경색", set: true },
-  { title: "재관류중재술", sub: "뇌경색", set: true },
-  { title: "뇌출혈수술", sub: "거미막하출혈", set: true },
-  { title: "뇌출혈수술", sub: "거미막하출혈 외", set: false },
-  { title: "담낭담관질환", sub: "담낭질환", set: true },
-  { title: "담낭담관질환", sub: "담도포함질환", set: true },
-  { title: "복부응급수술", sub: "비와상", set: true },
-  { title: "장중첩/폐색", sub: "영유아", set: false },
-  { title: "사지접합", sub: "수족지접합", set: true },
-  { title: "사지접합", sub: "수족지접합 외", set: true },
+const SEVERE_DUMMY = [
+  {
+    title: "재관류중재술",
+    sub: [
+      { disease: "심근경색", state: true },
+      { disease: "뇌경색", state: false },
+    ],
+  },
+  {
+    title: "재관류중재술",
+    sub: [
+      { disease: "심근경색", state: true },
+      { disease: "뇌경색", state: false },
+    ],
+  },
+  {
+    title: "재관류중재술",
+    sub: [
+      { disease: "심근경색", state: true },
+      { disease: "뇌경색", state: false },
+    ],
+  },
+  {
+    title: "뇌출혈수술",
+    sub: [
+      { disease: "거미막하출혈", state: true },
+      { disease: "거미막하출혈 외", state: false },
+    ],
+  },
+  {
+    title: "담낭담관 질환",
+    sub: [
+      { disease: "A", state: true },
+      { disease: "B", state: false },
+      { disease: "C", state: false },
+    ],
+  },
+  {
+    title: "사지접합",
+    sub: [{ disease: "A", state: true }],
+  },
+  {
+    title: "사지접합",
+    sub: [{ disease: "A", state: true }],
+  },
+  {
+    title: "사지접합",
+    sub: [{ disease: "A", state: true }],
+  },
 ];
 
 export default function SevereEmergencyIllnessContainer() {
@@ -25,8 +64,18 @@ export default function SevereEmergencyIllnessContainer() {
             저장하기
           </button>
         </div>
-        <div className="mx-auto mt-[12rem] h-[62rem] w-full">
-          <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(200px,200px))] gap-[2rem]">
+        <div className="mt-[12rem] h-[62rem] w-full">
+          <div className="flex flex-wrap gap-[4rem]">
+            {SEVERE_DUMMY.map((severe, index) => (
+              <SevereBox title={severe.title} key={index}>
+                {severe.sub.map((sub, index) => (
+                  <SevereButton sub={sub.disease} set={sub.state} key={index} />
+                ))}
+              </SevereBox>
+            ))}
+          </div>
+
+          {/* <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(200px,200px))] gap-[2rem]">
             {DUMMY.map((i, index) => (
               <SevereButton
                 title={i.title}
@@ -35,7 +84,7 @@ export default function SevereEmergencyIllnessContainer() {
                 set={i.set}
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </>
