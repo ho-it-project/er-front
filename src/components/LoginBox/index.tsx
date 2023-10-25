@@ -95,7 +95,7 @@ export default function LoginBox() {
           </button>
         </div>
       </div>
-      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-70"></span>
+      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black"></span>
     </>
   );
 }
