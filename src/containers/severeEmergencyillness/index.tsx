@@ -74,17 +74,6 @@ export default function SevereEmergencyIllnessContainer() {
               </SevereBox>
             ))}
           </div>
-
-          {/* <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(200px,200px))] gap-[2rem]">
-            {DUMMY.map((i, index) => (
-              <SevereButton
-                title={i.title}
-                sub={i.sub}
-                key={index}
-                set={i.set}
-              />
-            ))}
-          </div> */}
         </div>
       </div>
     </>
