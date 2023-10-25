@@ -10,20 +10,6 @@ const SEVERE_DUMMY = [
     ],
   },
   {
-    title: "재관류중재술",
-    sub: [
-      { disease: "심근경색", state: true },
-      { disease: "뇌경색", state: false },
-    ],
-  },
-  {
-    title: "재관류중재술",
-    sub: [
-      { disease: "심근경색", state: true },
-      { disease: "뇌경색", state: false },
-    ],
-  },
-  {
     title: "뇌출혈수술",
     sub: [
       { disease: "거미막하출혈", state: true },
@@ -31,24 +17,80 @@ const SEVERE_DUMMY = [
     ],
   },
   {
-    title: "담낭담관 질환",
+    title: "대동맥응급",
     sub: [
-      { disease: "A", state: true },
-      { disease: "B", state: false },
-      { disease: "C", state: false },
+      { disease: "흉부", state: true },
+      { disease: "복부", state: false },
     ],
   },
   {
     title: "사지접합",
-    sub: [{ disease: "A", state: true }],
+    sub: [
+      { disease: "수족지접합", state: true },
+      { disease: "수족지접합 외", state: false },
+    ],
   },
   {
-    title: "사지접합",
-    sub: [{ disease: "A", state: true }],
+    title: "담낭담관질환",
+    sub: [
+      { disease: "담낭질환", state: true },
+      { disease: "담도포함질환", state: false },
+    ],
   },
   {
-    title: "사지접합",
-    sub: [{ disease: "A", state: true }],
+    title: "응급투석",
+    sub: [
+      { disease: "HD", state: true },
+      { disease: "CRRT", state: true },
+    ],
+  },
+  {
+    title: "복부응급수술",
+    sub: [{ disease: "비외상", state: true }],
+  },
+  {
+    title: "장중첩/폐색",
+    sub: [{ disease: "영유아", state: true }],
+  },
+  {
+    title: "응급내시경",
+    sub: [
+      { disease: "성인 위장관", state: true },
+      { disease: "영유아 위장관", state: false },
+      { disease: "성인 기관지", state: false },
+      { disease: "영유아 기관지", state: false },
+    ],
+  },
+  {
+    title: "산부인과응급",
+    sub: [
+      { disease: "분만", state: true },
+      { disease: "산과수술", state: false },
+      { disease: "부인과수술", state: false },
+    ],
+  },
+  {
+    title: "저출생체중아",
+    sub: [{ disease: "집중치료", state: true }],
+  },
+  {
+    title: "영상의학혈관중재",
+    sub: [
+      { disease: "성인", state: true },
+      { disease: "영유아", state: true },
+    ],
+  },
+  {
+    title: "정신과적응급",
+    sub: [{ disease: "폐쇄병동입원", state: true }],
+  },
+  {
+    title: "중증화상",
+    sub: [{ disease: "전문치료", state: true }],
+  },
+  {
+    title: "인과적수술",
+    sub: [{ disease: "응급", state: true }],
   },
 ];
 
