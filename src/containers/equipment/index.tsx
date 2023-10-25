@@ -26,7 +26,7 @@ export default function MedicalEquipmentSettingContainer() {
         <div className="px-[8rem] py-[6rem]">
           <div className="flex justify-between">
             <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
-              ? 현재 진료 사용가능한 장비를 선택해주세요
+              • 현재 진료 사용가능한 장비를 선택해주세요
             </p>
             <button className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white">
               저장하기
