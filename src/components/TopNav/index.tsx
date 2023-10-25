@@ -24,29 +24,29 @@ export const TopNav = ({ items }: TopNavProps) => {
   return (
     <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
       {items.map((item, index) => (
-        <Link
+        <div
           key={index}
-          href={`${item.link}`}
-          className={`w-[26rem] rounded-2xl bg-white pl-[3rem] pr-[2rem] pt-[2rem] text-[1.8rem] font-[700] text-main ${
+          className={`relative w-[26rem] rounded-2xl bg-white pl-[3rem] pr-[2rem] pt-[2rem] text-[1.8rem] font-[700] text-main ${
             select === item.link ? "opacity-100" : "opacity-80"
           }`}
         >
-          <div
-            className="relative flex justify-between"
-            key={`${item.title} ${index}`}
-            onClick={() => navItemClicked(item.link)}
-          >
-            {item.title}
-            <Link href={"/"}>
-              <Image
-                src="/fi-rr-cross-small.png"
-                width={24}
-                height={24}
-                alt="돋보기"
-              />
-            </Link>
-          </div>
-        </Link>
+          <Link href={`${item.link}`}>
+            <div
+              key={`${item.title} ${index}`}
+              onClick={() => navItemClicked(item.link)}
+            >
+              {item.title}
+            </div>
+          </Link>
+          <Link href={"/"} className="absolute right-[2rem] top-[2rem]">
+            <Image
+              src="/fi-rr-cross-small.png"
+              width={24}
+              height={24}
+              alt="돋보기"
+            />
+          </Link>
+        </div>
       ))}
     </div>
   );
