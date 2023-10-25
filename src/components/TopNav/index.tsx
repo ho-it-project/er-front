@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -26,15 +27,26 @@ export const TopNav = ({ items }: TopNavProps) => {
         <Link
           key={index}
           href={`${item.link}`}
-          className={`w-[26rem]  rounded-2xl bg-white pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main ${
+          className={`w-[26rem] rounded-2xl bg-white pl-[3rem] pr-[2rem] pt-[2rem] text-[1.8rem] font-[700] text-main ${
             select === item.link ? "opacity-100" : "opacity-80"
           }`}
         >
           <div
+            className="flex justify-between"
             key={`${item.title} ${index}`}
             onClick={() => navItemClicked(item.link)}
           >
             {item.title}
+            <Link href={"/"}>
+              <span>
+                <Image
+                  src="/fi-rr-cross-small.png"
+                  width={24}
+                  height={24}
+                  alt="돋보기"
+                />
+              </span>
+            </Link>
           </div>
         </Link>
       ))}
