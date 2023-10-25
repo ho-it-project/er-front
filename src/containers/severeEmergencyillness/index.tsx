@@ -45,14 +45,6 @@ const SEVERE_DUMMY = [
     ],
   },
   {
-    title: "복부응급수술",
-    sub: [{ disease: "비외상", state: true }],
-  },
-  {
-    title: "장중첩/폐색",
-    sub: [{ disease: "영유아", state: true }],
-  },
-  {
     title: "응급내시경",
     sub: [
       { disease: "성인 위장관", state: true },
@@ -61,6 +53,22 @@ const SEVERE_DUMMY = [
       { disease: "영유아 기관지", state: false },
     ],
   },
+  {
+    title: "복부응급수술",
+    sub: [{ disease: "비외상", state: true }],
+  },
+  {
+    title: "장중첩/폐색",
+    sub: [{ disease: "영유아", state: true }],
+  },
+  {
+    title: "영상의학혈관중재",
+    sub: [
+      { disease: "성인", state: true },
+      { disease: "영유아", state: true },
+    ],
+  },
+
   {
     title: "산부인과응급",
     sub: [
@@ -73,13 +81,7 @@ const SEVERE_DUMMY = [
     title: "저출생체중아",
     sub: [{ disease: "집중치료", state: true }],
   },
-  {
-    title: "영상의학혈관중재",
-    sub: [
-      { disease: "성인", state: true },
-      { disease: "영유아", state: true },
-    ],
-  },
+
   {
     title: "정신과적응급",
     sub: [{ disease: "폐쇄병동입원", state: true }],
