@@ -43,7 +43,7 @@ export const TopNav = ({ items }: TopNavProps) => {
               src="/fi-rr-cross-small.png"
               width={24}
               height={24}
-              alt="돋보기"
+              alt="X"
             />
           </Link>
         </div>
