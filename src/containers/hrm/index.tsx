@@ -105,6 +105,9 @@ export default function HRMContainer() {
           ))}
         </div>
         <AddEmployModal isOpen={isOpen} closeModal={closeModal} />
+        {isOpen && (
+          <span className="fixed left-0 top-0 z-20 h-screen w-screen"></span>
+        )}
       </div>
     </TopNavContentWrapper>
   );
