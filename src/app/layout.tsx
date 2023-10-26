@@ -1,3 +1,4 @@
+import AppWrapper from "@/components/AppWrapper";
 import Menu from "@/components/Menu";
 import RightMenu from "@/components/RightMenu";
 import LayoutProvider from "@/lib/provider/LayoutProvider";
@@ -23,11 +24,13 @@ export default function RootLayout({
         <SWRProvider>
           {/* <AuthProvider> */}
           <LayoutProvider>
-            <div className="flex h-screen justify-between gap-[2rem]">
-              <Menu />
-              {children}
-              <RightMenu />
-            </div>
+            <AppWrapper>
+              <div className="flex h-screen justify-between gap-[2rem]">
+                <Menu />
+                {children}
+                <RightMenu />
+              </div>
+            </AppWrapper>
           </LayoutProvider>
           {/* </AuthProvider> */}
         </SWRProvider>
