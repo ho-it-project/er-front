@@ -54,6 +54,9 @@ export default function EmployeeListItem({
         set_department={department}
         set_specialty={specialty}
       />
+      {isOpen && (
+        <span className="fixed left-0 top-0 z-20 h-screen w-screen"></span>
+      )}
     </div>
   );
 }
