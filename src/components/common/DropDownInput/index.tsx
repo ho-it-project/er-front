@@ -7,14 +7,16 @@ interface ValueProps {
 interface DropDownInputProps {
   onChange: (selected: string) => void;
   values: ValueProps[];
+  set_value?: string;
 }
 
 export default function DropDownInput({
   onChange,
   values,
+  set_value = "",
 }: DropDownInputProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(set_value);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);

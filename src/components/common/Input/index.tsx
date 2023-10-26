@@ -4,9 +4,15 @@ interface InputProps {
   size?: "sm" | "lg";
   onChange: (value: string) => void;
   title: string;
+  set_value?: string;
 }
 
-export default function Input({ size = "sm", onChange, title }: InputProps) {
+export default function Input({
+  size = "sm",
+  onChange,
+  title,
+  set_value = "",
+}: InputProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     onChange(value);
@@ -24,6 +30,7 @@ export default function Input({ size = "sm", onChange, title }: InputProps) {
       `}
         onChange={handleChange}
         placeholder={placeholderText}
+        value={set_value}
       />
     </div>
   );

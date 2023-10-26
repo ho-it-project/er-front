@@ -4,9 +4,13 @@ import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
 import { useState } from "react";
 
-interface AddEmployModalProps {
+interface EditEmployModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  set_name: string;
+  set_role: string;
+  set_department: string;
+  set_specialty: string;
 }
 
 const DUMMYROLE = [
@@ -27,16 +31,22 @@ const DUMMYDEPARTMENT = [
   { value: "내과(일반)" },
 ];
 
-export default function AddEmployModal({
+export default function EditEmployModal({
   isOpen,
   closeModal,
-}: AddEmployModalProps) {
-  const [role, setRole] = useState("");
-  const [department, setDepartment] = useState("");
-  const [name, setName] = useState("");
-  const [specialization, setSpecialization] = useState("");
+  set_name,
+  set_role,
+  set_department,
+  set_specialty,
+}: EditEmployModalProps) {
+  const [role, setRole] = useState(set_role);
+  const [department, setDepartment] = useState(set_department);
+  const [name, setName] = useState(set_name);
+  const [specialization, setSpecialization] = useState(set_specialty);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+
+  // console.log(name, role, department);
 
   const ChangeDepartmentHandler = (value: string) => {
     setDepartment(value);
@@ -62,7 +72,7 @@ export default function AddEmployModal({
     <div className="fixed left-1/2 top-1/2 z-30 h-[50rem] w-[82rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
       <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
         <div className="w-[26rem] rounded-2xl bg-bg pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main">
-          인력 수정하기
+          인력 추가하기
         </div>
       </div>
       <button
@@ -77,7 +87,11 @@ export default function AddEmployModal({
       <div className="flex h-full flex-col justify-between px-[6rem] py-[5rem] text-[1.8rem] font-bold text-main">
         <div className="flex w-[28.5rem] items-center justify-between">
           <span>이름</span>
-          <Input onChange={(value) => ChangeNameHandler(value)} title="이름" />
+          <Input
+            onChange={(value) => ChangeNameHandler(value)}
+            title="이름"
+            set_value={name}
+          />
         </div>
         <div className="flex justify-between">
           <div className="flex w-[28.5rem] items-center justify-between">
@@ -85,6 +99,7 @@ export default function AddEmployModal({
             <DropDownInput
               onChange={(value) => ChangeRoleHandler(value)}
               values={DUMMYROLE}
+              set_value={role}
             />
           </div>
           <div className="flex w-[28.5rem] items-center justify-between">
@@ -92,6 +107,7 @@ export default function AddEmployModal({
             <DropDownInput
               onChange={(value) => ChangeDepartmentHandler(value)}
               values={DUMMYDEPARTMENT}
+              set_value={department}
             />
           </div>
         </div>
@@ -101,6 +117,7 @@ export default function AddEmployModal({
             size="lg"
             onChange={(value) => ChangeSpecialHandler(value)}
             title="전문분야"
+            set_value={specialization}
           />
         </div>
         <div className="flex items-center justify-between">
