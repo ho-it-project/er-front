@@ -38,6 +38,14 @@ export default function AddEmployModal({
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
+  const onClickClear = () => {
+    setName("");
+    setDepartment("");
+    setSpecialization("");
+    setId("");
+    setPassword("");
+  };
+
   const ChangeDepartmentHandler = (value: string) => {
     setDepartment(value);
   };
@@ -69,7 +77,8 @@ export default function AddEmployModal({
         className="absolute right-[3rem] top-[2rem] h-[5.4rem] w-[20rem] rounded-2xl bg-main text-[1.6rem] font-[600] text-white"
         onClick={() => {
           closeModal();
-          console.log(name, role, department, specialization, id, password);
+          onClickClear();
+          // console.log(name, role, department, specialization, id, password);
         }}
       >
         저장히기
@@ -89,6 +98,7 @@ export default function AddEmployModal({
             <DropDownInput
               onChange={(value) => ChangeRoleHandler(value)}
               values={DUMMYROLE}
+              value={role}
             />
           </div>
           <div className="flex w-[28.5rem] items-center justify-between">
@@ -96,6 +106,7 @@ export default function AddEmployModal({
             <DropDownInput
               onChange={(value) => ChangeDepartmentHandler(value)}
               values={DUMMYDEPARTMENT}
+              value={department}
             />
           </div>
         </div>
