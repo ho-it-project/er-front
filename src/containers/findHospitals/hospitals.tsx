@@ -21,9 +21,9 @@ export default function Hospitals({
     const url =
       clickedNav == "전체"
         ? process.env.NEXT_PUBLIC_ER_DOMAIN +
-          `/emergency-center?latitude=${latitude}&longitude=${longitude}`
+          `/er/emergency-center?latitude=${latitude}&longitude=${longitude}`
         : process.env.NEXT_PUBLIC_ER_DOMAIN +
-          `/emergency-center?emergency_center_type=${clickedNav}&latitude=${latitude}&longitude=${longitude}`;
+          `/er/emergency-center?emergency_center_type=${clickedNav}&latitude=${latitude}&longitude=${longitude}`;
 
     fetch(url)
       .then((response) => response.json())
