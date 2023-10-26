@@ -90,7 +90,7 @@ export default function EditEmployModal({
           <Input
             onChange={(value) => ChangeNameHandler(value)}
             title="이름"
-            set_value={name}
+            value={name}
           />
         </div>
         <div className="flex justify-between">
@@ -99,7 +99,7 @@ export default function EditEmployModal({
             <DropDownInput
               onChange={(value) => ChangeRoleHandler(value)}
               values={DUMMYROLE}
-              set_value={role}
+              value={role}
             />
           </div>
           <div className="flex w-[28.5rem] items-center justify-between">
@@ -107,7 +107,7 @@ export default function EditEmployModal({
             <DropDownInput
               onChange={(value) => ChangeDepartmentHandler(value)}
               values={DUMMYDEPARTMENT}
-              set_value={department}
+              value={department}
             />
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function EditEmployModal({
             size="lg"
             onChange={(value) => ChangeSpecialHandler(value)}
             title="전문분야"
-            set_value={specialization}
+            value={specialization}
           />
         </div>
         <div className="flex items-center justify-between">
@@ -126,6 +126,7 @@ export default function EditEmployModal({
             size="lg"
             onChange={(value) => ChangeIdHandler(value)}
             title="ID"
+            value={id}
           />
         </div>
         <div className="flex items-center justify-between">
@@ -134,6 +135,7 @@ export default function EditEmployModal({
             size="lg"
             onChange={(value) => ChangePasswordHandler(value)}
             title="비밀번호"
+            value={password}
           />
         </div>
       </div>

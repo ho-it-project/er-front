@@ -77,7 +77,11 @@ export default function AddEmployModal({
       <div className="flex h-full flex-col justify-between px-[6rem] py-[5rem] text-[1.8rem] font-bold text-main">
         <div className="flex w-[28.5rem] items-center justify-between">
           <span>이름</span>
-          <Input onChange={(value) => ChangeNameHandler(value)} title="이름" />
+          <Input
+            onChange={(value) => ChangeNameHandler(value)}
+            title="이름"
+            value={name}
+          />
         </div>
         <div className="flex justify-between">
           <div className="flex w-[28.5rem] items-center justify-between">
@@ -101,6 +105,7 @@ export default function AddEmployModal({
             size="lg"
             onChange={(value) => ChangeSpecialHandler(value)}
             title="전문분야"
+            value={specialization}
           />
         </div>
         <div className="flex items-center justify-between">
@@ -109,6 +114,7 @@ export default function AddEmployModal({
             size="lg"
             onChange={(value) => ChangeIdHandler(value)}
             title="ID"
+            value={id}
           />
         </div>
         <div className="flex items-center justify-between">
@@ -117,6 +123,7 @@ export default function AddEmployModal({
             size="lg"
             onChange={(value) => ChangePasswordHandler(value)}
             title="비밀번호"
+            value={password}
           />
         </div>
       </div>
