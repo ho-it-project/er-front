@@ -3,44 +3,19 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import SearchInput from "@/components/common/SearchInput";
 import useModal from "@/hooks/useModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddEmployModal from "./addEmployModal";
 import EmployeeListHeader from "./employeeListHeader";
 import EmployeeListItem from "./employeeListItem";
 import Nav from "./nav";
 
-const TopNavs = [{ title: "인력 관리", link: "/hrm" }];
+interface Employee {
+  employee_name: string;
+  role: string;
+  status: string;
+}
 
-const DUMMY = [
-  {
-    name: "최세종",
-    role: "전문의",
-    department: "응급의학과",
-    specialty: "중환자의학",
-    toggleStatus: true,
-  },
-  {
-    name: "최세종",
-    role: "간호사",
-    department: "응급의학과",
-    specialty: "비뇨정신질환, 유방암, 광배근전기치료",
-    toggleStatus: false,
-  },
-  {
-    name: "최세종",
-    role: "응급구조사",
-    department: "응급의학과",
-    specialty: "중환자의학",
-    toggleStatus: true,
-  },
-  {
-    name: "최세종",
-    role: "응급구조사",
-    department: "응급의학과",
-    specialty: "중환자의학",
-    toggleStatus: true,
-  },
-];
+const TopNavs = [{ title: "인력 관리", link: "/hrm" }];
 
 export default function HRMContainer() {
   const { isOpen, openModal, closeModal } = useModal();
@@ -48,12 +23,24 @@ export default function HRMContainer() {
   const [, setSearchWord] = useState("");
   const [clickedNav, setClickedNav] = useState("전체");
 
+  const [employee, setEmployee] = useState<Employee[]>([]);
+
   const ChangeSearchInputHandler = (value: string) => {
     setSearchWord(value);
   };
   const ClickedNavHandler = (value: string) => {
     setClickedNav(value);
   };
+
+  useEffect(() => {
+    const url = "/api/er/employee";
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("직원 데이터", data);
+        setEmployee(data.result.employee_list);
+      });
+  }, []);
 
   return (
     <TopNavContentWrapper topNav={{ items: TopNavs }}>
@@ -76,19 +63,19 @@ export default function HRMContainer() {
         </div>
         <div>
           <EmployeeListHeader />
-          {DUMMY.filter(
-            (i) => clickedNav === "전체" || clickedNav === i.role
-          ).map((i, index) => (
-            <div key={index}>
-              <EmployeeListItem
-                name={i.name}
-                role={i.role}
-                department={i.department}
-                specialty={i.specialty}
-                toggleStatus={i.toggleStatus}
-              />
-            </div>
-          ))}
+          {employee
+            .filter((i) => clickedNav === "전체" || clickedNav === i.role)
+            .map((i, index) => (
+              <div key={index}>
+                <EmployeeListItem
+                  name={i.employee_name}
+                  role={i.role}
+                  department={"응급의학과"}
+                  specialty={"중환자의학"}
+                  toggleStatus={i.status === "ACTIVE"}
+                />
+              </div>
+            ))}
         </div>
         <AddEmployModal isOpen={isOpen} closeModal={closeModal} />
         {isOpen && (

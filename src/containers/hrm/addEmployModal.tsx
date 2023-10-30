@@ -36,6 +36,14 @@ export default function AddEmployModal({
   const [specialization, setSpecialization] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  // const [employee, setEmployee] = useState([
+  //   {
+  //     employee_name: name,
+  //     id_card: id,
+  //     password: password,
+  //     role: role,
+  //   },
+  // ]);
 
   const onClickClear = () => {
     setName("");
@@ -65,11 +73,19 @@ export default function AddEmployModal({
   };
   if (!isOpen) return null;
 
+  // useEffect(() => {
+  //   const employees = [
+  //     { employee_name: name, id_card: id, password: password, role: role },
+  //   ];
+  // }, []);
+
+  // const onClickSubmit = () => {};
+
   return (
     <div className="fixed left-1/2 top-1/2 z-30 h-[50rem] w-[82rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
       <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
         <div className="w-[26rem] rounded-2xl bg-bg pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main">
-          인력 수정하기
+          인력 추가하기
         </div>
       </div>
       <button

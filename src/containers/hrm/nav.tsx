@@ -27,7 +27,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(1);
-          onClickNav("전문의");
+          onClickNav("DOCTOR");
         }}
         className={`${selected == 1 ? "text-main" : ""} cursor-pointer`}
       >
@@ -37,7 +37,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(2);
-          onClickNav("간호사");
+          onClickNav("NURSE");
         }}
         className={`${selected == 2 ? "text-main" : ""} cursor-pointer`}
       >
@@ -47,7 +47,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(3);
-          onClickNav("응급구조사");
+          onClickNav("RECEPTIONIST");
         }}
         className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
       >
