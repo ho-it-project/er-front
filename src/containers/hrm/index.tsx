@@ -77,12 +77,11 @@ export default function HRMContainer() {
         <div>
           <EmployeeListHeader />
           {DUMMY.map((i, index) => (
-            <>
+            <div key={index}>
               {clickedNav !== "전체" ? (
                 <>
                   {clickedNav === i.role && (
                     <EmployeeListItem
-                      key={index}
                       name={i.name}
                       role={i.role}
                       department={i.department}
@@ -93,7 +92,6 @@ export default function HRMContainer() {
                 </>
               ) : (
                 <EmployeeListItem
-                  key={index}
                   name={i.name}
                   role={i.role}
                   department={i.department}
@@ -101,7 +99,7 @@ export default function HRMContainer() {
                   toggleStatus={i.toggleStatus}
                 />
               )}
-            </>
+            </div>
           ))}
         </div>
         <AddEmployModal isOpen={isOpen} closeModal={closeModal} />
