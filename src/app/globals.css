@@ -16,6 +16,12 @@
     font-family: "inter";
   }
 }
+@media (max-width: 1920px) {
+  html {
+    font-size: 50%;
+  }
+}
+
 ::-webkit-scrollbar {
   opacity: 0.3;
   width: 0.7rem;
