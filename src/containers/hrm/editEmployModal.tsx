@@ -13,8 +13,6 @@ interface EditEmployModalProps {
   set_specialty: string;
 }
 
-// ADMIN, DOCTOR, NURSE, RECEPTIONIST
-
 const DUMMYROLE = [
   { value: "전문의", code: "DOCTOR" },
   { value: "간호사", code: "NURSE" },
