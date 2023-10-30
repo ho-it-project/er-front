@@ -13,22 +13,24 @@ interface EditEmployModalProps {
   set_specialty: string;
 }
 
+// ADMIN, DOCTOR, NURSE, RECEPTIONIST
+
 const DUMMYROLE = [
-  { value: "전문의" },
-  { value: "간호사" },
-  { value: "응급구조사" },
+  { value: "전문의", code: "DOCTOR" },
+  { value: "간호사", code: "NURSE" },
+  { value: "응급구조사", code: "RECEPTIONIST" },
 ];
 
 const DUMMYDEPARTMENT = [
-  { value: "호흡기내과" },
-  { value: "순환기내과" },
-  { value: "소화기내과" },
-  { value: "혈액종양내과" },
-  { value: "내분비대사내과" },
-  { value: "알레르기내과" },
-  { value: "신장내과" },
-  { value: "류마티스내과" },
-  { value: "내과(일반)" },
+  { value: "호흡기내과", code: "RESPIRATORY" },
+  { value: "순환기내과", code: "CARDIOLOGY " },
+  { value: "소화기내과", code: "GASTROENTERLOGY" },
+  { value: "혈액종양내과", code: "HEMATOLOGY_ONCOLOGY" },
+  { value: "내분비대사내과", code: "ENDOCRINOLOGY_METABOLISM" },
+  { value: "알레르기내과", code: "ALLERGY" },
+  { value: "신장내과", code: "NEPHROLOGY" },
+  { value: "류마티스내과", code: "RHEUMATOLOGY" },
+  { value: "내과(일반)", code: "INTERNAL" },
 ];
 
 export default function EditEmployModal({

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 interface ValueProps {
   value: string;
+  code: string;
 }
 
 interface DropDownInputProps {
@@ -51,9 +52,9 @@ export default function DropDownInput({
          ${isOpen ? "" : ""}
         `}
         >
-          {values.map((v, index) => (
+          {values.map((v) => (
             <div
-              key={index}
+              key={v.code}
               className="flex h-[4rem] cursor-pointer items-center justify-center pr-[4rem] text-black hover:bg-L-gray"
               onClick={() => handleSelect(v.value)}
             >
