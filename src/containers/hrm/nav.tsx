@@ -13,13 +13,13 @@ export default function Nav({ onClickNav }: NavProps) {
   };
 
   return (
-    <div className="flex w-[38rem] items-center justify-around text-[2rem] font-[700]">
+    <div className="flex min-w-[38rem] items-center justify-around text-[2rem] font-[700]">
       <span
         onClick={() => {
           handleSelected(0);
           onClickNav("전체");
         }}
-        className={`${selected == 0 ? "text-main" : ""} cursor-pointer`}
+        className={`${selected == 0 ? "text-main" : ""} cursor-pointer `}
       >
         전체
       </span>
