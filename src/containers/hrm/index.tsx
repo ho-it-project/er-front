@@ -76,29 +76,17 @@ export default function HRMContainer() {
         </div>
         <div>
           <EmployeeListHeader />
-          {DUMMY.map((i, index) => (
+          {DUMMY.filter(
+            (i) => clickedNav === "전체" || clickedNav === i.role
+          ).map((i, index) => (
             <div key={index}>
-              {clickedNav !== "전체" ? (
-                <>
-                  {clickedNav === i.role && (
-                    <EmployeeListItem
-                      name={i.name}
-                      role={i.role}
-                      department={i.department}
-                      specialty={i.specialty}
-                      toggleStatus={i.toggleStatus}
-                    />
-                  )}
-                </>
-              ) : (
-                <EmployeeListItem
-                  name={i.name}
-                  role={i.role}
-                  department={i.department}
-                  specialty={i.specialty}
-                  toggleStatus={i.toggleStatus}
-                />
-              )}
+              <EmployeeListItem
+                name={i.name}
+                role={i.role}
+                department={i.department}
+                specialty={i.specialty}
+                toggleStatus={i.toggleStatus}
+              />
             </div>
           ))}
         </div>
