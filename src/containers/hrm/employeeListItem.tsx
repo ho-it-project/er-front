@@ -29,13 +29,7 @@ export default function EmployeeListItem({
   return (
     <div className="flex h-[8.5rem] w-full items-center justify-between border-b-2 border-L-gray px-[4rem] text-[1.8rem] font-[700]">
       <span className="w-1/4 min-w-[15rem]">{name}</span>
-      <span className="w-1/4 min-w-[15rem]">
-        {role == "DOCTOR"
-          ? "전문의"
-          : role == "NURSE"
-          ? "간호사"
-          : "응급구조사"}
-      </span>
+      <span className="w-1/4 min-w-[15rem]">{role}</span>
       <span className="w-1/4 min-w-[15rem] overflow-hidden">{department}</span>
       <span className="w-1/4 min-w-[15rem]">{specialty}</span>
       <span className="flex min-w-[29rem]">

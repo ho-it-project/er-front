@@ -69,7 +69,13 @@ export default function HRMContainer() {
               <div key={index}>
                 <EmployeeListItem
                   name={i.employee_name}
-                  role={i.role}
+                  role={
+                    i.role == "DOCTOR"
+                      ? "전문의"
+                      : i.role == "NURSE"
+                      ? "간호사"
+                      : "응급구조사"
+                  }
                   department={"응급의학과"}
                   specialty={"중환자의학"}
                   toggleStatus={i.status === "ACTIVE"}
