@@ -14,7 +14,7 @@ interface DropDownInputProps {
 export default function DropDownInput({
   onChange,
   values,
-  value = "",
+  value,
 }: DropDownInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(value);
@@ -23,9 +23,9 @@ export default function DropDownInput({
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (value: string) => {
-    setSelected(value);
-    onChange(value);
+  const handleSelect = (value: ValueProps) => {
+    setSelected(value.value);
+    onChange(value.code);
     setIsOpen(false);
   };
 
@@ -56,7 +56,7 @@ export default function DropDownInput({
             <div
               key={v.code}
               className="flex h-[4rem] cursor-pointer items-center justify-center pr-[4rem] text-black hover:bg-L-gray"
-              onClick={() => handleSelect(v.value)}
+              onClick={() => handleSelect(v)}
             >
               {v.value}
             </div>

@@ -8,6 +8,7 @@ interface AddEmployModalProps {
   isOpen: boolean;
   closeModal: () => void;
 }
+
 const DUMMYROLE = [
   { value: "전문의", code: "DOCTOR" },
   { value: "간호사", code: "NURSE" },
@@ -36,14 +37,6 @@ export default function AddEmployModal({
   const [specialization, setSpecialization] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  // const [employee, setEmployee] = useState([
-  //   {
-  //     employee_name: name,
-  //     id_card: id,
-  //     password: password,
-  //     role: role,
-  //   },
-  // ]);
 
   const onClickClear = () => {
     setName("");
@@ -51,6 +44,7 @@ export default function AddEmployModal({
     setSpecialization("");
     setId("");
     setPassword("");
+    setRole("");
   };
 
   const ChangeDepartmentHandler = (value: string) => {
@@ -73,13 +67,39 @@ export default function AddEmployModal({
   };
   if (!isOpen) return null;
 
-  // useEffect(() => {
-  //   const employees = [
-  //     { employee_name: name, id_card: id, password: password, role: role },
-  //   ];
-  // }, []);
+  const onClickSubmit = () => {
+    const url: string = "/api/er/employee";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        employees: [
+          {
+            employee_name: name,
+            id_card: id,
+            password: password,
+            role: role,
+          },
+        ],
+      }),
+    };
+    console.log({
+      employee_name: name,
+      id_card: id,
+      password: password,
+      role: role,
+    });
 
-  // const onClickSubmit = () => {};
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+
+    onClickClear();
+  };
 
   return (
     <div className="fixed left-1/2 top-1/2 z-30 h-[50rem] w-[82rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
@@ -92,7 +112,7 @@ export default function AddEmployModal({
         className="absolute right-[3rem] top-[2rem] h-[5.4rem] w-[20rem] rounded-2xl bg-main text-[1.6rem] font-[600] text-white"
         onClick={() => {
           closeModal();
-          onClickClear();
+          onClickSubmit();
         }}
       >
         저장히기
