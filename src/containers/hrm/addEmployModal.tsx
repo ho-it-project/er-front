@@ -68,37 +68,63 @@ export default function AddEmployModal({
   if (!isOpen) return null;
 
   const onClickSubmit = () => {
-    const url: string = "/api/er/employee";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        employees: [
-          {
-            employee_name: name,
-            id_card: id,
-            password: password,
-            role: role,
-          },
-        ],
-      }),
-    };
-    console.log({
-      employee_name: name,
-      id_card: id,
-      password: password,
-      role: role,
-    });
+    if (!isEmpty()) {
+      const url: string = "/api/er/employee";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          employees: [
+            {
+              employee_name: name,
+              id_card: id,
+              password: password,
+              role: role,
+            },
+          ],
+        }),
+      };
 
-    fetch(url, options)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      fetch(url, options)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
 
-    onClickClear();
+      onClickClear();
+      closeModal();
+    }
+  };
+
+  const isEmpty = () => {
+    if (name == "") {
+      alert("이름을 작성해주세요.");
+      return true;
+    }
+    if (role == "") {
+      alert("역할을 정해주세요.");
+      return true;
+    }
+    if (department == "진료과를 정해주세요.") {
+      alert("");
+      return true;
+    }
+    if (specialization == "") {
+      alert("전문분야를 작성해주세요.");
+      return true;
+    }
+    if (id == "") {
+      alert("ID를 작성해주세요.");
+      return true;
+    }
+    if (password == "비밀번호를 작성해주세요") {
+      alert("");
+      return true;
+    }
+
+    return false;
   };
 
   return (
@@ -111,7 +137,6 @@ export default function AddEmployModal({
       <button
         className="absolute right-[3rem] top-[2rem] h-[5.4rem] w-[20rem] rounded-2xl bg-main text-[1.6rem] font-[600] text-white"
         onClick={() => {
-          closeModal();
           onClickSubmit();
         }}
       >
