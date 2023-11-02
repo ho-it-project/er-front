@@ -2,34 +2,32 @@
 
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
+import useUpdateStore from "@/states/employeeUpdateStore";
 import { useState } from "react";
+
+interface ValueProps {
+  value: string;
+  code: string;
+}
 
 interface AddEmployModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  departments: ValueProps[];
 }
 
 const DUMMYROLE = [
-  { value: "전문의", code: "DOCTOR" },
+  { value: "관리자", code: "ADMIN" },
+  { value: "전문의", code: "SPECIALIST" },
+  { value: "전공의", code: "RESIDENT" },
   { value: "간호사", code: "NURSE" },
   { value: "응급구조사", code: "RECEPTIONIST" },
-];
-
-const DUMMYDEPARTMENT = [
-  { value: "호흡기내과", code: "RESPIRATORY" },
-  { value: "순환기내과", code: "CARDIOLOGY " },
-  { value: "소화기내과", code: "GASTROENTERLOGY" },
-  { value: "혈액종양내과", code: "HEMATOLOGY_ONCOLOGY" },
-  { value: "내분비대사내과", code: "ENDOCRINOLOGY_METABOLISM" },
-  { value: "알레르기내과", code: "ALLERGY" },
-  { value: "신장내과", code: "NEPHROLOGY" },
-  { value: "류마티스내과", code: "RHEUMATOLOGY" },
-  { value: "내과(일반)", code: "INTERNAL" },
 ];
 
 export default function AddEmployModal({
   isOpen,
   closeModal,
+  departments,
 }: AddEmployModalProps) {
   const [role, setRole] = useState("");
   const [department, setDepartment] = useState("");
@@ -37,6 +35,8 @@ export default function AddEmployModal({
   const [specialization, setSpecialization] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+
+  const { update } = useUpdateStore();
 
   const onClickClear = () => {
     setName("");
@@ -67,9 +67,11 @@ export default function AddEmployModal({
   };
   if (!isOpen) return null;
 
-  const onClickSubmit = () => {
-    if (!isEmpty()) {
-      const url: string = "/api/er/employee";
+  const onClickSubmit = async () => {
+    const exist = await isExist();
+
+    if (!isEmpty() && !exist) {
+      const url = "/api/er/employees";
       const options = {
         method: "POST",
         headers: {
@@ -82,6 +84,7 @@ export default function AddEmployModal({
               id_card: id,
               password: password,
               role: role,
+              department_id: Number(department),
             },
           ],
         }),
@@ -90,12 +93,35 @@ export default function AddEmployModal({
       fetch(url, options)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log("요청결과", data);
+          update();
         });
 
       onClickClear();
       closeModal();
     }
+  };
+
+  const isExist = () => {
+    const url = "/api/er/employees/exists";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_cards: [id],
+      }),
+    };
+
+    return fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {
+        const existsArray = data.result.exists;
+        return !!existsArray.find(
+          (item: { id_card: string }) => item.id_card == id
+        );
+      });
   };
 
   const isEmpty = () => {
@@ -158,14 +184,16 @@ export default function AddEmployModal({
               onChange={(value) => ChangeRoleHandler(value)}
               values={DUMMYROLE}
               value={role}
+              type="role"
             />
           </div>
-          <div className="flex w-[28.5rem] items-center justify-between">
+          <div className="flex w-[33.5rem] items-center justify-between">
             <span>진료과</span>
             <DropDownInput
               onChange={(value) => ChangeDepartmentHandler(value)}
-              values={DUMMYDEPARTMENT}
+              values={departments}
               value={department}
+              type="department"
             />
           </div>
         </div>
