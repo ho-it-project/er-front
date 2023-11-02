@@ -10,7 +10,7 @@ interface EditEmployModalProps {
   set_name: string;
   set_role: string;
   set_department: string;
-  set_specialty: string;
+  set_specialty?: string;
 }
 
 const DUMMYROLE = [
@@ -79,7 +79,6 @@ export default function EditEmployModal({
         className="absolute right-[3rem] top-[2rem] h-[5.4rem] w-[20rem] rounded-2xl bg-main text-[1.6rem] font-[600] text-white"
         onClick={() => {
           closeModal();
-          console.log(name, role, department, specialization, id, password);
         }}
       >
         저장히기

@@ -2,7 +2,10 @@
 
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import SearchInput from "@/components/common/SearchInput";
+import useDepartments from "@/hooks/useDepartments";
 import useModal from "@/hooks/useModal";
+import useUpdateStore from "@/states/employeeUpdateStore";
+import { Role } from "@/type";
 import { useEffect, useState } from "react";
 import AddEmployModal from "./addEmployModal";
 import EmployeeListHeader from "./employeeListHeader";
@@ -10,37 +13,55 @@ import EmployeeListItem from "./employeeListItem";
 import Nav from "./nav";
 
 interface Employee {
+  department_id: number;
   employee_name: string;
-  role: string;
+  role: Role;
   status: string;
+  employee_doctor_specializations?: string[];
+  employee_nurse_specializations?: string[];
 }
 
 const TopNavs = [{ title: "인력 관리", link: "/hrm" }];
 
 export default function HRMContainer() {
-  const { isOpen, openModal, closeModal } = useModal();
+  const { data: departments } = useDepartments();
 
+  const department_list = departments
+    ? departments.map((item) => {
+        return {
+          value: item.department_name,
+          code: item.department_id.toString(),
+        };
+      })
+    : [];
+
+  const { isOpen, openModal, closeModal } = useModal();
   const [, setSearchWord] = useState("");
-  const [clickedNav, setClickedNav] = useState("전체");
+  const [clickedNav, setClickedNav] = useState(["전체"]);
 
   const [employee, setEmployee] = useState<Employee[]>([]);
+
+  const { isUpdate, reset } = useUpdateStore();
 
   const ChangeSearchInputHandler = (value: string) => {
     setSearchWord(value);
   };
-  const ClickedNavHandler = (value: string) => {
+  const ClickedNavHandler = (value: string[]) => {
+    console.log(value);
+
     setClickedNav(value);
   };
 
   useEffect(() => {
-    const url = "/api/er/employee";
+    const url = "/api/er/employees";
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
         console.log("직원 데이터", data);
         setEmployee(data.result.employee_list);
+        reset();
       });
-  }, []);
+  }, [isUpdate, reset]);
 
   return (
     <TopNavContentWrapper topNav={{ items: TopNavs }}>
@@ -64,26 +85,26 @@ export default function HRMContainer() {
         <div>
           <EmployeeListHeader />
           {employee
-            .filter((i) => clickedNav === "전체" || clickedNav === i.role)
+            .filter(
+              (i) => clickedNav.includes("전체") || clickedNav.includes(i.role)
+            )
             .map((i, index) => (
               <div key={index}>
                 <EmployeeListItem
                   name={i.employee_name}
-                  role={
-                    i.role == "DOCTOR"
-                      ? "전문의"
-                      : i.role == "NURSE"
-                      ? "간호사"
-                      : "응급구조사"
-                  }
-                  department={"응급의학과"}
-                  specialty={"중환자의학"}
+                  role={i.role}
+                  department_list={department_list}
+                  department={String(i.department_id)}
                   toggleStatus={i.status === "ACTIVE"}
                 />
               </div>
             ))}
         </div>
-        <AddEmployModal isOpen={isOpen} closeModal={closeModal} />
+        <AddEmployModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          departments={department_list}
+        />
         {isOpen && (
           <span className="fixed left-0 top-0 z-20 h-screen w-screen"></span>
         )}
