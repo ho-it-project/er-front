@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 interface NavProps {
-  onClickNav: (value: string) => void;
+  onClickNav: (value: string[]) => void;
 }
 
 export default function Nav({ onClickNav }: NavProps) {
@@ -17,7 +17,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(0);
-          onClickNav("전체");
+          onClickNav(["전체"]);
         }}
         className={`${selected == 0 ? "text-main" : ""} cursor-pointer `}
       >
@@ -27,7 +27,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(1);
-          onClickNav("DOCTOR");
+          onClickNav(["SPECIALIST", "RESIDENT"]);
         }}
         className={`${selected == 1 ? "text-main" : ""} cursor-pointer`}
       >
@@ -37,7 +37,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(2);
-          onClickNav("NURSE");
+          onClickNav(["NURSE"]);
         }}
         className={`${selected == 2 ? "text-main" : ""} cursor-pointer`}
       >
@@ -47,7 +47,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(3);
-          onClickNav("RECEPTIONIST");
+          onClickNav(["RECEPTIONIST"]);
         }}
         className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
       >
