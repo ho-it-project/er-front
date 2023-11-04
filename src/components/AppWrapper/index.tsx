@@ -15,8 +15,8 @@ export default function AppWrapper({
 
   const url = "/api/er/auth";
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(url, fetcher);
-  const { userData, updateUserData } = useUserStore();
+  const { data, isLoading } = useSWR(url, fetcher);
+  const { updateUserData } = useUserStore();
 
   useEffect(() => {
     if (data && data.result.is_login) {
