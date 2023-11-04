@@ -42,7 +42,6 @@ export default function LoginBox() {
         .then((data) => {
           if (data.is_success) {
             useLoginStore.getState().login();
-            useLoginStore.getState().openLoginBox();
           } else {
             setFail(true);
             setPassword("");
