@@ -47,8 +47,6 @@ export default function HRMContainer() {
     setSearchWord(value);
   };
   const ClickedNavHandler = (value: string[]) => {
-    console.log(value);
-
     setClickedNav(value);
   };
 
@@ -57,7 +55,6 @@ export default function HRMContainer() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("직원 데이터", data);
         setEmployee(data.result.employee_list);
         reset();
       });
@@ -66,7 +63,7 @@ export default function HRMContainer() {
   return (
     <TopNavContentWrapper topNav={{ items: TopNavs }}>
       <div className="px-[2rem]">
-        <div className="mb-[5rem] flex w-full justify-between">
+        <div className="sticky top-0 z-[1] flex w-full justify-between bg-white pb-[5rem]">
           <Nav onClickNav={ClickedNavHandler} />
           <div className="mt-[1rem] flex gap-[2rem]">
             <SearchInput
@@ -82,8 +79,8 @@ export default function HRMContainer() {
             </button>
           </div>
         </div>
+        <EmployeeListHeader />
         <div>
-          <EmployeeListHeader />
           {employee
             .filter(
               (i) => clickedNav.includes("전체") || clickedNav.includes(i.role)

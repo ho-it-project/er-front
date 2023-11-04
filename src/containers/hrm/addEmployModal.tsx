@@ -92,8 +92,7 @@ export default function AddEmployModal({
 
       fetch(url, options)
         .then((response) => response.json())
-        .then((data) => {
-          console.log("요청결과", data);
+        .then(() => {
           update();
         });
 
