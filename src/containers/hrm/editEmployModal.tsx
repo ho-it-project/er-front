@@ -2,50 +2,51 @@
 
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
-import useUpdateStore from "@/states/employeeUpdateStore";
 import { useState } from "react";
 
-interface ValueProps {
-  value: string;
-  code: string;
-}
-
-interface AddEmployModalProps {
+interface EditEmployModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  departments: ValueProps[];
+  set_name: string;
+  set_role: string;
+  set_department: string;
+  set_specialty?: string;
 }
 
 const DUMMYROLE = [
-  { value: "관리자", code: "ADMIN" },
-  { value: "전문의", code: "SPECIALIST" },
-  { value: "전공의", code: "RESIDENT" },
+  { value: "전문의", code: "DOCTOR" },
   { value: "간호사", code: "NURSE" },
   { value: "응급구조사", code: "RECEPTIONIST" },
 ];
 
-export default function AddEmployModal({
+const DUMMYDEPARTMENT = [
+  { value: "호흡기내과", code: "RESPIRATORY" },
+  { value: "순환기내과", code: "CARDIOLOGY " },
+  { value: "소화기내과", code: "GASTROENTERLOGY" },
+  { value: "혈액종양내과", code: "HEMATOLOGY_ONCOLOGY" },
+  { value: "내분비대사내과", code: "ENDOCRINOLOGY_METABOLISM" },
+  { value: "알레르기내과", code: "ALLERGY" },
+  { value: "신장내과", code: "NEPHROLOGY" },
+  { value: "류마티스내과", code: "RHEUMATOLOGY" },
+  { value: "내과(일반)", code: "INTERNAL" },
+];
+
+export default function EditEmployModal({
   isOpen,
   closeModal,
-  departments,
-}: AddEmployModalProps) {
-  const [role, setRole] = useState("");
-  const [department, setDepartment] = useState("");
-  const [name, setName] = useState("");
-  const [specialization, setSpecialization] = useState("");
+  set_name,
+  set_role,
+  set_department,
+  set_specialty,
+}: EditEmployModalProps) {
+  const [role, setRole] = useState(set_role);
+  const [department, setDepartment] = useState(set_department);
+  const [name, setName] = useState(set_name);
+  const [specialization, setSpecialization] = useState(set_specialty);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const { update } = useUpdateStore();
-
-  const onClickClear = () => {
-    setName("");
-    setDepartment("");
-    setSpecialization("");
-    setId("");
-    setPassword("");
-    setRole("");
-  };
+  // console.log(name, role, department);
 
   const ChangeDepartmentHandler = (value: string) => {
     setDepartment(value);
@@ -67,102 +68,17 @@ export default function AddEmployModal({
   };
   if (!isOpen) return null;
 
-  const onClickSubmit = async () => {
-    const exist = await isExist();
-
-    if (!isEmpty() && !exist) {
-      const url = "/api/er/employees";
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          employees: [
-            {
-              employee_name: name,
-              id_card: id,
-              password: password,
-              role: role,
-              department_id: Number(department),
-            },
-          ],
-        }),
-      };
-
-      fetch(url, options)
-        .then((response) => response.json())
-        .then(() => {
-          update();
-        });
-
-      onClickClear();
-      closeModal();
-    }
-  };
-
-  const isExist = () => {
-    const url = "/api/er/employees/exists";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id_cards: [id],
-      }),
-    };
-
-    return fetch(url, options)
-      .then((response) => response.json())
-      .then((data) => {
-        const existsArray = data.result.exists;
-        return !!existsArray.find(
-          (item: { id_card: string }) => item.id_card == id
-        );
-      });
-  };
-
-  const isEmpty = () => {
-    if (name == "") {
-      alert("이름을 작성해주세요.");
-      return true;
-    }
-    if (role == "") {
-      alert("역할을 정해주세요.");
-      return true;
-    }
-    if (department == "진료과를 정해주세요.") {
-      alert("");
-      return true;
-    }
-    if (specialization == "") {
-      alert("전문분야를 작성해주세요.");
-      return true;
-    }
-    if (id == "") {
-      alert("ID를 작성해주세요.");
-      return true;
-    }
-    if (password == "비밀번호를 작성해주세요") {
-      alert("");
-      return true;
-    }
-
-    return false;
-  };
-
   return (
     <div className="fixed left-1/2 top-1/2 z-30 h-[50rem] w-[82rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
       <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
         <div className="w-[26rem] rounded-2xl bg-bg pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main">
-          인력 추가하기
+          인력 수정하기
         </div>
       </div>
       <button
         className="absolute right-[3rem] top-[2rem] h-[5.4rem] w-[20rem] rounded-2xl bg-main text-[1.6rem] font-[600] text-white"
         onClick={() => {
-          onClickSubmit();
+          closeModal();
         }}
       >
         저장히기
@@ -183,16 +99,14 @@ export default function AddEmployModal({
               onChange={(value) => ChangeRoleHandler(value)}
               values={DUMMYROLE}
               value={role}
-              type="role"
             />
           </div>
-          <div className="flex w-[33.5rem] items-center justify-between">
+          <div className="flex w-[28.5rem] items-center justify-between">
             <span>진료과</span>
             <DropDownInput
               onChange={(value) => ChangeDepartmentHandler(value)}
-              values={departments}
+              values={DUMMYDEPARTMENT}
               value={department}
-              type="department"
             />
           </div>
         </div>

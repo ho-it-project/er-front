@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 interface NavProps {
-  onClickNav: (value: string) => void;
+  onClickNav: (value: string[]) => void;
 }
 
 export default function Nav({ onClickNav }: NavProps) {
@@ -13,13 +13,13 @@ export default function Nav({ onClickNav }: NavProps) {
   };
 
   return (
-    <div className="flex w-[38rem] items-center justify-around text-[2rem] font-[700]">
+    <div className="flex min-w-[38rem] items-center justify-around text-[2rem] font-[700]">
       <span
         onClick={() => {
           handleSelected(0);
-          onClickNav("전체");
+          onClickNav(["전체"]);
         }}
-        className={`${selected == 0 ? "text-main" : ""} cursor-pointer`}
+        className={`${selected == 0 ? "text-main" : ""} cursor-pointer `}
       >
         전체
       </span>
@@ -27,7 +27,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(1);
-          onClickNav("전문의");
+          onClickNav(["SPECIALIST", "RESIDENT"]);
         }}
         className={`${selected == 1 ? "text-main" : ""} cursor-pointer`}
       >
@@ -37,7 +37,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(2);
-          onClickNav("간호사");
+          onClickNav(["NURSE"]);
         }}
         className={`${selected == 2 ? "text-main" : ""} cursor-pointer`}
       >
@@ -47,7 +47,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(3);
-          onClickNav("응급구조사");
+          onClickNav(["RECEPTIONIST"]);
         }}
         className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
       >

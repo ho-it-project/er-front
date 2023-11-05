@@ -1,15 +1,22 @@
+"use client";
+
 import { ChangeEvent } from "react";
 
 interface InputProps {
   size?: "sm" | "lg";
   onChange: (value: string) => void;
   title: string;
+  value?: string;
 }
 
-export default function Input({ size = "sm", onChange, title }: InputProps) {
+export default function Input({
+  size = "sm",
+  onChange,
+  title,
+  value = "",
+}: InputProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    onChange(value);
+    onChange(e.target.value);
   };
 
   const placeholderText =
@@ -24,6 +31,7 @@ export default function Input({ size = "sm", onChange, title }: InputProps) {
       `}
         onChange={handleChange}
         placeholder={placeholderText}
+        value={value}
       />
     </div>
   );

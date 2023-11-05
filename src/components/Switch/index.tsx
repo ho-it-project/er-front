@@ -18,16 +18,16 @@ export default function Switch({
           : colorType === "gray"
           ? "border-L-gray"
           : "border-yellow"
-      } bg-bg`}
+      } flex items-center justify-center bg-bg`}
     >
       <span
-        className={`absolute top-[0.1rem] h-[2.4rem] w-[2.4rem] rounded-full transition-all duration-150 ease-in-out ${
+        className={`absolute h-[2.4rem] w-[2.4rem] rounded-full transition-all duration-150 ease-in-out ${
           toggle
             ? "left-[3rem] bg-main"
             : colorType === "gray"
             ? "left-[0.2rem] bg-L-gray"
             : "left-[0.2rem] bg-yellow"
-        } `}
+        }`}
       ></span>
     </div>
   );

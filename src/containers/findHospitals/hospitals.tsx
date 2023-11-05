@@ -20,10 +20,8 @@ export default function Hospitals({
   useEffect(() => {
     const url =
       clickedNav == "전체"
-        ? process.env.NEXT_PUBLIC_ER_DOMAIN +
-          `/emergency-center?latitude=${latitude}&longitude=${longitude}`
-        : process.env.NEXT_PUBLIC_ER_DOMAIN +
-          `/emergency-center?emergency_center_type=${clickedNav}&latitude=${latitude}&longitude=${longitude}`;
+        ? `/api/er/emergency-centers?latitude=${latitude}&longitude=${longitude}`
+        : `/api/er/emergency-centers?emergency_center_type=${clickedNav}&latitude=${latitude}&longitude=${longitude}`;
 
     fetch(url)
       .then((response) => response.json())
