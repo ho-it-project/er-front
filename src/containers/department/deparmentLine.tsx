@@ -14,8 +14,8 @@ export default function DepartmentLine({ title, set }: DepartmentLineProps) {
     setToggle((prev) => !prev);
   };
   return (
-    <span className="my-[2rem] flex justify-between">
-      <span className="text-[1.8rem] font-[600]">{title}</span>
+    <span className="mb-[2rem] flex justify-between">
+      <span className="text-[1.8rem] font-[700]">{title}</span>
       <Switch clickedToggle={clickedToggle} toggle={toggle} />
     </span>
   );
