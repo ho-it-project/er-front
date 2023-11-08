@@ -5,30 +5,24 @@ import Switch from "@/components/Switch";
 import { useState } from "react";
 
 interface EquipmentLineProps {
-  key: number;
-  title: string;
-  set: boolean;
-  cnt: number;
+  id: number;
+  count: number;
+  name: string;
 }
 
-export default function EquipmentLine({
-  key,
-  title,
-  set,
-  cnt,
-}: EquipmentLineProps) {
-  const [toggle, setToggle] = useState(set);
+export default function EquipmentLine({ count, name }: EquipmentLineProps) {
+  const [toggle, setToggle] = useState(count > 0);
   const clickedToggle = () => {
     setToggle((prev) => !prev);
   };
 
   return (
     <span className="my-[3.5rem] flex justify-between">
-      <span className="flex w-[26rem] justify-between" key={key}>
-        <span className="text-[2rem] font-[600]">{title}</span>
+      <span className="flex w-[26rem] justify-between">
+        <span className="text-[2rem] font-[600]">{name}</span>
         <Switch clickedToggle={clickedToggle} toggle={toggle} />
       </span>
-      <Count cnt={cnt} toggle={toggle} />
+      <Count cnt={count} toggle={toggle} />
     </span>
   );
 }

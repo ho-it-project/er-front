@@ -1,25 +1,32 @@
+"use client";
+
+import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 import EquipmentLine from "./equipmentLine";
 
 const topNavs = [{ title: "장비 관리", link: "/equipment" }];
 
-const DUMMY1 = [
-  { title: "인공호흡기 일반", set: true, cnt: 1000 },
-  { title: "인공호흡기 조산아", set: false, cnt: 0 },
-  { title: "인큐베니터", set: true, cnt: 42 },
-  { title: "CPRT", set: true, cnt: 14 },
-  { title: "ECMO", set: true, cnt: 3 },
-];
-
-const DUMMY2 = [
-  { title: "중심체온조절유도기", set: true, cnt: 2 },
-  { title: "고압산소치료기", set: false, cnt: 0 },
-  { title: "CT", set: true, cnt: 12 },
-  { title: "MRL", set: true, cnt: 13 },
-  { title: "혈관촬영기", set: true, cnt: 14 },
-];
+interface Equipment {
+  equipment_count: number;
+  equipment_id: number;
+  equipment_name: string;
+}
 
 export default function MedicalEquipmentSettingContainer() {
+  const [equipments, setEquipments] = useState<Equipment[]>();
+
+  const url = "api/er/hospitals/current/equipments";
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { data, isLoading } = useSWR(url, fetcher);
+
+  useEffect(() => {
+    if (data && data.is_success) {
+      setEquipments(data.result);
+    }
+  }, [setEquipments]);
+
   return (
     <>
       <TopNavContentWrapper topNav={{ items: topNavs }}>
@@ -33,26 +40,21 @@ export default function MedicalEquipmentSettingContainer() {
             </button>
           </div>
           <div className="mx-auto mt-[20rem] flex h-[33rem] w-[81rem] justify-between">
-            <div className="h-[33rem] w-[35rem]">
-              {DUMMY1.map((i, index) => (
-                <EquipmentLine
-                  key={index}
-                  title={i.title}
-                  set={i.set}
-                  cnt={i.cnt}
-                />
-              ))}
-            </div>
-            <div className="h-[33rem] w-[35rem]">
-              {DUMMY2.map((i, index) => (
-                <EquipmentLine
-                  key={index}
-                  title={i.title}
-                  set={i.set}
-                  cnt={i.cnt}
-                />
-              ))}
-            </div>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <div className="grid grid-cols-2 gap-x-[12rem]">
+                {equipments &&
+                  equipments.map((equipment) => (
+                    <EquipmentLine
+                      key={equipment.equipment_id}
+                      id={equipment.equipment_id}
+                      count={equipment.equipment_count}
+                      name={equipment.equipment_name}
+                    />
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       </TopNavContentWrapper>
