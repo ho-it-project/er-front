@@ -1,12 +1,12 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
+import useUpdateDepartmentListStore from "@/states/updateDepartmentListStore";
 import useUserStore from "@/states/userSore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DepartmentLine from "./deparmentLine";
-import InternalMedicine from "./internalMedicine";
-import Surgery from "./surgery";
+import DepartmentBox from "./departmentBox";
 
 interface DepartmentInfo {
   department_id: number;
@@ -30,8 +30,31 @@ export default function DepartmentSettingContainer() {
   const [surgery, setSurgery] = useState<Department[]>([]);
   const [normal, setNormal] = useState<Department[]>([]);
 
+  const [internalId, setInternalId] = useState(0);
+  const [surgeryId, setSurgeryId] = useState(0);
+
+  const { updateList, addUpdateList } = useUpdateDepartmentListStore();
+  console.log(updateList);
+
+  const clickHandler = (id: number, status: boolean) => () => {
+    addUpdateList(id, status);
+  };
+
   useEffect(() => {
+    console.log(data);
+
     if (data && data.result) {
+      setInternalId(
+        data.result.find(
+          (part: Department) => part.department.department_name === "내과"
+        )?.department.department_id || null
+      );
+      setSurgeryId(
+        data.result.find(
+          (part: Department) => part.department.department_name === "외과"
+        )?.department.department_id || null
+      );
+
       const internalDepartments: Department[] = data.result.filter(
         (department: Department) =>
           department.department.parent_department_id === 1
@@ -69,22 +92,38 @@ export default function DepartmentSettingContainer() {
           <Spinner />
         ) : (
           <div className="mx-auto mt-[12rem] flex h-[60rem] w-[93rem] justify-between">
-            <InternalMedicine departments={internal} />
-            <Surgery departments={surgery}>
+            <DepartmentBox
+              departments={internal}
+              parent_id={internalId}
+              parent_name="내과"
+            />
+            <DepartmentBox
+              departments={surgery}
+              parent_id={surgeryId}
+              parent_name="외과"
+            >
               {normal.slice(0, 3).map((department, index) => (
                 <DepartmentLine
                   key={index}
                   title={department.department.department_name}
                   set={department.status === "ACTIVE"}
+                  onClick={clickHandler(
+                    department.department_id,
+                    department.status === "ACTIVE" ? false : true
+                  )}
                 />
               ))}
-            </Surgery>
+            </DepartmentBox>
             <div className="h-[59rem] w-[23.3rem]">
               {normal.slice(3).map((department, index) => (
                 <DepartmentLine
                   key={index}
                   title={department.department.department_name}
                   set={department.status === "ACTIVE"}
+                  onClick={clickHandler(
+                    department.department_id,
+                    department.status === "ACTIVE" ? false : true
+                  )}
                 />
               ))}
             </div>

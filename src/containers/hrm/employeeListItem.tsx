@@ -3,7 +3,6 @@
 import Switch from "@/components/Switch";
 import useModal from "@/hooks/useModal";
 import { Role, RoleType } from "@/type";
-import { useState } from "react";
 import EditEmployModal from "./editEmployModal";
 
 interface ValueProps {
@@ -28,11 +27,7 @@ export default function EmployeeListItem({
   specialty,
   toggleStatus,
 }: EmployeeListItemProps) {
-  const [toggle, setToggle] = useState(toggleStatus);
   const { isOpen, openModal, closeModal } = useModal();
-  const clickedToggle = () => {
-    setToggle((prev) => !prev);
-  };
 
   const roleType: RoleType = {
     ADMIN: "관리자",
@@ -57,11 +52,7 @@ export default function EmployeeListItem({
       </span>
       <span className="w-1/4 min-w-[15rem]">{specialization}</span>
       <span className="flex min-w-[29rem]">
-        <Switch
-          clickedToggle={clickedToggle}
-          toggle={toggle}
-          colorType="yellow"
-        />
+        <Switch set={toggleStatus} colorType="yellow" />
         <button
           className="ml-[8.5rem] h-[3rem] w-[5.5rem] rounded-full bg-bg text-[1.5rem] text-L-gray"
           onClick={openModal}
