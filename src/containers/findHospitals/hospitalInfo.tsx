@@ -26,7 +26,7 @@ export default function HospitalInfo({
   location,
 }: HospitalInfoProps) {
   return (
-    <div className="flex h-[17rem] w-full rounded-2xl border-2 border-main px-[3rem] py-[2rem] hover:bg-bg">
+    <div className="flex  w-full rounded-2xl border-2 border-main px-[3rem] py-[2rem] hover:bg-bg">
       <div className="flex h-full w-full flex-col justify-between">
         <div className="flex flex-col">
           <span className="text-[2.4rem] font-bold">{name}</span>

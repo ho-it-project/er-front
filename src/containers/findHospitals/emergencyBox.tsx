@@ -25,7 +25,7 @@ export default function EmergencyBox({
       className="relative flex cursor-pointer gap-[2rem] pl-[5rem] pr-[4rem]"
       onClick={() => ChangeSelectedHospital(index)}
     >
-      <span className="absolute left-0 top-0 text-[4rem] font-semibold text-main">
+      <span className="absolute left-0 top-0 text-[3.6rem] font-semibold text-main">
         {index + 1}
       </span>
       <HospitalInfo
