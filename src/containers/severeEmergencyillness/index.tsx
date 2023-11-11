@@ -20,7 +20,7 @@ interface severeIllness {
 export default function SevereEmergencyIllnessContainer() {
   const url = "/api/er/hospitals/current/illness";
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, isLoading } = useSWR(url, fetcher);
+  const { data } = useSWR(url, fetcher);
   const [severeConditions, setSevereConditions] = useState<severeGroup[]>();
 
   const { updateList, addUpdateList } = useUpdateServableListStore();
@@ -109,7 +109,6 @@ export default function SevereEmergencyIllnessContainer() {
                     <SevereButton
                       name={illness.servable_illness_name}
                       status={illness.status}
-                      id={illness.servable_illness_id}
                       onClick={clickHandler(
                         illness.servable_illness_id,
                         illness.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"

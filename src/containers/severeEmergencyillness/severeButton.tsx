@@ -5,14 +5,14 @@ import { useState } from "react";
 interface SevereButtonProps {
   name: string;
   status: "ACTIVE" | "INACTIVE";
-  id: string;
+
   onClick?: () => void;
 }
 
 export default function SevereButton({
   name,
   status,
-  id,
+
   onClick,
 }: SevereButtonProps) {
   const [selected, setSelected] = useState(status);

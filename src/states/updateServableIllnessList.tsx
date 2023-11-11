@@ -1,11 +1,5 @@
 import { create } from "zustand";
 
-interface severeIllness {
-  servable_illness_id: string;
-  servable_illness_name: string;
-  status: "ACTIVE" | "INACTIVE";
-}
-
 interface UpdateInfo {
   illness_id: string;
   illness_status: "ACTIVE" | "INACTIVE";
