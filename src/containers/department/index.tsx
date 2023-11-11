@@ -40,34 +40,63 @@ export default function DepartmentSettingContainer() {
     addUpdateList(id, status);
   };
 
+  const deparmentUpdateSubmit = () => {
+    console.log("updateList", updateList);
+
+    const url = `/api/er/${userData.emergency_center_id}/departments`;
+    // update_department_list로 수정해야힘
+    const dataToUpdate = {
+      update_departmet_list: updateList.map((item) => ({
+        department_id: item.department_id,
+        status: item.status ? "ACTIVE" : "INACTIVE",
+      })),
+    };
+    console.log("dataToUpdate", dataToUpdate);
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToUpdate),
+    })
+      .then((r) => r.json())
+      .then((d) => console.log(d));
+  };
+
   useEffect(() => {
     console.log(data);
 
     if (data && data.result) {
+      const sortedResult = data.result.sort(
+        (a: Department, b: Department) =>
+          a.department.department_id - b.department.department_id
+      );
+
       setInternalId(
-        data.result.find(
+        sortedResult.find(
           (part: Department) => part.department.department_name === "내과"
         )?.department.department_id || null
       );
       setSurgeryId(
-        data.result.find(
+        sortedResult.find(
           (part: Department) => part.department.department_name === "외과"
         )?.department.department_id || null
       );
 
-      const internalDepartments: Department[] = data.result.filter(
+      const internalDepartments: Department[] = sortedResult.filter(
         (department: Department) =>
           department.department.parent_department_id === 1
       );
       setInternal(internalDepartments);
 
-      const surgeryDepartments = data.result.filter(
+      const surgeryDepartments = sortedResult.filter(
         (department: Department) =>
           department.department.parent_department_id === 13
       );
       setSurgery(surgeryDepartments);
 
-      const normalDepartments = data.result.filter(
+      const normalDepartments = sortedResult.filter(
         (department: Department) =>
           department.department.parent_department_id === null &&
           department.department_id !== 1 &&
@@ -84,7 +113,10 @@ export default function DepartmentSettingContainer() {
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
             • 현재 진료 가능한 과를 선택해주세요.
           </p>
-          <button className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white">
+          <button
+            className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white"
+            onClick={deparmentUpdateSubmit}
+          >
             저장하기
           </button>
         </div>

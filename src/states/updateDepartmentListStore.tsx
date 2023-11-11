@@ -1,7 +1,7 @@
-import create from "zustand";
+import { create } from "zustand";
 
 interface UpdateInfo {
-  id: number;
+  department_id: number;
   status: boolean;
 }
 
@@ -16,7 +16,7 @@ const useUpdateDepartmentListStore = create<UpdateListState>((set) => ({
     set((state) => {
       // 이미 존재하는 ID를 찾음
       const existingIndex = state.updateList.findIndex(
-        (item) => item.id === id
+        (item) => item.department_id === id
       );
 
       // 만약 ID가 이미 존재한다면 해당 ID의 status를 반전시킴
@@ -25,10 +25,11 @@ const useUpdateDepartmentListStore = create<UpdateListState>((set) => ({
           !state.updateList[existingIndex].status;
       } else {
         // ID가 존재하지 않으면 새로운 항목 추가
-        state.updateList.push({ id, status });
+        state.updateList.push({ department_id: id, status });
       }
 
-      state.updateList.sort((a, b) => a.id - b.id);
+      // ID에 따라 배열을 정렬
+      state.updateList.sort((a, b) => a.department_id - b.department_id);
 
       return { updateList: state.updateList };
     });

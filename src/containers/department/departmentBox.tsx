@@ -1,7 +1,7 @@
 "use client";
 
 import useUpdateDepartmentListStore from "@/states/updateDepartmentListStore";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import DepartmentLine from "./deparmentLine";
 
 interface DepartmentInfo {
@@ -35,24 +35,13 @@ export default function DepartmentBox({
     addUpdateList(id, status);
   };
 
-  const [clickedAll, setClickedAll] = useState(false);
-  const clickedAllHandler = () => {
-    setClickedAll((prev) => !prev);
-  };
-
   return (
     <div className="h-[59rem] w-[23.3rem]">
       <div className="flex justify-between">
         <p className="mb-[2rem] text-[2rem] font-[900]">{parent_name}</p>
         <button
-          className={`h-[3rem] w-[11rem] rounded-[3rem]  text-[1.2rem] font-[600] text-gray 
-          ${clickedAll ? "bg-main30" : "bg-bg"}
-           transition-all duration-200
-          `}
-          onClick={() => {
-            clickHandler(parent_id, true)();
-            clickedAllHandler();
-          }}
+          className="h-[3rem] w-[11rem] rounded-[3rem] bg-bg text-[1.2rem] font-[600] text-gray"
+          onClick={clickHandler(parent_id, true)}
         >
           {parent_name} 전체 선택하기
         </button>
@@ -67,7 +56,8 @@ export default function DepartmentBox({
               updateList.some(
                 (item) =>
                   item.status &&
-                  item.id === department.department.parent_department_id
+                  item.department_id ===
+                    department.department.parent_department_id
               )
             }
             onClick={clickHandler(
