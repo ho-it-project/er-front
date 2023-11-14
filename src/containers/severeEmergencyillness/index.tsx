@@ -28,7 +28,6 @@ export default function SevereEmergencyIllnessContainer() {
 
   const clickHandler = (id: string, status: "ACTIVE" | "INACTIVE") => () => {
     addUpdateList(id, status);
-    console.log(updateList);
   };
 
   const servableUpdateSubmit = () => {
@@ -40,16 +39,12 @@ export default function SevereEmergencyIllnessContainer() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updateList),
-    })
-      .then((r) => r.json())
-      .then((d) => console.log(d));
+    }).then((r) => r.json());
   };
 
   useEffect(() => {
-    console.log(data);
-
     if (data && data.result) {
-      console.log("중증응급", data.result);
+      
 
       const groupedData = data.result
         .slice(0, 29)

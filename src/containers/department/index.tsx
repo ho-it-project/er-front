@@ -34,15 +34,12 @@ export default function DepartmentSettingContainer() {
   const [surgeryId, setSurgeryId] = useState(0);
 
   const { updateList, addUpdateList } = useUpdateDepartmentListStore();
-  console.log(updateList);
 
   const clickHandler = (id: number, status: boolean) => () => {
     addUpdateList(id, status);
   };
 
   const deparmentUpdateSubmit = () => {
-    console.log("updateList", updateList);
-
     const url = `/api/er/${userData.emergency_center_id}/departments`;
     const dataToUpdate = {
       update_department_list: updateList.map((item) => ({
@@ -50,7 +47,6 @@ export default function DepartmentSettingContainer() {
         status: item.status ? "ACTIVE" : "INACTIVE",
       })),
     };
-    console.log("dataToUpdate", dataToUpdate);
 
     fetch(url, {
       method: "PATCH",
@@ -58,14 +54,10 @@ export default function DepartmentSettingContainer() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataToUpdate),
-    })
-      .then((r) => r.json())
-      .then((d) => console.log(d));
+    }).then((r) => r.json());
   };
 
   useEffect(() => {
-    console.log(data);
-
     if (data && data.result) {
       const sortedResult = data.result.sort(
         (a: Department, b: Department) =>
