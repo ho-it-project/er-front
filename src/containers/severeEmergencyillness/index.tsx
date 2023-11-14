@@ -1,6 +1,7 @@
 "use client";
 
 import useUpdateServableListStore from "@/states/updateServableIllnessList";
+import useUserStore from "@/states/userSore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import SevereBox from "./severeBox";
@@ -18,11 +19,11 @@ interface severeIllness {
 }
 
 export default function SevereEmergencyIllnessContainer() {
-  const url = "/api/er/hospitals/current/illness";
+  const { userData } = useUserStore();
+  const url = `/api/er/${userData.hospital_id}/illnesses`;
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR(url, fetcher);
   const [severeConditions, setSevereConditions] = useState<severeGroup[]>();
-
   const { updateList, addUpdateList } = useUpdateServableListStore();
 
   const clickHandler = (id: string, status: "ACTIVE" | "INACTIVE") => () => {
@@ -30,9 +31,8 @@ export default function SevereEmergencyIllnessContainer() {
     console.log(updateList);
   };
 
-  const deparmentUpdateSubmit = () => {
-    const url = "/api/er/hospitals/current/illness";
-    console.log(updateList);
+  const servableUpdateSubmit = () => {
+    const url = "/api/er/current/illnesses";
 
     fetch(url, {
       method: "PATCH",
@@ -46,7 +46,11 @@ export default function SevereEmergencyIllnessContainer() {
   };
 
   useEffect(() => {
+    console.log(data);
+
     if (data && data.result) {
+      console.log("중증응급", data.result);
+
       const groupedData = data.result
         .slice(0, 29)
         .reduce((acc: severeGroup[], item: severeIllness) => {
@@ -95,7 +99,7 @@ export default function SevereEmergencyIllnessContainer() {
           </p>
           <button
             className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white"
-            onClick={deparmentUpdateSubmit}
+            onClick={servableUpdateSubmit}
           >
             저장하기
           </button>
