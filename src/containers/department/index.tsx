@@ -44,9 +44,8 @@ export default function DepartmentSettingContainer() {
     console.log("updateList", updateList);
 
     const url = `/api/er/${userData.emergency_center_id}/departments`;
-    // update_department_list로 수정해야힘
     const dataToUpdate = {
-      update_departmet_list: updateList.map((item) => ({
+      update_department_list: updateList.map((item) => ({
         department_id: item.department_id,
         status: item.status ? "ACTIVE" : "INACTIVE",
       })),
