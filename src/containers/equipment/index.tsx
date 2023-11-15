@@ -2,6 +2,7 @@
 
 import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
+import useUpdateEquipmentListStore from "@/states/updateEquipmentListStore";
 import useUserStore from "@/states/userSore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -22,6 +23,31 @@ export default function MedicalEquipmentSettingContainer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data, isLoading } = useSWR(url, fetcher);
 
+  const { updateList, addUpdateList } = useUpdateEquipmentListStore();
+
+  const clickedSwitchHandler = (id: number) => (status: boolean) => {
+    if (!status) {
+      addUpdateList(id, 0);
+    }
+  };
+
+  const changedCountHandler = (id: number) => (count: number) => {
+    addUpdateList(id, count);
+  };
+
+  const equipmentUpdateSubmit = () => {
+    const url = "/api/er/current/equipments";
+    console.log(updateList);
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateList),
+    }).then((r) => r.json());
+  };
+
   useEffect(() => {
     console.log(data);
 
@@ -38,7 +64,10 @@ export default function MedicalEquipmentSettingContainer() {
             <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
               • 현재 진료 사용가능한 장비를 선택해주세요
             </p>
-            <button className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white">
+            <button
+              className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white"
+              onClick={equipmentUpdateSubmit}
+            >
               저장하기
             </button>
           </div>
@@ -54,6 +83,12 @@ export default function MedicalEquipmentSettingContainer() {
                       id={equipment.equipment_id}
                       count={equipment.equipment_count}
                       name={equipment.equipment_name}
+                      onClickSwitch={clickedSwitchHandler(
+                        equipment.equipment_id
+                      )}
+                      onChangeCount={changedCountHandler(
+                        equipment.equipment_id
+                      )}
                     />
                   ))}
               </div>
