@@ -44,8 +44,6 @@ export default function SevereEmergencyIllnessContainer() {
 
   useEffect(() => {
     if (data && data.result) {
-      
-
       const groupedData = data.result
         .slice(0, 29)
         .reduce((acc: severeGroup[], item: severeIllness) => {

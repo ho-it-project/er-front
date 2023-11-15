@@ -2,7 +2,6 @@
 
 import Count from "@/components/Count";
 import Switch from "@/components/Switch";
-import { useState } from "react";
 
 interface EquipmentLineProps {
   id: number;
@@ -11,18 +10,13 @@ interface EquipmentLineProps {
 }
 
 export default function EquipmentLine({ count, name }: EquipmentLineProps) {
-  const [toggle, setToggle] = useState(count > 0);
-  const clickedToggle = () => {
-    setToggle((prev) => !prev);
-  };
-
   return (
-    <span className="my-[3.5rem] flex justify-between">
+    <span className="my-[3.5rem] flex justify-between gap-[2rem]">
       <span className="flex w-[26rem] justify-between">
         <span className="text-[2rem] font-[600]">{name}</span>
-        <Switch clickedToggle={clickedToggle} toggle={toggle} />
+        <Switch set={count > 0} />
       </span>
-      <Count cnt={count} toggle={toggle} />
+      <Count cnt={count} toggle={count > 0} />
     </span>
   );
 }

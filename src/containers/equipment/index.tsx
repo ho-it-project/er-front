@@ -2,6 +2,7 @@
 
 import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
+import useUserStore from "@/states/userSore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import EquipmentLine from "./equipmentLine";
@@ -16,16 +17,18 @@ interface Equipment {
 
 export default function MedicalEquipmentSettingContainer() {
   const [equipments, setEquipments] = useState<Equipment[]>();
-
-  const url = "api/er/hospitals/current/equipments";
+  const { userData } = useUserStore();
+  const url = `/api/er/${userData.hospital_id}/equipments`;
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data, isLoading } = useSWR(url, fetcher);
 
   useEffect(() => {
-    if (data && data.is_success) {
+    console.log(data);
+
+    if (data && data.result) {
       setEquipments(data.result);
     }
-  }, [setEquipments]);
+  }, [data]);
 
   return (
     <>
