@@ -1,12 +1,13 @@
 "use client";
 
+import { EmergencyCenterType } from "@/states/emergencyStore";
 import { useState } from "react";
 
 interface NavProps {
-  onClickNav: (value: string) => void;
+  onClickNav: (value: EmergencyCenterType | "전체") => void;
 }
 
-export default function Nav({ onClickNav }: NavProps) {
+export default function EmergencyCenterNav({ onClickNav }: NavProps) {
   const [selected, setSeleted] = useState(0);
   const handleSelected = (index: number) => {
     setSeleted(index);

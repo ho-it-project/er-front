@@ -1,7 +1,7 @@
 "use client";
 
 import useLoginStore from "@/states/loginStore";
-import useUserStore from "@/states/userSore";
+import useUserStore from "@/states/userStore";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 import LoginBox from "../LoginBox";

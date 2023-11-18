@@ -3,7 +3,7 @@
 import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import useUpdateEquipmentListStore from "@/states/updateEquipmentListStore";
-import useUserStore from "@/states/userSore";
+import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import EquipmentLine from "./equipmentLine";

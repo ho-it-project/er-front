@@ -1,7 +1,7 @@
 "use client";
 
 import useUpdateServableListStore from "@/states/updateServableIllnessList";
-import useUserStore from "@/states/userSore";
+import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import SevereBox from "./severeBox";

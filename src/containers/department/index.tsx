@@ -2,7 +2,7 @@
 
 import Spinner from "@/components/Spinner";
 import useUpdateDepartmentListStore from "@/states/updateDepartmentListStore";
-import useUserStore from "@/states/userSore";
+import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DepartmentLine from "./deparmentLine";
