@@ -1,12 +1,13 @@
 "use client";
 
+import { Role } from "@/type";
 import { useState } from "react";
 
 interface NavProps {
-  onClickNav: (value: string[]) => void;
+  onClickNav: (value: Role[] | "전체") => void;
 }
 
-export default function Nav({ onClickNav }: NavProps) {
+export default function EmployeeNav({ onClickNav }: NavProps) {
   const [selected, setSeleted] = useState(0);
   const handleSelected = (index: number) => {
     setSeleted(index);
@@ -17,7 +18,7 @@ export default function Nav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(0);
-          onClickNav(["전체"]);
+          onClickNav("전체");
         }}
         className={`${selected == 0 ? "text-main" : ""} cursor-pointer `}
       >

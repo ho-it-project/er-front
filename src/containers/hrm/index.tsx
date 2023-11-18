@@ -3,27 +3,26 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import SearchInput from "@/components/common/SearchInput";
 import useDepartments from "@/hooks/useDepartments";
+import { useEmoployeeList } from "@/hooks/useEmployeeList";
 import useModal from "@/hooks/useModal";
-import useUpdateStore from "@/states/employeeUpdateStore";
+import { useEmployeeListStore } from "@/states/employeeStore";
 import { Role } from "@/type";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import AddEmployModal from "./addEmployModal";
 import EmployeeListHeader from "./employeeListHeader";
 import EmployeeListItem from "./employeeListItem";
-import Nav from "./nav";
-
-interface Employee {
-  department_id: number;
-  employee_name: string;
-  role: Role;
-  status: string;
-  employee_doctor_specializations?: string[];
-  employee_nurse_specializations?: string[];
-}
+import EmployeeNav from "./employeeNav";
 
 const TopNavs = [{ title: "인력 관리", link: "/hrm" }];
 
 export default function HRMContainer() {
+  const employeeListRef = useRef(null);
+  const { query, setQueryPage, setQeuryRole, pageLimit } =
+    useEmployeeListStore();
+
+  const { employees, isLoading } = useEmoployeeList();
+  console.log(employees);
+
   const { data: departments } = useDepartments();
 
   const department_list = departments
@@ -37,34 +36,27 @@ export default function HRMContainer() {
 
   const { isOpen, openModal, closeModal } = useModal();
   const [, setSearchWord] = useState("");
-  const [clickedNav, setClickedNav] = useState(["전체"]);
+  const [, setClickedNav] = useState<Role[] | string>("전체");
 
-  const [employee, setEmployee] = useState<Employee[]>([]);
-
-  const { isUpdate, reset } = useUpdateStore();
+  const [, setScrollPosition] = useState(0);
 
   const ChangeSearchInputHandler = (value: string) => {
     setSearchWord(value);
   };
-  const ClickedNavHandler = (value: string[]) => {
+  const ClickedNavHandler = (value: Role[] | "전체") => {
     setClickedNav(value);
+    if (value !== "전체") {
+      setQeuryRole(value);
+    } else {
+      setQeuryRole([]);
+    }
   };
 
-  useEffect(() => {
-    const url = "/api/er/employees";
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setEmployee(data.result.employee_list);
-        reset();
-      });
-  }, [isUpdate, reset]);
-
   return (
-    <TopNavContentWrapper topNav={{ items: TopNavs }}>
-      <div className="px-[2rem]">
+    <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavs }}>
+      <div className="h-full w-full px-[2rem]">
         <div className="sticky top-0 z-[1] flex w-full justify-between bg-white pb-[5rem]">
-          <Nav onClickNav={ClickedNavHandler} />
+          <EmployeeNav onClickNav={ClickedNavHandler} />
           <div className="mt-[1rem] flex gap-[2rem]">
             <SearchInput
               onChange={(value) => {
@@ -80,12 +72,23 @@ export default function HRMContainer() {
           </div>
         </div>
         <EmployeeListHeader />
-        <div>
-          {employee
-            .filter(
-              (i) => clickedNav.includes("전체") || clickedNav.includes(i.role)
-            )
-            .map((i, index) => (
+        <div
+          className="h-full w-full overflow-scroll pb-[5rem]"
+          ref={employeeListRef}
+          onScroll={(e) => {
+            const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+            if (scrollHeight - scrollTop === clientHeight) {
+              if (query.page < pageLimit.total_page) {
+                setScrollPosition(scrollTop);
+                setQueryPage(query.page + 1);
+              }
+            }
+          }}
+        >
+          {isLoading ? (
+            <h1>로딩중...</h1>
+          ) : (
+            employees.map((i, index) => (
               <div key={index}>
                 <EmployeeListItem
                   name={i.employee_name}
@@ -95,7 +98,8 @@ export default function HRMContainer() {
                   toggleStatus={i.status === "ACTIVE"}
                 />
               </div>
-            ))}
+            ))
+          )}
         </div>
         <AddEmployModal
           isOpen={isOpen}

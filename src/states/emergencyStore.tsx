@@ -91,7 +91,6 @@ export const useEmergencyCenterListStore = create<EmergencyCenterListStore>(
       set((state) => ({ ...state, query: { ...state.query, page } })),
     setQueryLimit: (limit: number) =>
       set((state) => ({ ...state, query: { ...state.query, limit } })),
-
     setEmergencyCenters: (
       emergencyCenters:
         | EmergencyCenter[]
