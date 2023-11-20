@@ -26,7 +26,6 @@ export default function EmergencyCenterContainer({
   const [, setClickedNav] = useState<EmergencyCenterType | "전체">("전체");
 
   const { emergencyCenters, isLoading } = useEmergencyCenterList();
-  // console.log(emergencyCenters);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 

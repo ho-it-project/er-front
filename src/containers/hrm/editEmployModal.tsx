@@ -46,8 +46,6 @@ export default function EditEmployModal({
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  // console.log(name, role, department);
-
   const ChangeDepartmentHandler = (value: string) => {
     setDepartment(value);
   };

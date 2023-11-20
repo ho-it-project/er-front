@@ -16,8 +16,6 @@ export default function Count({ count, set, setCount, onChange }: CountProps) {
     const newValue = event.target.value;
 
     if (!isNaN(Number(newValue))) {
-      console.log(newValue);
-
       setCount(Number(newValue));
       onChange && onChange(Number(newValue));
     }

@@ -63,8 +63,6 @@ export default function DepartmentSettingContainer() {
 
   useEffect(() => {
     if (data && data.result) {
-      console.log(data.result);
-
       const sortedResult = data.result.sort(
         (a: Department, b: Department) =>
           a.department.department_id - b.department.department_id

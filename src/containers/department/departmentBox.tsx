@@ -35,8 +35,6 @@ export default function DepartmentBox({
   const [all, setAll] = useState(allClicked);
 
   const clickAllHandler = (status: boolean) => {
-    console.log("전체 선택 클릭", status);
-
     setAll((prev) => !prev);
     departments.forEach((department) => {
       addUpdateList(department.department_id, status);
@@ -46,7 +44,6 @@ export default function DepartmentBox({
 
   const clickHandler = (id: number, status: boolean) => () => {
     addUpdateList(id, status);
-    console.log(updateList);
   };
 
   return (

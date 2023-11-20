@@ -37,7 +37,6 @@ export default function MedicalEquipmentSettingContainer() {
 
   const equipmentUpdateSubmit = () => {
     const url = "/api/er/current/equipments";
-    console.log(updateList);
 
     fetch(url, {
       method: "PATCH",
@@ -49,8 +48,6 @@ export default function MedicalEquipmentSettingContainer() {
   };
 
   useEffect(() => {
-    console.log(data);
-
     if (data && data.result) {
       setEquipments(data.result);
     }

@@ -21,7 +21,6 @@ export default function HRMContainer() {
     useEmployeeListStore();
 
   const { employees, isLoading } = useEmoployeeList();
-  console.log(employees);
 
   const { data: departments } = useDepartments();
 
