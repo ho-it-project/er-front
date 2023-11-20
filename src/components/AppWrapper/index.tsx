@@ -1,10 +1,11 @@
 "use client";
 
 import useLoginStore from "@/states/loginStore";
-import useUserStore from "@/states/userSore";
+import useUserStore from "@/states/userStore";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 import LoginBox from "../LoginBox";
+import Spinner from "../Spinner";
 
 export default function AppWrapper({
   children,
@@ -23,9 +24,7 @@ export default function AppWrapper({
       login();
       updateUserData(data.result.employee);
     }
-  }, [data, updateUserData]);
+  }, [data, updateUserData, login]);
 
-  return (
-    <>{isLogin ? children : isLoading ? <h1>loading</h1> : <LoginBox />}</>
-  );
+  return <>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</>;
 }

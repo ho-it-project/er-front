@@ -1,66 +1,25 @@
 "use client";
 
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import SearchInput from "@/components/common/SearchInput";
-import useEmergencyStore from "@/states/emergencyStore";
-import useLocationStore from "@/states/locationStore";
+import { EmergencyCenter } from "@/states/emergencyStore";
 import usePageTransition from "@/states/pageTransitionStore";
 import { Transition } from "@headlessui/react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import ContentWrapper from "../../components/common/ContentWrapper";
 import PlaceBox from "../../components/common/PlaceBox";
 import MessageBox from "../message/messageBox";
 import ChatingBox from "./chatingBox";
-import Hospitals from "./hospitals";
-import Nav from "./nav";
+import EmergencyCenterContainer from "./emergencyCenterContainer";
 import PlaceDetailBox from "./placeDetailBox";
-
-interface EmergencyCenter {
-  emergency_center_name: string;
-  emergency_center_type: string;
-  distance: number;
-  emergency_center_primary_phone: string;
-  emergency_center_address: string;
-}
 
 const TopNavs1 = [{ title: "타병원 찾기", link: "/findHospitals" }];
 const TopNavs2 = [{ title: "메세지", link: "/message" }];
 
 export default function FindHospitalsContainer() {
-  const { latitude, longitude, setLatitude, setLongitude } = useLocationStore();
   const { isPageTransitioning, startPageTransition } = usePageTransition();
-  const { emergencyCenters } = useEmergencyStore();
-
-  const [selectedHospital, setSelectedHospital] = useState<EmergencyCenter>();
-  const [, setSearchWord] = useState("");
-  const [clickedNav, setClickedNav] = useState("전체");
-
-  useEffect(() => {
-    const { geolocation } = navigator;
-
-    geolocation.getCurrentPosition(
-      (position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      },
-      (error) => {
-        console.warn("현재 위치를 가져오지 못했습니다.", error);
-      }
-    );
-  }, [latitude, longitude, setLatitude, setLongitude]);
-
-  const ChangeSearchInputHandler = (value: string) => {
-    setSearchWord(value);
-  };
-  const ClickedNavHandler = (value: string) => {
-    setClickedNav(value);
-  };
-
-  const ChangeSelectedHospital = (index: number) => {
-    if (emergencyCenters) {
-      setSelectedHospital(emergencyCenters[index]);
-    }
-  };
+  const [selectedHospital, setSelectedHospital] = useState<
+    EmergencyCenter | undefined
+  >(undefined);
 
   // 버튼 클릭시 message로 전환
   const ClickedChagneMessage = () => {
@@ -70,26 +29,14 @@ export default function FindHospitalsContainer() {
   return (
     <>
       <TopNavContentWrapper
+        isScroll={false}
         topNav={isPageTransitioning ? { items: TopNavs2 } : { items: TopNavs1 }}
       >
         <MainContent isPageTransitioning={!isPageTransitioning}>
-          <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] w-full items-center justify-between bg-white py-[1rem] pr-[4rem]">
-            <Nav onClickNav={ClickedNavHandler} />
-            <SearchInput
-              size="sm"
-              onChange={(value) => {
-                ChangeSearchInputHandler(value);
-              }}
-            />
-          </div>
-          {latitude !== undefined && longitude !== undefined && (
-            <Hospitals
-              clickedNav={clickedNav}
-              ChangeSelectedHospital={ChangeSelectedHospital}
-              latitude={latitude}
-              longitude={longitude}
-            />
-          )}
+          <EmergencyCenterContainer
+            selectedHospital={selectedHospital}
+            setSelectedHospital={setSelectedHospital}
+          />
         </MainContent>
         <MainContent isPageTransitioning={isPageTransitioning}>
           <div className="h-full w-full min-w-[32rem]">

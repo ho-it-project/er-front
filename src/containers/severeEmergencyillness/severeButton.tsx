@@ -3,26 +3,34 @@
 import { useState } from "react";
 
 interface SevereButtonProps {
-  sub: string;
-  set: boolean;
+  name: string;
+  status: "ACTIVE" | "INACTIVE";
+
+  onClick?: () => void;
 }
 
-export default function SevereButton({ sub, set }: SevereButtonProps) {
-  const [selected, setSelected] = useState(set);
+export default function SevereButton({
+  name,
+  status,
+
+  onClick,
+}: SevereButtonProps) {
+  const [selected, setSelected] = useState(status);
   const handleClicked = () => {
-    setSelected((prev) => !prev);
+    setSelected((prev) => (prev === "ACTIVE" ? "INACTIVE" : "ACTIVE"));
+    onClick && onClick();
   };
 
   return (
     <div
       className={`relative flex h-[5rem] w-[15rem] cursor-pointer items-center justify-center rounded-3xl
         ${
-          selected ? "bg-main text-white" : "bg-bg text-gray"
+          selected === "ACTIVE" ? "bg-main text-white" : "bg-bg text-gray"
         } transition-all duration-300
   `}
       onClick={handleClicked}
     >
-      <p className="text-[1.6rem] font-[600]">{sub}</p>
+      <p className="text-[1.6rem] font-[600]">{name}</p>
     </div>
   );
 }

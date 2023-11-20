@@ -1,25 +1,58 @@
+"use client";
+
+import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
+import useUpdateEquipmentListStore from "@/states/updateEquipmentListStore";
+import useUserStore from "@/states/userStore";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 import EquipmentLine from "./equipmentLine";
 
 const topNavs = [{ title: "장비 관리", link: "/equipment" }];
 
-const DUMMY1 = [
-  { title: "인공호흡기 일반", set: true, cnt: 1000 },
-  { title: "인공호흡기 조산아", set: false, cnt: 0 },
-  { title: "인큐베니터", set: true, cnt: 42 },
-  { title: "CPRT", set: true, cnt: 14 },
-  { title: "ECMO", set: true, cnt: 3 },
-];
-
-const DUMMY2 = [
-  { title: "중심체온조절유도기", set: true, cnt: 2 },
-  { title: "고압산소치료기", set: false, cnt: 0 },
-  { title: "CT", set: true, cnt: 12 },
-  { title: "MRL", set: true, cnt: 13 },
-  { title: "혈관촬영기", set: true, cnt: 14 },
-];
+interface Equipment {
+  equipment_count: number;
+  equipment_id: number;
+  equipment_name: string;
+}
 
 export default function MedicalEquipmentSettingContainer() {
+  const [equipments, setEquipments] = useState<Equipment[]>();
+  const { userData } = useUserStore();
+  const url = `/api/er/${userData.hospital_id}/equipments`;
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { data, isLoading } = useSWR(url, fetcher);
+
+  const { updateList, addUpdateList } = useUpdateEquipmentListStore();
+
+  const clickedSwitchHandler = (id: number) => (status: boolean) => {
+    if (!status) {
+      addUpdateList(id, 0);
+    }
+  };
+
+  const changedCountHandler = (id: number) => (count: number) => {
+    addUpdateList(id, count);
+  };
+
+  const equipmentUpdateSubmit = () => {
+    const url = "/api/er/current/equipments";
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateList),
+    }).then((r) => r.json());
+  };
+
+  useEffect(() => {
+    if (data && data.result) {
+      setEquipments(data.result);
+    }
+  }, [data]);
+
   return (
     <>
       <TopNavContentWrapper topNav={{ items: topNavs }}>
@@ -28,31 +61,35 @@ export default function MedicalEquipmentSettingContainer() {
             <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
               • 현재 진료 사용가능한 장비를 선택해주세요
             </p>
-            <button className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white">
+            <button
+              className="h-[5rem] w-[20rem] rounded-[1rem] bg-main text-[1.6rem] font-[600] text-white"
+              onClick={equipmentUpdateSubmit}
+            >
               저장하기
             </button>
           </div>
           <div className="mx-auto mt-[20rem] flex h-[33rem] w-[81rem] justify-between">
-            <div className="h-[33rem] w-[35rem]">
-              {DUMMY1.map((i, index) => (
-                <EquipmentLine
-                  key={index}
-                  title={i.title}
-                  set={i.set}
-                  cnt={i.cnt}
-                />
-              ))}
-            </div>
-            <div className="h-[33rem] w-[35rem]">
-              {DUMMY2.map((i, index) => (
-                <EquipmentLine
-                  key={index}
-                  title={i.title}
-                  set={i.set}
-                  cnt={i.cnt}
-                />
-              ))}
-            </div>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <div className="grid grid-cols-2 gap-x-[12rem]">
+                {equipments &&
+                  equipments.map((equipment) => (
+                    <EquipmentLine
+                      key={equipment.equipment_id}
+                      id={equipment.equipment_id}
+                      count={equipment.equipment_count}
+                      name={equipment.equipment_name}
+                      onClickSwitch={clickedSwitchHandler(
+                        equipment.equipment_id
+                      )}
+                      onChangeCount={changedCountHandler(
+                        equipment.equipment_id
+                      )}
+                    />
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       </TopNavContentWrapper>

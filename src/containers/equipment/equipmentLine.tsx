@@ -5,30 +5,39 @@ import Switch from "@/components/Switch";
 import { useState } from "react";
 
 interface EquipmentLineProps {
-  key: number;
-  title: string;
-  set: boolean;
-  cnt: number;
+  id: number;
+  count: number;
+  name: string;
+  onClickSwitch?: (status: boolean) => void;
+  onChangeCount?: (count: number) => void;
 }
 
 export default function EquipmentLine({
-  key,
-  title,
-  set,
-  cnt,
+  count,
+  name,
+  onClickSwitch,
+  onChangeCount,
 }: EquipmentLineProps) {
-  const [toggle, setToggle] = useState(set);
-  const clickedToggle = () => {
-    setToggle((prev) => !prev);
+  const [equipmentCount, setEquipmentCount] = useState(count);
+  const [status, setStatus] = useState(count > 0);
+
+  const clickSwitch = () => {
+    setStatus((prev) => !prev);
+    onClickSwitch && onClickSwitch(!status);
   };
 
   return (
-    <span className="my-[3.5rem] flex justify-between">
-      <span className="flex w-[26rem] justify-between" key={key}>
-        <span className="text-[2rem] font-[600]">{title}</span>
-        <Switch clickedToggle={clickedToggle} toggle={toggle} />
+    <span className="my-[3.5rem] flex justify-between gap-[2rem]">
+      <span className="flex w-[26rem] justify-between">
+        <span className="text-[2rem] font-[600]">{name}</span>
+        <Switch set={status} onClick={() => clickSwitch()} />
       </span>
-      <Count cnt={cnt} toggle={toggle} />
+      <Count
+        count={equipmentCount}
+        set={status}
+        setCount={(count) => setEquipmentCount(count)}
+        onChange={(count) => onChangeCount && onChangeCount(count)}
+      />
     </span>
   );
 }

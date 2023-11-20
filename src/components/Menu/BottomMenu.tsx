@@ -46,6 +46,7 @@ export default function BottomMenu() {
                   </div>
                   <Link
                     href={"/findHospitals"}
+                    className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();
@@ -57,6 +58,7 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/message"}
+                    className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();
@@ -68,6 +70,7 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/hrm"}
+                    className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();
@@ -79,6 +82,7 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/department"}
+                    className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();
@@ -91,6 +95,7 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/equipment"}
+                    className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();

@@ -1,14 +1,27 @@
+import { useEffect, useState } from "react";
+
 interface SwitchProps {
-  clickedToggle: () => void;
-  toggle: boolean;
+  onClick?: () => void;
+  set: boolean;
   colorType?: "gray" | "yellow";
 }
 
 export default function Switch({
-  clickedToggle,
-  toggle,
+  set,
   colorType = "gray",
+  onClick,
 }: SwitchProps) {
+  const [toggle, setToggle] = useState(set);
+
+  useEffect(() => {
+    setToggle(set);
+  }, [set]);
+
+  const clickedToggle = () => {
+    setToggle((prev) => !prev);
+    onClick && onClick();
+  };
+
   return (
     <div
       onClick={clickedToggle}
