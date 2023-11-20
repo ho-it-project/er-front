@@ -19,10 +19,9 @@ const useUpdateDepartmentListStore = create<UpdateListState>((set) => ({
         (item) => item.department_id === id
       );
 
-      // 만약 ID가 이미 존재한다면 해당 ID의 status를 반전시킴
+      // 만약 ID가 이미 존재한다면 해당 ID의 status를 업데이트
       if (existingIndex !== -1) {
-        state.updateList[existingIndex].status =
-          !state.updateList[existingIndex].status;
+        state.updateList[existingIndex].status = status;
       } else {
         // ID가 존재하지 않으면 새로운 항목 추가
         state.updateList.push({ department_id: id, status });

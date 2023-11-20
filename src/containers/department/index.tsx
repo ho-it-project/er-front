@@ -40,6 +40,8 @@ export default function DepartmentSettingContainer() {
   };
 
   const deparmentUpdateSubmit = () => {
+    if (updateList.length === 0) return;
+
     const url = `/api/er/${userData.emergency_center_id}/departments`;
     const dataToUpdate = {
       update_department_list: updateList.map((item) => ({
@@ -54,11 +56,15 @@ export default function DepartmentSettingContainer() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataToUpdate),
-    }).then((r) => r.json());
+    })
+      .then((r) => r.json())
+      .then(() => showSuccessAlert());
   };
 
   useEffect(() => {
     if (data && data.result) {
+      console.log(data.result);
+
       const sortedResult = data.result.sort(
         (a: Department, b: Department) =>
           a.department.department_id - b.department.department_id
@@ -97,8 +103,22 @@ export default function DepartmentSettingContainer() {
     }
   }, [data, useUserStore]);
 
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+
+  const showSuccessAlert = () => {
+    setIsAlertVisible(true);
+    setTimeout(() => {
+      setIsAlertVisible(false);
+    }, 2000);
+  };
+
   return (
     <>
+      {isAlertVisible && (
+        <div className="fixed left-1/2 top-[10%] -translate-x-1/2 transform rounded-full bg-main p-[1rem] text-xl text-white shadow-lg transition-all duration-500 ease-in-out">
+          저장되었습니다.
+        </div>
+      )}
       <div className="px-[8rem] py-[6rem]">
         <div className="flex justify-between">
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
@@ -116,11 +136,13 @@ export default function DepartmentSettingContainer() {
         ) : (
           <div className="mx-auto mt-[12rem] flex h-[60rem] w-[93rem] justify-between">
             <DepartmentBox
+              allClicked={internal.every((i) => i.status === "ACTIVE")}
               departments={internal}
               parent_id={internalId}
               parent_name="내과"
             />
             <DepartmentBox
+              allClicked={surgery.every((i) => i.status === "ACTIVE")}
               departments={surgery}
               parent_id={surgeryId}
               parent_name="외과"

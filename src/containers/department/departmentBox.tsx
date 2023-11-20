@@ -1,7 +1,7 @@
 "use client";
 
 import useUpdateDepartmentListStore from "@/states/updateDepartmentListStore";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import DepartmentLine from "./deparmentLine";
 
 interface DepartmentInfo {
@@ -17,6 +17,7 @@ interface Department {
 }
 
 interface DepartmentBoxProps {
+  allClicked: boolean;
   departments: Department[];
   parent_id: number;
   parent_name: string;
@@ -24,15 +25,28 @@ interface DepartmentBoxProps {
 }
 
 export default function DepartmentBox({
+  allClicked,
   departments,
   parent_id,
   parent_name,
   children,
 }: DepartmentBoxProps) {
   const { updateList, addUpdateList } = useUpdateDepartmentListStore();
+  const [all, setAll] = useState(allClicked);
+
+  const clickAllHandler = (status: boolean) => {
+    console.log("전체 선택 클릭", status);
+
+    setAll((prev) => !prev);
+    departments.forEach((department) => {
+      addUpdateList(department.department_id, status);
+      department.status = status ? "ACTIVE" : "INACTIVE";
+    });
+  };
 
   const clickHandler = (id: number, status: boolean) => () => {
     addUpdateList(id, status);
+    console.log(updateList);
   };
 
   return (
@@ -41,7 +55,10 @@ export default function DepartmentBox({
         <p className="mb-[2rem] text-[2rem] font-[900]">{parent_name}</p>
         <button
           className="h-[3rem] w-[11rem] rounded-[3rem] bg-bg text-[1.2rem] font-[600] text-gray"
-          onClick={clickHandler(parent_id, true)}
+          onClick={() => {
+            clickAllHandler(!all);
+            clickHandler(parent_id, !all)();
+          }}
         >
           {parent_name} 전체 선택하기
         </button>
