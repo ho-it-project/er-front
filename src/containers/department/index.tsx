@@ -134,13 +134,13 @@ export default function DepartmentSettingContainer() {
         ) : (
           <div className="mx-auto mt-[12rem] flex h-[60rem] w-[93rem] justify-between">
             <DepartmentBox
-              allClicked={internal.every((i) => i.status === "ACTIVE")}
+              allClicked={internal.some((i) => i.status === "INACTIVE")}
               departments={internal}
               parent_id={internalId}
               parent_name="내과"
             />
             <DepartmentBox
-              allClicked={surgery.every((i) => i.status === "ACTIVE")}
+              allClicked={surgery.some((i) => i.status === "INACTIVE")}
               departments={surgery}
               parent_id={surgeryId}
               parent_name="외과"
