@@ -37,10 +37,19 @@ export default function BottomMenu() {
                   <p>메뉴</p>
                 </div>
                 <div className="grid-row-4 grid grid-cols-2 gap-[1rem]">
-                  <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
-                    <p>환자 수용</p>
-                    <p>요청 목록</p>
-                  </div>
+                  <Link
+                    href={"/requests"}
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  >
+                    <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
+                      <p>환자 수용</p>
+                      <p>요청 목록</p>
+                    </div>
+                  </Link>
                   <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                     <p>병동 정보 관리</p>
                   </div>

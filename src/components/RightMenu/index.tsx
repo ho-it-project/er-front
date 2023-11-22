@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import ScrollBox from "../ScrollBox/ScrollBox";
 import RequsetBox from "./RequestBox";
 import StatusBox from "./StatusBox";
-import ScrollBox from "../ScrollBox/ScrollBox";
 
 const DUMMY_REQUEST = [
   {

@@ -26,5 +26,7 @@ export default function AppWrapper({
     }
   }, [data, updateUserData, login]);
 
-  return <>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</>;
+  return (
+    <div>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</div>
+  );
 }
