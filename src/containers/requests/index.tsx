@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import useModal from "@/hooks/useModal";
 import { useRequestList } from "@/hooks/useRequestList";
@@ -22,15 +23,15 @@ export default function RequestsContainer() {
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavRequest }}>
       {isLoading ? (
-        <>로딩중...</>
+        <Spinner />
       ) : (
         <div className="relative h-full w-full px-[2rem]">
           <h1>요청 목록</h1>
-          <div className="flex gap-[2rem]">
+          <div className="flex flex-wrap gap-[2rem]">
             {requests.map((request) => (
               <div
                 key={request.emergency_center_id + request.patient_id}
-                className="cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
+                className="h-[19rem] w-[38rem] cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
                 onClick={() => {
                   clickRequestHanlder(request);
                   openModal();
@@ -39,6 +40,40 @@ export default function RequestsContainer() {
                 {request.patient.patient_name}
               </div>
             ))}
+          </div>
+          <h1>ACCEPTED</h1>
+          <div className="flex flex-wrap gap-[2rem]">
+            {requests
+              .filter((request) => request.request_status === "ACCEPTED")
+              .map((request) => (
+                <div
+                  key={request.emergency_center_id + request.patient_id}
+                  className="h-[19rem] w-[38rem] cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
+                  onClick={() => {
+                    clickRequestHanlder(request);
+                    openModal();
+                  }}
+                >
+                  {request.patient.patient_name}
+                </div>
+              ))}
+          </div>
+          <h1>REJECTED</h1>
+          <div className="flex flex-wrap gap-[2rem]">
+            {requests
+              .filter((request) => request.request_status === "REJECTED")
+              .map((request) => (
+                <div
+                  key={request.emergency_center_id + request.patient_id}
+                  className="h-[19rem] w-[38rem] cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
+                  onClick={() => {
+                    clickRequestHanlder(request);
+                    openModal();
+                  }}
+                >
+                  {request.patient.patient_name}
+                </div>
+              ))}
           </div>
           {isOpen && selectedRequest && (
             <RequestDetailModal

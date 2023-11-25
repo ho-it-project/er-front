@@ -1,4 +1,7 @@
+"use client";
+
 import { Patient, Request } from "@/states/requestStore";
+import useUserStore from "@/states/userStore";
 import Image from "next/image";
 import DetailBox from "./DetailBox";
 import PatientStatus from "./patientStatus";
@@ -14,6 +17,8 @@ export default function RequestDetailModal({
   patient,
   closeModal,
 }: RequestDetailModalProps) {
+  const { accessToken } = useUserStore();
+
   const formatDateFromNumber = (number: number) => {
     const dateString = number.toString();
     const date = new Date(
@@ -43,6 +48,24 @@ export default function RequestDetailModal({
     return age;
   };
 
+  const requestHandler = (res: "ACCEPTED" | "REJECTED") => {
+    const url = `/api/requests/ems-to-er/${patient.patient_id}`;
+    const option = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        response: res,
+      }),
+    };
+
+    fetch(url, option)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
   return (
     <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[110rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] pb-[20rem] drop-shadow-2xl">
       <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-white px-[2rem]">
@@ -57,14 +80,21 @@ export default function RequestDetailModal({
         />
       </span>
       <div className="flex justify-end px-[2rem] py-[3rem] text-[1.8rem] font-[500] text-white">
-        <div className="flex h-[7rem] w-[12rem] items-center justify-center rounded-l-3xl bg-L-gray">
+        <div
+          className="flex h-[7rem] w-[12rem] items-center justify-center rounded-l-3xl bg-L-gray"
+          onClick={() => requestHandler("REJECTED")}
+        >
           거절하기
         </div>
-        <div className="flex h-[7rem] w-[24rem] items-center justify-center rounded-r-3xl bg-main">
+        <div
+          className="flex h-[7rem] w-[24rem] items-center justify-center rounded-r-3xl bg-main"
+          onClick={() => requestHandler("ACCEPTED")}
+        >
           수락하기
         </div>
       </div>
       <div className="h-full w-full overflow-scroll px-[2rem]">
+        <p>{request.request_status}</p>
         <div className="grid grid-cols-2 gap-x-[2rem] gap-y-[3rem] pb-[3rem]">
           <DetailBox title="구급업체 및 구급대원 정보">
             <p>

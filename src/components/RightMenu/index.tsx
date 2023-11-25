@@ -1,66 +1,11 @@
 "use client";
 
+import { useRequestList } from "@/hooks/useRequestList";
 import { useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
+import Spinner from "../Spinner";
 import RequsetBox from "./RequestBox";
 import StatusBox from "./StatusBox";
-
-const DUMMY_REQUEST = [
-  {
-    id: 403829,
-    time: "2:14",
-    name: "김*종",
-    gender: "남",
-    age: 19,
-    place: "서울 119 안전센터",
-    symptom: ["복통", "식은땀", "발열", "구토"],
-  },
-  {
-    id: 403829,
-    time: "2:14",
-    name: "김*종",
-    gender: "남",
-    age: 19,
-    place: "서울 119 안전센터",
-    symptom: ["복통", "식은땀", "발열", "구토"],
-  },
-  {
-    id: 403829,
-    time: "2:14",
-    name: "김*종",
-    gender: "남",
-    age: 19,
-    place: "서울 119 안전센터",
-    symptom: ["복통", "식은땀", "발열", "구토"],
-  },
-  {
-    id: 403829,
-    time: "2:14",
-    name: "김*종",
-    gender: "남",
-    age: 19,
-    place: "서울 119 안전센터",
-    symptom: ["복통", "식은땀", "발열", "구토"],
-  },
-  {
-    id: 403829,
-    time: "2:14",
-    name: "김*종",
-    gender: "남",
-    age: 19,
-    place: "서울 119 안전센터",
-    symptom: ["복통", "식은땀", "발열", "구토"],
-  },
-  {
-    id: 403829,
-    time: "2:14",
-    name: "김*종",
-    gender: "남",
-    age: 19,
-    place: "서울 119 안전센터",
-    symptom: ["복통", "식은땀", "발열", "구토"],
-  },
-];
 
 export default function RightMenu() {
   const currentTimer = () => {
@@ -74,6 +19,8 @@ export default function RightMenu() {
   };
   const [timer, setTimer] = useState(() => currentTimer());
   setInterval(() => setTimer(currentTimer()), 1000);
+
+  const { requests, isLoading } = useRequestList();
 
   return (
     <div className="mr-[2rem] mt-[4.5rem] w-[38rem]">
@@ -94,18 +41,17 @@ export default function RightMenu() {
             <div className="relative h-full w-full overflow-y-hidden">
               <ScrollBox>
                 <div className="mb-[7rem] flex flex-col gap-[2rem]">
-                  {DUMMY_REQUEST.map((q, index) => (
-                    <RequsetBox
-                      id={q.id}
-                      time={q.time}
-                      name={q.name}
-                      gender={q.gender}
-                      age={q.age}
-                      place={q.place}
-                      symptom={q.symptom}
-                      key={index}
-                    />
-                  ))}
+                  {isLoading ? (
+                    <Spinner />
+                  ) : (
+                    requests.map((request, index) => (
+                      <RequsetBox
+                        key={index + request.patient_id}
+                        request={request}
+                        patient={request.patient}
+                      />
+                    ))
+                  )}
                 </div>
               </ScrollBox>
             </div>

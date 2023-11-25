@@ -41,12 +41,12 @@ export const useEmoployeeList = () => {
       const { employee_list, count } = data.result;
 
       setEmployees((prev) => {
-        const uniqueEmployees = [...prev, ...employee_list].reduce(
+        const uniqueEmployees = employee_list.reduce(
           (acc, current) =>
             acc.find((item) => item.employee_id === current.employee_id)
               ? acc
               : [...acc, current],
-          [] as Employee[]
+          prev
         );
 
         return uniqueEmployees;

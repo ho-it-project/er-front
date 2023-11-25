@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import SearchInput from "@/components/common/SearchInput";
 import useDepartments from "@/hooks/useDepartments";
@@ -7,7 +8,7 @@ import { useEmoployeeList } from "@/hooks/useEmployeeList";
 import useModal from "@/hooks/useModal";
 import { useEmployeeListStore } from "@/states/employeeStore";
 import { Role } from "@/type";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddEmployModal from "./addEmployModal";
 import EmployeeListHeader from "./employeeListHeader";
 import EmployeeListItem from "./employeeListItem";
@@ -16,7 +17,7 @@ import EmployeeNav from "./employeeNav";
 const TopNavs = [{ title: "인력 관리", link: "/hrm" }];
 
 export default function HRMContainer() {
-  const employeeListRef = useRef(null);
+  const employeeListRef = useRef<HTMLDivElement>(null);
   const { query, setQueryPage, setQeuryRole, pageLimit } =
     useEmployeeListStore();
 
@@ -37,8 +38,6 @@ export default function HRMContainer() {
   const [, setSearchWord] = useState("");
   const [, setClickedNav] = useState<Role[] | string>("전체");
 
-  const [, setScrollPosition] = useState(0);
-
   const ChangeSearchInputHandler = (value: string) => {
     setSearchWord(value);
   };
@@ -50,6 +49,12 @@ export default function HRMContainer() {
       setQeuryRole([]);
     }
   };
+
+  useEffect(() => {
+    if (employeeListRef.current) {
+      employeeListRef.current.scrollTo(0, 0);
+    }
+  }, [query.role, query.page]);
 
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavs }}>
@@ -71,35 +76,34 @@ export default function HRMContainer() {
           </div>
         </div>
         <EmployeeListHeader />
-        <div
-          className="h-[calc(100%-13rem)] w-full overflow-scroll"
-          ref={employeeListRef}
-          onScroll={(e) => {
-            const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-            if (scrollHeight - scrollTop === clientHeight) {
-              if (query.page < pageLimit.total_page) {
-                setScrollPosition(scrollTop);
-                setQueryPage(query.page + 1);
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div
+            className="h-full w-full overflow-scroll pb-[12rem]"
+            ref={employeeListRef}
+            onScroll={(e) => {
+              const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+              if (scrollHeight - scrollTop === clientHeight) {
+                if (query.page < pageLimit.total_page) {
+                  setQueryPage(query.page + 1);
+                }
               }
-            }
-          }}
-        >
-          {isLoading ? (
-            <h1>로딩중...</h1>
-          ) : (
-            employees.map((i, index) => (
+            }}
+          >
+            {employees.map((employee, index) => (
               <div key={index}>
                 <EmployeeListItem
-                  name={i.employee_name}
-                  role={i.role}
+                  name={employee.employee_name}
+                  role={employee.role}
                   department_list={department_list}
-                  department={String(i.department_id)}
-                  toggleStatus={i.status === "ACTIVE"}
+                  department={String(employee.department_id)}
+                  toggleStatus={employee.status === "ACTIVE"}
                 />
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
         <AddEmployModal
           isOpen={isOpen}
           closeModal={closeModal}

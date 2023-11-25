@@ -61,14 +61,14 @@ export const useEmergencyCenterList = () => {
       const { emergency_center_list, count } = data.result;
 
       setEmergencyCenters((prev) => {
-        const uniqueEmployees = [...prev, ...emergency_center_list].reduce(
+        const uniqueEmployees = emergency_center_list.reduce(
           (acc, current) =>
             acc.find(
               (item) => item.emergency_center_id === current.emergency_center_id
             )
               ? acc
               : [...acc, current],
-          [] as EmergencyCenter[]
+          prev
         );
 
         return uniqueEmployees;
