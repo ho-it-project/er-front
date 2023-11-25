@@ -3,14 +3,14 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import useModal from "@/hooks/useModal";
 import { useRequestList } from "@/hooks/useRequestList";
-import { Request, useRequestListStore } from "@/states/requestStore";
+import { Request } from "@/states/requestStore";
 import { useState } from "react";
 import RequestDetailModal from "./requestDetailModal";
 
 const TopNavRequest = [{ title: "요청 목록", link: "/requests" }];
 
 export default function RequestsContainer() {
-  const { query, setQueryPage } = useRequestListStore();
+  // const { query, setQueryPage } = useRequestListStore();
   const { requests, isLoading } = useRequestList();
   const { isOpen, openModal, closeModal } = useModal();
 

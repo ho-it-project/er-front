@@ -19,10 +19,17 @@ interface severeIllness {
 }
 
 export default function SevereEmergencyIllnessContainer() {
-  const { userData } = useUserStore();
+  const { userData, accessToken } = useUserStore();
   const url = `/api/er/${userData.hospital_id}/illnesses`;
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data } = useSWR(url, fetcher);
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
+  const { data } = useSWR(url, (url) => fetcher(url, accessToken));
   const [severeConditions, setSevereConditions] = useState<severeGroup[]>();
   const { updateList, addUpdateList } = useUpdateServableListStore();
 
@@ -44,9 +51,8 @@ export default function SevereEmergencyIllnessContainer() {
 
   useEffect(() => {
     if (data && data.result) {
-      const groupedData = data.result
-        .slice(0, 29)
-        .reduce((acc: severeGroup[], item: severeIllness) => {
+      const groupedData = data.result.reduce(
+        (acc: severeGroup[], item: severeIllness) => {
           const match = item.servable_illness_name.match(/\[(.*?)](.*)/);
           const servableTitle = match && match[1];
           const servableName = match && match[2].trim();
@@ -78,7 +84,9 @@ export default function SevereEmergencyIllnessContainer() {
           }
 
           return acc;
-        }, []);
+        },
+        []
+      );
       setSevereConditions(groupedData);
     }
   }, [data]);

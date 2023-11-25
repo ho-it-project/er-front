@@ -21,10 +21,17 @@ interface Department {
 }
 
 export default function DepartmentSettingContainer() {
-  const { userData } = useUserStore();
+  const { userData, accessToken } = useUserStore();
   const url = `/api/er/${userData.emergency_center_id}/departments`;
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, isLoading } = useSWR(url, fetcher);
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
+  const { data, isLoading } = useSWR(url, (url) => fetcher(url, accessToken));
 
   const [internal, setInternal] = useState<Department[]>([]);
   const [surgery, setSurgery] = useState<Department[]>([]);

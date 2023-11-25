@@ -18,10 +18,17 @@ interface Equipment {
 
 export default function MedicalEquipmentSettingContainer() {
   const [equipments, setEquipments] = useState<Equipment[]>();
-  const { userData } = useUserStore();
+  const { userData, accessToken } = useUserStore();
   const url = `/api/er/${userData.hospital_id}/equipments`;
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, isLoading } = useSWR(url, fetcher);
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
+  const { data, isLoading } = useSWR(url, (url) => fetcher(url, accessToken));
 
   const { updateList, addUpdateList } = useUpdateEquipmentListStore();
 

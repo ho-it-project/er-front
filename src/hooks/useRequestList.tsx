@@ -1,4 +1,5 @@
 import { Request, useRequestListStore } from "@/states/requestStore";
+import useUserStore from "@/states/userStore";
 import { useEffect } from "react";
 import useSWR from "swr";
 
@@ -12,7 +13,14 @@ interface GetRequestListResponse {
 }
 
 export const useRequestList = () => {
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
 
   const { requests, query, setPageLimit, setRequests } = useRequestListStore();
 
@@ -22,15 +30,15 @@ export const useRequestList = () => {
   queryParam.append("limit", query.limit.toString());
   queryParam.append("search", query.search || "");
 
+  const { accessToken } = useUserStore();
+
   const { data, isLoading, error } = useSWR<GetRequestListResponse>(
     `/api/requests/ems-to-er/er?${queryParam.toString()}`,
-    fetcher
+    (url: string) => fetcher(url, accessToken)
   );
 
   useEffect(() => {
     if (data) {
-      console.log(data.result);
-
       const { count, request_list } = data.result;
 
       setRequests((prev) => {

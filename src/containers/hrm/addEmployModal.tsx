@@ -3,6 +3,7 @@
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
 import useUpdateStore from "@/states/employeeUpdateStore";
+import useUserStore from "@/states/userStore";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -38,6 +39,7 @@ export default function AddEmployModal({
   const [password, setPassword] = useState("");
 
   const { update } = useUpdateStore();
+  const { accessToken } = useUserStore();
 
   const onClickClear = () => {
     setName("");
@@ -76,7 +78,9 @@ export default function AddEmployModal({
       const options = {
         method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           employees: [
@@ -102,12 +106,14 @@ export default function AddEmployModal({
     }
   };
 
-  const isExist = () => {
+  const isExist = async () => {
     const url = "/api/er/employees/exists";
     const options = {
       method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         id_cards: [id],

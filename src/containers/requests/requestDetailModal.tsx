@@ -1,4 +1,3 @@
-import BackGround from "@/components/common/background";
 import { Patient, Request } from "@/states/requestStore";
 import Image from "next/image";
 import DetailBox from "./DetailBox";
@@ -43,6 +42,7 @@ export default function RequestDetailModal({
 
     return age;
   };
+
   return (
     <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[110rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] pb-[20rem] drop-shadow-2xl">
       <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-white px-[2rem]">
@@ -76,54 +76,55 @@ export default function RequestDetailModal({
           </DetailBox>
           <DetailBox title="환자 정보">
             <table className="w-full">
-              <tr>
-                <td className="leading-[3rem] text-main">성함</td>
-                <td>{patient.patient_name}</td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">나이 / 성별</td>
-                <td>
-                  {calculateAge(
-                    formatDateFromNumber(Number(patient.patient_birth))
-                  )}
-                  세 / {patient.patient_gender === "MALE" ? "남" : "야"}
-                </td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">주민등록번호</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">거주지</td>
-                <td>?</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">연락처</td>
-                <td></td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td className="leading-[3rem] text-main">성함</td>
+                  <td>{patient.patient_name}</td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">나이 / 성별</td>
+                  <td>
+                    {calculateAge(
+                      formatDateFromNumber(Number(patient.patient_birth))
+                    )}
+                    세 / {patient.patient_gender === "MALE" ? "남" : "야"}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">주민등록번호</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">거주지</td>
+                  <td>?</td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">연락처</td>
+                  <td></td>
+                </tr>
+              </tbody>
             </table>
           </DetailBox>
           <DetailBox title="보호자 정보">
             <table className="w-full">
-              <tr>
-                <td className="leading-[3rem] text-main">성함</td>
-                <td>{patient.patient_name}</td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">거주지</td>
-
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">연락처</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td className="leading-[3rem] text-main">환자와의 관계</td>
-                <td></td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td className="leading-[3rem] text-main">성함</td>
+                  <td>{patient.patient_name}</td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">거주지</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">연락처</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td className="leading-[3rem] text-main">환자와의 관계</td>
+                  <td></td>
+                </tr>
+              </tbody>
             </table>
           </DetailBox>
         </div>
@@ -131,7 +132,6 @@ export default function RequestDetailModal({
           <PatientStatus />
         </DetailBox>
       </div>
-      <BackGround />
     </div>
   );
 }

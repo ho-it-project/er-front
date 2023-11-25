@@ -16,17 +16,16 @@ export default function AppWrapper({
 
   const url = "/api/er/auth";
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { setAccessToken, updateUserData } = useUserStore();
   const { data, isLoading } = useSWR(url, fetcher);
-  const { updateUserData } = useUserStore();
 
   useEffect(() => {
     if (data && data.result.is_login) {
       login();
+      setAccessToken(data.result.access_token);
       updateUserData(data.result.employee);
     }
   }, [data, updateUserData, login]);
 
-  return (
-    <div>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</div>
-  );
+  return <>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</>;
 }
