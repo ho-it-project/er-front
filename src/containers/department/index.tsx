@@ -1,6 +1,8 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
+import SaveAlert from "@/components/common/saveAlert";
+import useSaveAlert from "@/hooks/useSaveAlert";
 import useUpdateDepartmentListStore from "@/states/updateDepartmentListStore";
 import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
@@ -41,6 +43,7 @@ export default function DepartmentSettingContainer() {
   const [surgeryId, setSurgeryId] = useState(0);
 
   const { updateList, addUpdateList } = useUpdateDepartmentListStore();
+  const { isAlertVisible, showSuccessAlert } = useSaveAlert();
 
   const clickHandler = (id: number, status: boolean) => () => {
     addUpdateList(id, status);
@@ -110,22 +113,9 @@ export default function DepartmentSettingContainer() {
     }
   }, [data]);
 
-  const [isAlertVisible, setIsAlertVisible] = useState(false);
-
-  const showSuccessAlert = () => {
-    setIsAlertVisible(true);
-    setTimeout(() => {
-      setIsAlertVisible(false);
-    }, 2000);
-  };
-
   return (
     <>
-      {isAlertVisible && (
-        <div className="fixed left-1/2 top-[10%] -translate-x-1/2 transform rounded-full bg-main p-[1rem] text-xl text-white shadow-lg transition-all duration-500 ease-in-out">
-          저장되었습니다.
-        </div>
-      )}
+      {isAlertVisible && <SaveAlert />}
       <div className="px-[8rem] py-[6rem]">
         <div className="flex justify-between">
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">

@@ -1,5 +1,7 @@
 "use client";
 
+import SaveAlert from "@/components/common/saveAlert";
+import useSaveAlert from "@/hooks/useSaveAlert";
 import useUpdateServableListStore from "@/states/updateServableIllnessList";
 import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
@@ -32,6 +34,7 @@ export default function SevereEmergencyIllnessContainer() {
   const { data } = useSWR(url, (url) => fetcher(url, accessToken));
   const [severeConditions, setSevereConditions] = useState<severeGroup[]>();
   const { updateList, addUpdateList } = useUpdateServableListStore();
+  const { isAlertVisible, showSuccessAlert } = useSaveAlert();
 
   const clickHandler = (id: string, status: "ACTIVE" | "INACTIVE") => () => {
     addUpdateList(id, status);
@@ -48,7 +51,9 @@ export default function SevereEmergencyIllnessContainer() {
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(updateList),
-    }).then((r) => r.json());
+    })
+      .then((r) => r.json())
+      .then(() => showSuccessAlert());
   };
 
   useEffect(() => {
@@ -96,6 +101,7 @@ export default function SevereEmergencyIllnessContainer() {
   return (
     <>
       <div className="px-[6rem] py-[6rem]">
+        {isAlertVisible && <SaveAlert />}
         <div className="flex justify-between">
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
             • 현재 진료 가능한 중증응급질환을 선택해주세요.
