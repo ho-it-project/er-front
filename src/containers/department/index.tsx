@@ -60,7 +60,9 @@ export default function DepartmentSettingContainer() {
     fetch(url, {
       method: "PATCH",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(dataToUpdate),
     })
