@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-interface UpdateStore {
+interface EmployeeUpdateStore {
   isUpdate: boolean;
   update: () => void;
   reset: () => void;
 }
 
-const useUpdateStore = create<UpdateStore>((set) => ({
+const useEmployeeUpdateStore = create<EmployeeUpdateStore>((set) => ({
   isUpdate: false,
   update: () => set({ isUpdate: true }),
   reset: () => set({ isUpdate: false }),
 }));
 
-export default useUpdateStore;
+export default useEmployeeUpdateStore;

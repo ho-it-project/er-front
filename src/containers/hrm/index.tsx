@@ -53,8 +53,8 @@ export default function HRMContainer() {
 
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavs }}>
-      <div className="h-full w-full px-[2rem]">
-        <div className="sticky top-0 z-[1] flex w-full justify-between bg-white pb-[5rem]">
+      <div className="h-full w-full px-[2rem] pb-[2rem]">
+        <div className="top-0 z-[1] flex w-full justify-between bg-white pb-[5rem]">
           <EmployeeNav onClickNav={ClickedNavHandler} />
           <div className="mt-[1rem] flex gap-[2rem]">
             <SearchInput
@@ -72,7 +72,7 @@ export default function HRMContainer() {
         </div>
         <EmployeeListHeader />
         <div
-          className="h-full w-full overflow-scroll pb-[5rem]"
+          className="h-[calc(100%-13rem)] w-full overflow-scroll"
           ref={employeeListRef}
           onScroll={(e) => {
             const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
