@@ -25,7 +25,7 @@ export default function AppWrapper({
       setAccessToken(data.result.access_token);
       updateUserData(data.result.employee);
     }
-  }, [data, updateUserData, login]);
+  }, [data, updateUserData, login, setAccessToken]);
 
   return <>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</>;
 }

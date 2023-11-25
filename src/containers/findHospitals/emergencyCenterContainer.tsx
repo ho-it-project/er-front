@@ -53,7 +53,7 @@ export default function EmergencyCenterContainer({
     if (emergencyCenterListRef.current) {
       emergencyCenterListRef.current.scrollTo(0, scrollPosition);
     }
-  }, [query.emergency_center_type, query.search]);
+  }, [query.emergency_center_type, query.search, scrollPosition]);
 
   return (
     <div className="h-full w-full">

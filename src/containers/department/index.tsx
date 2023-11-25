@@ -106,7 +106,7 @@ export default function DepartmentSettingContainer() {
       );
       setNormal(normalDepartments);
     }
-  }, [data, useUserStore]);
+  }, [data]);
 
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
