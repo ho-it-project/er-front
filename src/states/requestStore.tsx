@@ -1,3 +1,4 @@
+import { arr_diff } from "@/lib/utils";
 import { create } from "zustand";
 
 export type Status = "ACTIVE" | "INACTIVE" | "DELETED";
@@ -105,7 +106,6 @@ export interface Request {
   emergency_center_latitude: number;
   emergency_center_longitude: number;
   emergency_center_name: string;
-  patient: Patient;
   patient_id: string;
   reject_reason?: boolean;
   request_date: string;
@@ -113,13 +113,14 @@ export interface Request {
   response_date: string;
   status: Status;
   updated_at: string;
+  patient: Patient;
 }
 
 export interface RequestQuery {
   page: number;
   limit: number;
   search?: string;
-  request_status?: RequestStatus[];
+  request_status: RequestStatus[];
   patient_getder?: Gender[];
   patient_severity?: PatientSeverity[];
 }
@@ -131,6 +132,7 @@ interface RequestListStore {
     total_count: number;
     total_page: number;
   };
+  setQueryStatus: (status: RequestStatus[]) => void;
   setQuerySearch: (search: string) => void;
   setQueryPage: (page: number) => void;
   setQueryLimit: (limit: number) => void;
@@ -148,12 +150,23 @@ export const useRequestListStore = create<RequestListStore>((set) => ({
     search: "",
     page: 1,
     limit: 1000,
+    request_status: [],
   },
   pageLimit: {
     total_count: 0,
     total_page: 0,
   },
   requests: [],
+  setQueryStatus: (request_status: RequestStatus[]) =>
+    set((state) => {
+      return {
+        ...state,
+        requests: arr_diff(request_status, state.query.request_status)
+          ? []
+          : state.requests,
+        query: { ...state.query, request_status, page: 1 },
+      };
+    }),
   setQuerySearch: (search: string) =>
     set((state) => ({
       ...state,

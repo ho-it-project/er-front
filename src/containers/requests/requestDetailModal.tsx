@@ -69,7 +69,7 @@ export default function RequestDetailModal({
   return (
     <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[110rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] pb-[20rem] drop-shadow-2xl">
       <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-white px-[2rem]">
-        <p className="text-[1.8rem] font-[600] text-main">요청 상세보기</p>
+        <p className="text-[1.8rem] font-[600] text-main">환자 수용 요청</p>
         <Image
           className="cursor-pointer"
           src="/fi-rr-cross-small.png"
@@ -81,13 +81,13 @@ export default function RequestDetailModal({
       </span>
       <div className="flex justify-end px-[2rem] py-[3rem] text-[1.8rem] font-[500] text-white">
         <div
-          className="flex h-[7rem] w-[12rem] items-center justify-center rounded-l-3xl bg-L-gray"
+          className="flex h-[7rem] w-[12rem] cursor-pointer items-center justify-center rounded-l-3xl bg-L-gray"
           onClick={() => requestHandler("REJECTED")}
         >
           거절하기
         </div>
         <div
-          className="flex h-[7rem] w-[24rem] items-center justify-center rounded-r-3xl bg-main"
+          className="flex h-[7rem] w-[24rem] cursor-pointer items-center justify-center rounded-r-3xl bg-main"
           onClick={() => requestHandler("ACCEPTED")}
         >
           수락하기

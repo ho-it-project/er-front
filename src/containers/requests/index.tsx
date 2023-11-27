@@ -2,22 +2,36 @@
 
 import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import useModal from "@/hooks/useModal";
 import { useRequestList } from "@/hooks/useRequestList";
-import { Request } from "@/states/requestStore";
+import {
+  transeformName,
+  transformAge,
+  transformDate,
+} from "@/lib/utils/transeform";
+import { RequestStatus, useRequestListStore } from "@/states/requestStore";
 import { useState } from "react";
-import RequestDetailModal from "./requestDetailModal";
+import RequestHeader from "./requestHeader";
+import RequestItem from "./requestItem";
+import RequestNav from "./requestNav";
 
 const TopNavRequest = [{ title: "요청 목록", link: "/requests" }];
 
 export default function RequestsContainer() {
-  // const { query, setQueryPage } = useRequestListStore();
+  const { setQueryStatus } = useRequestListStore();
   const { requests, isLoading } = useRequestList();
-  const { isOpen, openModal, closeModal } = useModal();
 
-  const [selectedRequest, setSelectedRequest] = useState<Request>();
-  const clickRequestHanlder = (request: Request) => {
-    setSelectedRequest(request);
+  console.log("request_page", requests);
+
+  const [, setClickedNav] = useState<RequestStatus[] | "전체">("전체");
+  const ClickedNavHandler = (value: RequestStatus[] | "전체") => {
+    setClickedNav(value);
+    console.log(value);
+
+    if (value !== "전체") {
+      setQueryStatus(value);
+    } else {
+      setQueryStatus([]);
+    }
   };
 
   return (
@@ -26,62 +40,23 @@ export default function RequestsContainer() {
         <Spinner />
       ) : (
         <div className="relative h-full w-full px-[2rem]">
-          <h1>요청 목록</h1>
-          <div className="flex flex-wrap gap-[2rem]">
+          <div className="top-0 flex w-full bg-white pb-[5rem]">
+            <RequestNav onClickNav={ClickedNavHandler} />
+          </div>
+          <RequestHeader />
+          <div className="mt-[2rem] h-[calc(100%-8rem)] w-full overflow-scroll">
             {requests.map((request) => (
-              <div
+              <RequestItem
                 key={request.emergency_center_id + request.patient_id}
-                className="h-[19rem] w-[38rem] cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
-                onClick={() => {
-                  clickRequestHanlder(request);
-                  openModal();
-                }}
-              >
-                {request.patient.patient_name}
-              </div>
+                requestDate={transformDate(request.request_date)}
+                gender={request.patient.patient_gender === "MALE" ? "남" : "여"}
+                age={transformAge(request.patient.patient_birth)}
+                companyName={transeformName(request.emergency_center_name)}
+                symptom={request.patient.patient_symptom_summary}
+                status={request.request_status}
+              />
             ))}
           </div>
-          <h1>ACCEPTED</h1>
-          <div className="flex flex-wrap gap-[2rem]">
-            {requests
-              .filter((request) => request.request_status === "ACCEPTED")
-              .map((request) => (
-                <div
-                  key={request.emergency_center_id + request.patient_id}
-                  className="h-[19rem] w-[38rem] cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
-                  onClick={() => {
-                    clickRequestHanlder(request);
-                    openModal();
-                  }}
-                >
-                  {request.patient.patient_name}
-                </div>
-              ))}
-          </div>
-          <h1>REJECTED</h1>
-          <div className="flex flex-wrap gap-[2rem]">
-            {requests
-              .filter((request) => request.request_status === "REJECTED")
-              .map((request) => (
-                <div
-                  key={request.emergency_center_id + request.patient_id}
-                  className="h-[19rem] w-[38rem] cursor-pointer rounded-2xl bg-bg px-[5rem] py-[3rem]"
-                  onClick={() => {
-                    clickRequestHanlder(request);
-                    openModal();
-                  }}
-                >
-                  {request.patient.patient_name}
-                </div>
-              ))}
-          </div>
-          {isOpen && selectedRequest && (
-            <RequestDetailModal
-              request={selectedRequest}
-              patient={selectedRequest.patient}
-              closeModal={closeModal}
-            />
-          )}
         </div>
       )}
     </TopNavContentWrapper>

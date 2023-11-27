@@ -29,6 +29,9 @@ export const useRequestList = () => {
   queryParam.append("page", query.page.toString());
   queryParam.append("limit", query.limit.toString());
   queryParam.append("search", query.search || "");
+  query.request_status.forEach((status) =>
+    queryParam.append("request_status", status)
+  );
 
   const { accessToken } = useUserStore();
 

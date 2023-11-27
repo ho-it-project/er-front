@@ -1,27 +1,38 @@
-import { Patient, Request } from "@/states/requestStore";
 import { Card } from "../common/Card";
 
 interface RequestProps {
-  request: Request;
-  patient: Patient;
+  id: string;
+  date: string;
+  name: string;
+  gender: "남" | "여";
+  age: string;
+  companyName: string;
+  symptom: string;
 }
 
-export default function RequestBox({ request, patient }: RequestProps) {
+export default function RequestBox({
+  id,
+  date,
+  name,
+  gender,
+  age,
+  companyName,
+  symptom,
+}: RequestProps) {
   return (
     <Card size="medium" dropShadow="xl">
-      <div className="relative px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
+      <div className="relative flex min-h-[19rem] min-w-[38rem] flex-wrap px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
         <div className="mb-[1rem] flex justify-between">
-          <p>{patient.patient_id}</p>
-          <p className="text-red">{request.request_date}</p>
+          <p>{id}</p>
+          <p className="text-red">{date}</p>
         </div>
-        <div className="mb-[1rem] flex justify-between">
+        <div className="mb-[1rem] justify-between">
           <p>
-            {patient.patient_name} / {patient.patient_gender} /{" "}
-            {patient.patient_birth}세
+            {name} / {gender} / {age}
           </p>
-          <p>{request.reject_reason}</p>
+          <p>{companyName}</p>
         </div>
-        <div className="mt-[5rem]">{request.reject_reason}</div>
+        <div>{symptom}</div>
       </div>
     </Card>
   );

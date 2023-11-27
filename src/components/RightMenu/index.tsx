@@ -1,6 +1,7 @@
 "use client";
 
 import { useRequestList } from "@/hooks/useRequestList";
+import { transformAge, transformDate } from "@/lib/utils/transeform";
 import { useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
 import Spinner from "../Spinner";
@@ -47,8 +48,17 @@ export default function RightMenu() {
                     requests.map((request, index) => (
                       <RequsetBox
                         key={index + request.patient_id}
-                        request={request}
-                        patient={request.patient}
+                        id={request.patient_id}
+                        date={transformDate(request.request_date)}
+                        name={request.patient.patient_name}
+                        gender={
+                          request.patient.patient_gender === "MALE"
+                            ? "남"
+                            : "여"
+                        }
+                        age={transformAge(request.patient.patient_birth)}
+                        companyName={request.emergency_center_name}
+                        symptom={request.patient.patient_symptom_summary}
                       />
                     ))
                   )}
