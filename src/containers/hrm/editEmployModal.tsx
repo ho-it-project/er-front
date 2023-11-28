@@ -2,6 +2,7 @@
 
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
+import Image from "next/image";
 import { useState } from "react";
 
 interface EditEmployModalProps {
@@ -68,6 +69,17 @@ export default function EditEmployModal({
 
   return (
     <div className="fixed left-1/2 top-1/2 z-30 h-[50rem] w-[82rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
+      <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-bg px-[2rem]">
+        <p className="text-[1.8rem] font-[600] text-main">인력 수정하기</p>
+        <Image
+          className="cursor-pointer"
+          src="/fi-rr-cross-small.png"
+          width={24}
+          height={24}
+          alt="닫기"
+          onClick={closeModal}
+        />
+      </span>
       <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
         <div className="w-[26rem] rounded-2xl bg-bg pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main">
           인력 수정하기
@@ -97,6 +109,7 @@ export default function EditEmployModal({
               onChange={(value) => ChangeRoleHandler(value)}
               values={DUMMYROLE}
               value={role}
+              type="role"
             />
           </div>
           <div className="flex w-[28.5rem] items-center justify-between">
@@ -105,6 +118,7 @@ export default function EditEmployModal({
               onChange={(value) => ChangeDepartmentHandler(value)}
               values={DUMMYDEPARTMENT}
               value={department}
+              type="department"
             />
           </div>
         </div>

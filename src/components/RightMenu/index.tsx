@@ -24,7 +24,7 @@ export default function RightMenu() {
   const { requests, isLoading } = useRequestList();
 
   return (
-    <div className="right-menu mr-[2rem] mt-[4.5rem] w-[38rem]">
+    <div className=" right-menu mr-[2rem] mt-[4.5rem] w-[38rem]">
       <p className="mb-[0.7rem] h-[1.8rem] text-right text-[1.5rem] font-[600] text-gray">
         {timer}
       </p>

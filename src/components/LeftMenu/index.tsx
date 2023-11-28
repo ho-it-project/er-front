@@ -4,7 +4,7 @@ import TopMenu from "./TopMenu";
 
 export default function LeftMenu() {
   return (
-    <div className="ml-[2rem] w-[8rem]">
+    <div className="absolute left-0 top-0 ml-[2rem] h-full w-[8rem] bg-bg">
       <div className="flex h-full flex-col justify-between pb-[2rem]">
         <div className="mt-[5.2rem]">
           <Link href={"/"}>

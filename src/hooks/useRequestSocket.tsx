@@ -1,12 +1,10 @@
 import { EMS_REQUEST_ER } from "@/constant";
 import { Request, useRequestListStore } from "@/states/requestStore";
 import { useSocketStore } from "@/states/socketStore";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export const useRequestSocket = () => {
-  const router = useRouter();
   const setRequestList = useRequestListStore(
     useShallow((state) => state.setRequests)
   );
@@ -49,6 +47,6 @@ export const useRequestSocket = () => {
         return [...prevReq, data];
       });
     });
-  }, [requestSocket, router, setRequestList]);
+  }, [requestSocket, setRequestList]);
   return { requestSocket };
 };
