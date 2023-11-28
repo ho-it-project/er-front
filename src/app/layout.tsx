@@ -25,7 +25,7 @@ export default function RootLayout({
           {/* <AuthProvider> */}
           <LayoutProvider>
             <AppWrapper>
-              <div className="flex h-screen justify-between gap-[2rem]">
+              <div className=" relative flex h-screen justify-between gap-[2rem] pl-[12rem]">
                 <LeftMenu />
                 {children}
                 <RightMenu />
