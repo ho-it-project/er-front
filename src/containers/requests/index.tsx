@@ -16,7 +16,7 @@ import RequestHeader from "./requestHeader";
 import RequestItem from "./requestItem";
 import RequestNav from "./requestNav";
 
-const TopNavRequest = [{ title: "요청 목록", link: "/requests" }];
+const TopNavRequest = [{ title: "환자 수용 요청", link: "/requests" }];
 
 export default function RequestsContainer() {
   const { requests, isLoading } = useRequestList();

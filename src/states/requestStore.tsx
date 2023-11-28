@@ -180,10 +180,17 @@ export const useRequestListStore = create<RequestListStore>((set) => ({
   setRequests: (requests: Request[] | ((prevState: Request[]) => Request[])) =>
     set((state) => {
       // Check if employees is a function and call it with the current state if it is
-      const newRequest =
+      const newRequests =
         typeof requests === "function" ? requests(state.requests) : requests;
 
-      return { ...state, requests: newRequest };
+      // Sort the newRequests array by request_date
+      const sortedRequests = [...newRequests].sort(
+        (a, b) =>
+          new Date(b.request_date).getTime() -
+          new Date(a.request_date).getTime()
+      );
+
+      return { ...state, requests: sortedRequests };
     }),
   setPageLimit: (pageLimit: { total_count: number; total_page: number }) =>
     set((state) => ({ ...state, pageLimit })),
