@@ -1,5 +1,7 @@
 "use client";
 
+import SaveAlert from "@/components/common/saveAlert";
+import useSaveAlert from "@/hooks/useSaveAlert";
 import useUpdateServableListStore from "@/states/updateServableIllnessList";
 import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
@@ -19,12 +21,20 @@ interface severeIllness {
 }
 
 export default function SevereEmergencyIllnessContainer() {
-  const { userData } = useUserStore();
+  const { userData, accessToken } = useUserStore();
   const url = `/api/er/${userData.hospital_id}/illnesses`;
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data } = useSWR(url, fetcher);
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
+  const { data } = useSWR(url, (url) => fetcher(url, accessToken));
   const [severeConditions, setSevereConditions] = useState<severeGroup[]>();
   const { updateList, addUpdateList } = useUpdateServableListStore();
+  const { isAlertVisible, showSuccessAlert } = useSaveAlert();
 
   const clickHandler = (id: string, status: "ACTIVE" | "INACTIVE") => () => {
     addUpdateList(id, status);
@@ -36,17 +46,20 @@ export default function SevereEmergencyIllnessContainer() {
     fetch(url, {
       method: "PATCH",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(updateList),
-    }).then((r) => r.json());
+    })
+      .then((r) => r.json())
+      .then(() => showSuccessAlert());
   };
 
   useEffect(() => {
     if (data && data.result) {
-      const groupedData = data.result
-        .slice(0, 29)
-        .reduce((acc: severeGroup[], item: severeIllness) => {
+      const groupedData = data.result.reduce(
+        (acc: severeGroup[], item: severeIllness) => {
           const match = item.servable_illness_name.match(/\[(.*?)](.*)/);
           const servableTitle = match && match[1];
           const servableName = match && match[2].trim();
@@ -78,7 +91,9 @@ export default function SevereEmergencyIllnessContainer() {
           }
 
           return acc;
-        }, []);
+        },
+        []
+      );
       setSevereConditions(groupedData);
     }
   }, [data]);
@@ -86,6 +101,7 @@ export default function SevereEmergencyIllnessContainer() {
   return (
     <>
       <div className="px-[6rem] py-[6rem]">
+        {isAlertVisible && <SaveAlert />}
         <div className="flex justify-between">
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
             • 현재 진료 가능한 중증응급질환을 선택해주세요.

@@ -1,4 +1,5 @@
 import { Employee, useEmployeeListStore } from "@/states/employeeStore";
+import useUserStore from "@/states/userStore";
 import { useEffect } from "react";
 import useSWR from "swr";
 
@@ -11,7 +12,14 @@ interface GetEmployeeListResponse {
   message: string;
 }
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+const fetcher = (url: string, accessToken: string) =>
+  fetch(url, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((response) => response.json());
 export const useEmoployeeList = () => {
   const { employees, query, setPageLimit, setEmployees } =
     useEmployeeListStore();
@@ -22,9 +30,10 @@ export const useEmoployeeList = () => {
   queryParam.append("limit", query.limit.toString());
   query.role.forEach((role) => queryParam.append("role", role));
 
+  const { accessToken } = useUserStore();
   const { data, error, isLoading } = useSWR<GetEmployeeListResponse>(
     `/api/er/employees?${queryParam.toString()}`,
-    fetcher
+    (url: string) => fetcher(url, accessToken)
   );
 
   useEffect(() => {
@@ -32,12 +41,12 @@ export const useEmoployeeList = () => {
       const { employee_list, count } = data.result;
 
       setEmployees((prev) => {
-        const uniqueEmployees = [...prev, ...employee_list].reduce(
+        const uniqueEmployees = employee_list.reduce(
           (acc, current) =>
             acc.find((item) => item.employee_id === current.employee_id)
               ? acc
               : [...acc, current],
-          [] as Employee[]
+          prev
         );
 
         return uniqueEmployees;

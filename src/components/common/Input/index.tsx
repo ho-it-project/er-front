@@ -26,7 +26,7 @@ export default function Input({
   return (
     <div>
       <input
-        className={`h-[3.8rem] rounded-xl border-2 border-main bg-white text-center text-black placeholder:text-L-gray 
+        className={`h-[3.8rem] rounded-xl border-2 border-main bg-white text-center text-black placeholder:text-L-gray focus:outline-none
       ${inputSize}
       `}
         onChange={handleChange}

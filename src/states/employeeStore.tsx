@@ -42,7 +42,7 @@ interface EmployeeListStore {
 export const useEmployeeListStore = create<EmployeeListStore>((set) => ({
   query: {
     page: 1,
-    limit: 15,
+    limit: 12,
     role: [],
   },
   employees: [],

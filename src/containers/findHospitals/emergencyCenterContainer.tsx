@@ -1,3 +1,4 @@
+import Spinner from "@/components/Spinner";
 import SearchInput from "@/components/common/SearchInput";
 import { useEmergencyCenterList } from "@/hooks/useEmergencyCenterList";
 import {
@@ -27,8 +28,6 @@ export default function EmergencyCenterContainer({
 
   const { emergencyCenters, isLoading } = useEmergencyCenterList();
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-
   const ChangeSelectedHospital = (index: number) => {
     if (emergencyCenters) {
       if (selectedHospital !== emergencyCenters[index]) {
@@ -51,13 +50,13 @@ export default function EmergencyCenterContainer({
 
   useEffect(() => {
     if (emergencyCenterListRef.current) {
-      emergencyCenterListRef.current.scrollTo(0, scrollPosition);
+      emergencyCenterListRef.current.scrollTo(0, 0);
     }
   }, [query.emergency_center_type, query.search]);
 
   return (
     <div className="h-full w-full">
-      <div className="sticky top-0 z-[1] mb-[5rem] mr-[4rem] flex h-[7rem] w-full items-center justify-between bg-white py-[1rem] pr-[4rem]">
+      <div className="mb-[5rem] mr-[4rem] flex h-[7rem] w-full items-center justify-between bg-white py-[1rem] pr-[4rem]">
         <EmergencyCenterNav onClickNav={ClickedNavHandler} />
         <SearchInput
           size="sm"
@@ -66,32 +65,31 @@ export default function EmergencyCenterContainer({
           }}
         />
       </div>
-      <div
-        className="flex h-full w-full flex-col gap-[2rem] overflow-scroll pb-[10rem]"
-        ref={emergencyCenterListRef}
-        onScroll={(e) => {
-          const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-          if (scrollHeight - scrollTop === clientHeight) {
-            if (query.page < pageLimit.total_page) {
-              setScrollPosition(scrollTop);
-              setQueryPage(query.page + 1);
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div
+          className="flex h-full w-full flex-col gap-[2rem] overflow-scroll pb-[10rem]"
+          ref={emergencyCenterListRef}
+          onScroll={(e) => {
+            const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+            if (scrollHeight - scrollTop === clientHeight) {
+              if (query.page < pageLimit.total_page) {
+                setQueryPage(query.page + 1);
+              }
             }
-          }
-        }}
-      >
-        {isLoading ? (
-          <h1>로딩중...</h1>
-        ) : (
-          emergencyCenters.map((emergencyCenter, index) => (
+          }}
+        >
+          {emergencyCenters.map((emergencyCenter, index) => (
             <EmergencyBox
               key={index}
               index={index}
               ChangeSelectedHospital={ChangeSelectedHospital}
               emergencyCenter={emergencyCenter}
             />
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

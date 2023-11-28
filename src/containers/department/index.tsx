@@ -1,6 +1,8 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
+import SaveAlert from "@/components/common/saveAlert";
+import useSaveAlert from "@/hooks/useSaveAlert";
 import useUpdateDepartmentListStore from "@/states/updateDepartmentListStore";
 import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
@@ -21,10 +23,17 @@ interface Department {
 }
 
 export default function DepartmentSettingContainer() {
-  const { userData } = useUserStore();
+  const { userData, accessToken } = useUserStore();
   const url = `/api/er/${userData.emergency_center_id}/departments`;
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, isLoading } = useSWR(url, fetcher);
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
+  const { data, isLoading } = useSWR(url, (url) => fetcher(url, accessToken));
 
   const [internal, setInternal] = useState<Department[]>([]);
   const [surgery, setSurgery] = useState<Department[]>([]);
@@ -34,6 +43,7 @@ export default function DepartmentSettingContainer() {
   const [surgeryId, setSurgeryId] = useState(0);
 
   const { updateList, addUpdateList } = useUpdateDepartmentListStore();
+  const { isAlertVisible, showSuccessAlert } = useSaveAlert();
 
   const clickHandler = (id: number, status: boolean) => () => {
     addUpdateList(id, status);
@@ -53,7 +63,9 @@ export default function DepartmentSettingContainer() {
     fetch(url, {
       method: "PATCH",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(dataToUpdate),
     })
@@ -99,24 +111,11 @@ export default function DepartmentSettingContainer() {
       );
       setNormal(normalDepartments);
     }
-  }, [data, useUserStore]);
-
-  const [isAlertVisible, setIsAlertVisible] = useState(false);
-
-  const showSuccessAlert = () => {
-    setIsAlertVisible(true);
-    setTimeout(() => {
-      setIsAlertVisible(false);
-    }, 2000);
-  };
+  }, [data]);
 
   return (
     <>
-      {isAlertVisible && (
-        <div className="fixed left-1/2 top-[10%] -translate-x-1/2 transform rounded-full bg-main p-[1rem] text-xl text-white shadow-lg transition-all duration-500 ease-in-out">
-          저장되었습니다.
-        </div>
-      )}
+      {isAlertVisible && <SaveAlert />}
       <div className="px-[8rem] py-[6rem]">
         <div className="flex justify-between">
           <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">
@@ -134,13 +133,13 @@ export default function DepartmentSettingContainer() {
         ) : (
           <div className="mx-auto mt-[12rem] flex h-[60rem] w-[93rem] justify-between">
             <DepartmentBox
-              allClicked={internal.every((i) => i.status === "ACTIVE")}
+              allClicked={internal.some((i) => i.status === "INACTIVE")}
               departments={internal}
               parent_id={internalId}
               parent_name="내과"
             />
             <DepartmentBox
-              allClicked={surgery.every((i) => i.status === "ACTIVE")}
+              allClicked={surgery.some((i) => i.status === "INACTIVE")}
               departments={surgery}
               parent_id={surgeryId}
               parent_name="외과"

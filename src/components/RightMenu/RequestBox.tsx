@@ -1,49 +1,38 @@
 import { Card } from "../common/Card";
 
 interface RequestProps {
-  id: number;
-  time: string;
+  id: string;
+  date: string;
   name: string;
-  gender: string;
-  age: number;
-  place: string;
-  symptom: string[];
+  gender: "남" | "여";
+  age: string;
+  companyName: string;
+  symptom: string;
 }
 
 export default function RequestBox({
   id,
-  time,
+  date,
   name,
   gender,
   age,
-  place,
+  companyName,
   symptom,
 }: RequestProps) {
   return (
     <Card size="medium" dropShadow="xl">
-      <div className="relative px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
+      <div className="relative flex min-h-[19rem] min-w-[38rem] flex-wrap px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
         <div className="mb-[1rem] flex justify-between">
           <p>{id}</p>
-          <p className="text-red">{time}</p>
+          <p className="text-red">{date}</p>
         </div>
-        <div className="mb-[1rem] flex justify-between">
+        <div className="mb-[1rem] justify-between">
           <p>
-            {name} / {gender} / {age}세
+            {name} / {gender} / {age}
           </p>
-          <p>{place}</p>
+          <p>{companyName}</p>
         </div>
-        <div className="mt-[5rem]">
-          <p>
-            {symptom.map(
-              (s, index) => `${s}${index !== symptom.length - 1 ? ", " : ""}`
-            )}
-          </p>
-          <p>
-            {symptom.map(
-              (s, index) => `${s} ${index !== symptom.length - 1 ? "," : ""}`
-            )}
-          </p>
-        </div>
+        <div>{symptom}</div>
       </div>
     </Card>
   );

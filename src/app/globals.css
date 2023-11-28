@@ -22,6 +22,12 @@
   }
 }
 
+@media (max-width: 1080px) {
+  .right-menu {
+    display: none;
+  }
+}
+
 ::-webkit-scrollbar {
   opacity: 0.3;
   width: 0.7rem;
@@ -98,4 +104,4 @@
   }
 } */
 
-/* @import "./_spinner.css"; */
+@import "./_spinner.css";

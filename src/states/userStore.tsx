@@ -10,11 +10,19 @@ interface UserData {
 }
 
 interface UserStore {
+  accessToken: string;
+  setAccessToken: (newToken: string) => void;
   userData: UserData;
   updateUserData: (newUserData: UserData) => void;
 }
 
 const useUserStore = create<UserStore>((set) => ({
+  accessToken: "",
+  setAccessToken: (newToken: string) => {
+    set({
+      accessToken: newToken,
+    });
+  },
   userData: {
     emergency_center_id: undefined,
     employee_id: undefined,

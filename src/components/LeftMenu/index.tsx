@@ -2,7 +2,7 @@ import Link from "next/link";
 import BottomMenu from "./BottomMenu";
 import TopMenu from "./TopMenu";
 
-export default function Menu() {
+export default function LeftMenu() {
   return (
     <div className="ml-[2rem] w-[8rem]">
       <div className="flex h-full flex-col justify-between pb-[2rem]">

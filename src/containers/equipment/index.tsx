@@ -2,6 +2,8 @@
 
 import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
+import SaveAlert from "@/components/common/saveAlert";
+import useSaveAlert from "@/hooks/useSaveAlert";
 import useUpdateEquipmentListStore from "@/states/updateEquipmentListStore";
 import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
@@ -18,12 +20,20 @@ interface Equipment {
 
 export default function MedicalEquipmentSettingContainer() {
   const [equipments, setEquipments] = useState<Equipment[]>();
-  const { userData } = useUserStore();
+  const { userData, accessToken } = useUserStore();
   const url = `/api/er/${userData.hospital_id}/equipments`;
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, isLoading } = useSWR(url, fetcher);
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((r) => r.json());
+  const { data, isLoading } = useSWR(url, (url) => fetcher(url, accessToken));
 
   const { updateList, addUpdateList } = useUpdateEquipmentListStore();
+  const { isAlertVisible, showSuccessAlert } = useSaveAlert();
 
   const clickedSwitchHandler = (id: number) => (status: boolean) => {
     if (!status) {
@@ -41,10 +51,14 @@ export default function MedicalEquipmentSettingContainer() {
     fetch(url, {
       method: "PATCH",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(updateList),
-    }).then((r) => r.json());
+    })
+      .then((r) => r.json())
+      .then(() => showSuccessAlert());
   };
 
   useEffect(() => {
@@ -56,6 +70,7 @@ export default function MedicalEquipmentSettingContainer() {
   return (
     <>
       <TopNavContentWrapper topNav={{ items: topNavs }}>
+        {isAlertVisible && <SaveAlert />}
         <div className="px-[8rem] py-[6rem]">
           <div className="flex justify-between">
             <p className="ml-[6rem] w-[24rem] text-[1.2rem] font-[600] text-gray">

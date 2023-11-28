@@ -20,6 +20,11 @@ const nextConfig = {
     ];
   },
   webpack: (config, { webpack }) => {
+    config.externals.push({
+      "utf-8-validate": "commonjs utf-8-validate",
+      bufferutil: "commonjs bufferutil",
+      "supports-color": "commonjs supports-color",
+    });
     config.plugins.push(
       new webpack.IgnorePlugin({
         resourceRegExp: /import2/, // adjust the module name

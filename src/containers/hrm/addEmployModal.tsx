@@ -3,6 +3,8 @@
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
 import useUpdateStore from "@/states/employeeUpdateStore";
+import useUserStore from "@/states/userStore";
+import Image from "next/image";
 import { useState } from "react";
 
 interface ValueProps {
@@ -37,6 +39,7 @@ export default function AddEmployModal({
   const [password, setPassword] = useState("");
 
   const { update } = useUpdateStore();
+  const { accessToken } = useUserStore();
 
   const onClickClear = () => {
     setName("");
@@ -75,7 +78,9 @@ export default function AddEmployModal({
       const options = {
         method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           employees: [
@@ -101,12 +106,14 @@ export default function AddEmployModal({
     }
   };
 
-  const isExist = () => {
+  const isExist = async () => {
     const url = "/api/er/employees/exists";
     const options = {
       method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         id_cards: [id],
@@ -154,11 +161,17 @@ export default function AddEmployModal({
 
   return (
     <div className="fixed left-1/2 top-1/2 z-30 h-[50rem] w-[82rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-bg px-[2rem] py-[3rem] drop-shadow-lg">
-      <div className="absolute -top-[5rem] left-0 flex h-[7rem] w-full min-w-[144rem] gap-[3rem]">
-        <div className="w-[26rem] rounded-2xl bg-bg pl-[3rem] pt-[2rem] text-[1.8rem] font-[700] text-main">
-          인력 추가하기
-        </div>
-      </div>
+      <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-bg px-[2rem]">
+        <p className="text-[1.8rem] font-[600] text-main">인력 추가하기</p>
+        <Image
+          className="cursor-pointer"
+          src="/fi-rr-cross-small.png"
+          width={24}
+          height={24}
+          alt="닫기"
+          onClick={closeModal}
+        />
+      </span>
       <button
         className="absolute right-[3rem] top-[2rem] h-[5.4rem] w-[20rem] rounded-2xl bg-main text-[1.6rem] font-[600] text-white"
         onClick={() => {
