@@ -38,7 +38,9 @@ export default function TopMenu() {
   );
 
   useEffect(() => {
-    if (data && data.is_success) {
+    if (data) {
+      if (!data.is_success) return;
+
       setEmergencyCenterInfo(data.result);
     }
   }, [data, setEmergencyCenterInfo]);

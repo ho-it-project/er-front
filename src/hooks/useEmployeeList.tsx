@@ -38,6 +38,8 @@ export const useEmoployeeList = () => {
 
   useEffect(() => {
     if (data) {
+      if (!data.is_success) return;
+
       const { employee_list, count } = data.result;
 
       setEmployees((prev) => {

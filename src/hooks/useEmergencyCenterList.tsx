@@ -58,6 +58,8 @@ export const useEmergencyCenterList = () => {
 
   useEffect(() => {
     if (data) {
+      if (!data.is_success) return;
+
       const { emergency_center_list, count } = data.result;
 
       setEmergencyCenters((prev) => {
