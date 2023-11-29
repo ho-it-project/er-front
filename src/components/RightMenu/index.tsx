@@ -1,7 +1,10 @@
 "use client";
 
+import RequestDetailModal from "@/containers/requests/requestDetailModal";
 import { useRequestList } from "@/hooks/useRequestList";
 import { transformAge, transformDate } from "@/lib/utils/transeform";
+import { useModal } from "@/states/openModal";
+import { Request } from "@/states/requestStore";
 import { useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
 import Spinner from "../Spinner";
@@ -22,6 +25,11 @@ export default function RightMenu() {
   setInterval(() => setTimer(currentTimer()), 1000);
 
   const { requests, isLoading } = useRequestList();
+  const { isOpen, openModal, closeModal } = useModal();
+  const [selectedRequest, setSelectedRequest] = useState<Request>();
+  const clickRequestHanlder = (request: Request) => {
+    setSelectedRequest(request);
+  };
 
   return (
     <div className=" right-menu mr-[2rem] mt-[4.5rem] w-[38rem]">
@@ -46,20 +54,27 @@ export default function RightMenu() {
                     <Spinner />
                   ) : (
                     requests.map((request, index) => (
-                      <RequsetBox
+                      <div
+                        className="cursor-pointer"
                         key={index + request.patient_id}
-                        id={request.patient_id}
-                        date={transformDate(request.request_date)}
-                        name={request.patient.patient_name}
-                        gender={
-                          request.patient.patient_gender === "MALE"
-                            ? "남"
-                            : "여"
-                        }
-                        age={transformAge(request.patient.patient_birth)}
-                        companyName={request.emergency_center_name}
-                        symptom={request.patient.patient_symptom_summary}
-                      />
+                        onClick={() => {
+                          clickRequestHanlder(request);
+                          openModal();
+                        }}
+                      >
+                        <RequsetBox
+                          date={transformDate(request.request_date)}
+                          name={request.patient.patient_name}
+                          gender={
+                            request.patient.patient_gender === "MALE"
+                              ? "남"
+                              : "여"
+                          }
+                          age={transformAge(request.patient.patient_birth)}
+                          companyName={request.emergency_center_name}
+                          symptom={request.patient.patient_symptom_summary}
+                        />
+                      </div>
                     ))
                   )}
                 </div>
@@ -68,6 +83,13 @@ export default function RightMenu() {
           </div>
         </div>
       </div>
+      {isOpen && selectedRequest && (
+        <RequestDetailModal
+          request={selectedRequest}
+          patient={selectedRequest.patient}
+          closeModal={closeModal}
+        />
+      )}
     </div>
   );
 }
