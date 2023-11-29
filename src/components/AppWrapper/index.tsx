@@ -2,6 +2,7 @@
 
 import useLoginStore from "@/states/loginStore";
 import useUserStore from "@/states/userStore";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 import LoginBox from "../LoginBox";
@@ -12,6 +13,7 @@ export default function AppWrapper({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const { isLogin, login } = useLoginStore();
 
   const url = "/api/er/auth";
@@ -28,9 +30,10 @@ export default function AppWrapper({
         login();
         setAccessToken(result.access_token);
         updateUserData(result.employee);
+        router.refresh();
       }
     }
-  }, [data, updateUserData, login, setAccessToken]);
+  }, [data, updateUserData, login, setAccessToken, router]);
 
   return <>{isLoading ? <Spinner /> : isLogin ? children : <LoginBox />}</>;
 }

@@ -23,15 +23,15 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <SWRProvider>
           {/* <AuthProvider> */}
-          <LayoutProvider>
-            <AppWrapper>
+          <AppWrapper>
+            <LayoutProvider>
               <div className=" relative flex h-screen justify-between gap-[2rem] pl-[12rem]">
                 <LeftMenu />
                 {children}
                 <RightMenu />
               </div>
-            </AppWrapper>
-          </LayoutProvider>
+            </LayoutProvider>
+          </AppWrapper>
           {/* </AuthProvider> */}
         </SWRProvider>
       </body>
