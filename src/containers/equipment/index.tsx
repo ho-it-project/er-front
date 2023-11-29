@@ -62,7 +62,9 @@ export default function MedicalEquipmentSettingContainer() {
   };
 
   useEffect(() => {
-    if (data && data.result) {
+    if (data) {
+      if (!data.is_success) return;
+
       setEquipments(data.result);
     }
   }, [data]);

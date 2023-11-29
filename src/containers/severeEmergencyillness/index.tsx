@@ -57,7 +57,9 @@ export default function SevereEmergencyIllnessContainer() {
   };
 
   useEffect(() => {
-    if (data && data.result) {
+    if (data) {
+      if (!data.is_success) return;
+
       const groupedData = data.result.reduce(
         (acc: severeGroup[], item: severeIllness) => {
           const match = item.servable_illness_name.match(/\[(.*?)](.*)/);

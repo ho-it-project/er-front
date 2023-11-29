@@ -1,7 +1,6 @@
 import { Card } from "../common/Card";
 
 interface RequestProps {
-  id: string;
   date: string;
   name: string;
   gender: "남" | "여";
@@ -11,7 +10,6 @@ interface RequestProps {
 }
 
 export default function RequestBox({
-  id,
   date,
   name,
   gender,
@@ -23,7 +21,6 @@ export default function RequestBox({
     <Card size="medium" dropShadow="xl">
       <div className="relative flex min-h-[19rem] min-w-[38rem] flex-wrap px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
         <div className="mb-[1rem] flex justify-between">
-          <p>{id}</p>
           <p className="text-red">{date}</p>
         </div>
         <div className="mb-[1rem] justify-between">

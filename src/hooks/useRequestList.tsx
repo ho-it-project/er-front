@@ -42,7 +42,9 @@ export const useRequestList = () => {
 
   useEffect(() => {
     if (data) {
-      const { count, request_list } = data.result;
+      const { result, is_success } = data;
+      if (!is_success) return;
+      const { request_list, count } = result;
 
       setRequests((prev) => {
         const uniqueRequests = [...prev, ...request_list].reduce(

@@ -20,19 +20,6 @@ export const useRequestSocket = () => {
       console.log("socket connected");
     });
 
-    // requestSocket.on(
-    //   EMS_REQUEST_ER_RESPONSE,
-    //   (newRequest: {
-    //     emergency_center_id: string;
-    //     request_status: Request["request_status"];
-    //   }) => {
-    //     const { emergency_center_id, request_status } = newRequest;
-    //     console.log("ems-request-er-response");
-    //     console.log(newRequest);
-    //     console.log(emergency_center_id, request_status);
-    //   }
-    // );
-
     requestSocket.on(EMS_REQUEST_ER, (data: Request) => {
       console.log("ems-request-er");
       console.log(data);

@@ -20,12 +20,17 @@ export default function AppWrapper({
   const { data, isLoading } = useSWR(url, fetcher);
 
   useEffect(() => {
-    if (data && data.result.is_login) {
-      login();
-      setAccessToken(data.result.access_token);
-      updateUserData(data.result.employee);
+    if (data) {
+      const { result, is_success } = data;
+      if (!is_success) return;
+
+      if (result.is_login) {
+        login();
+        setAccessToken(result.access_token);
+        updateUserData(result.employee);
+      }
     }
   }, [data, updateUserData, login, setAccessToken]);
 
-  return <>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</>;
+  return <>{isLoading ? <Spinner /> : isLogin ? children : <LoginBox />}</>;
 }

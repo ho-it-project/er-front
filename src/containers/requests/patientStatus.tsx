@@ -76,15 +76,17 @@ export default function PatientStatus({ patientDetail }: PatientStatusProps) {
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">혈압</td>
-              <td className="flex flex-col">
-                <td>
-                  수출기 혈압{" "}
-                  {patientDetail?.abcde.circulation_systolic_blood_pressure}
-                </td>
-                <td>
-                  이완기 혈압{" "}
-                  {patientDetail?.abcde.circulation_diastolic_blood_pressure}
-                </td>
+              <td>
+                <span className="flex flex-col">
+                  <span>
+                    수축기 혈압{" "}
+                    {patientDetail?.abcde.circulation_systolic_blood_pressure}
+                  </span>
+                  <span>
+                    이완기 혈압{" "}
+                    {patientDetail?.abcde.circulation_diastolic_blood_pressure}
+                  </span>
+                </span>
               </td>
             </tr>
           </tbody>

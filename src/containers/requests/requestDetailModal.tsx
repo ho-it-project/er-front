@@ -6,7 +6,7 @@ import {
   transformFormatDate,
   transformPhone,
 } from "@/lib/utils/transeform";
-import { Patient, Request } from "@/states/requestStore";
+import { Patient, Request, useRequestListStore } from "@/states/requestStore";
 import useUserStore from "@/states/userStore";
 import { PatientDetail } from "@/type/patientDetail";
 import Image from "next/image";
@@ -35,6 +35,7 @@ export default function RequestDetailModal({
   closeModal,
 }: RequestDetailModalProps) {
   const { accessToken } = useUserStore();
+  const { setRequests } = useRequestListStore();
 
   const [patientDetail, setPatientDetail] = useState<PatientDetail | undefined>(
     undefined
@@ -56,10 +57,21 @@ export default function RequestDetailModal({
 
     fetch(url, option)
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log(data);
+        if (data.is_success) {
+          setRequests((prevReq) =>
+            prevReq.map((prev) =>
+              prev.patient_id === patient.patient_id
+                ? { ...prev, request_status: res }
+                : prev
+            )
+          );
+        }
+      });
   };
 
-  const url = `/api/er/request-patients/${patient.patient_id}/`;
+  const url = `/api/er/request-patients/${patient.patient_id}`;
   const fetcher = (url: string, accessToken: string) =>
     fetch(url, {
       headers: {
@@ -74,7 +86,9 @@ export default function RequestDetailModal({
   );
 
   useEffect(() => {
-    if (data && data.is_success) {
+    if (data) {
+      if (!data.is_success) return;
+
       setPatientDetail(data.result.patient);
     }
   }, [data, setPatientDetail]);
