@@ -2,7 +2,7 @@
 
 import DropDownInput from "@/components/common/DropDownInput";
 import Input from "@/components/common/Input";
-import useUpdateStore from "@/states/employeeUpdateStore";
+import { useEmoployeeList } from "@/hooks/useEmployeeList";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
 import { useState } from "react";
@@ -31,6 +31,8 @@ export default function AddEmployModal({
   closeModal,
   departments,
 }: AddEmployModalProps) {
+  const { mutate } = useEmoployeeList();
+
   const [role, setRole] = useState("");
   const [department, setDepartment] = useState("");
   const [name, setName] = useState("");
@@ -38,7 +40,6 @@ export default function AddEmployModal({
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const { update } = useUpdateStore();
   const { accessToken } = useUserStore();
 
   const onClickClear = () => {
@@ -98,11 +99,10 @@ export default function AddEmployModal({
       fetch(url, options)
         .then((response) => response.json())
         .then(() => {
-          update();
+          mutate();
+          onClickClear();
+          closeModal();
         });
-
-      onClickClear();
-      closeModal();
     }
   };
 

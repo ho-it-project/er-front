@@ -2,10 +2,10 @@
 
 import RequestDetailModal from "@/containers/requests/requestDetailModal";
 import { useRequestList } from "@/hooks/useRequestList";
-import { transformAge, transformDate } from "@/lib/utils/transeform";
+import { transformAge } from "@/lib/utils/transeform";
 import { useModal } from "@/states/Modal";
 import { Request } from "@/states/requestStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
 import Spinner from "../Spinner";
 import RequsetBox from "./RequestBox";
@@ -24,12 +24,16 @@ export default function RightMenu() {
   const [timer, setTimer] = useState(() => currentTimer());
   setInterval(() => setTimer(currentTimer()), 1000);
 
-  const { requests, isLoading } = useRequestList();
+  const { requests, isLoading, mutate } = useRequestList();
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedRequest, setSelectedRequest] = useState<Request>();
   const clickRequestHanlder = (request: Request) => {
     setSelectedRequest(request);
   };
+
+  useEffect(() => {
+    mutate();
+  }, [requests, mutate]);
 
   return (
     <div className=" right-menu mr-[2rem] mt-[4.5rem] w-[38rem]">
@@ -49,7 +53,7 @@ export default function RightMenu() {
             <h4 className="text-[2rem] font-bold text-main">환자 수용 요청</h4>
             <div className="relative h-full w-full overflow-y-hidden">
               <ScrollBox>
-                <div className="mb-[7rem] flex flex-col gap-[2rem]">
+                <div className="mb-[7rem] flex flex-col gap-[2rem] pt-[1rem]">
                   {isLoading ? (
                     <Spinner />
                   ) : (
@@ -63,7 +67,7 @@ export default function RightMenu() {
                         }}
                       >
                         <RequsetBox
-                          date={transformDate(request.request_date)}
+                          date={request.request_date}
                           name={request.patient.patient_name}
                           gender={
                             request.patient.patient_gender === "MALE"
