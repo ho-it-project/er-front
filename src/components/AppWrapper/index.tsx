@@ -27,5 +27,5 @@ export default function AppWrapper({
     }
   }, [data, updateUserData, login, setAccessToken]);
 
-  return <>{isLogin ? children : isLoading ? <Spinner /> : <LoginBox />}</>;
+  return <>{isLoading ? <Spinner /> : isLogin ? children : <LoginBox />}</>;
 }
