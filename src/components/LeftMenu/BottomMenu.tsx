@@ -3,10 +3,6 @@
 import Link from "next/link";
 import useMenu from "./useMenu";
 
-/**
- * 리팩토링 필요
- * useMenu 커스텀 훅으로 분리
- */
 export default function BottomMenu() {
   const { expanded, openMenu, closeMenu } = useMenu();
   const handleMouseLeave = () => {
@@ -33,7 +29,7 @@ export default function BottomMenu() {
           {expanded ? (
             <>
               <div className="px-[3rem] py-[2rem]">
-                <div className="mb-[2rem] text-[1.2rem] font-[500]">
+                <div className="pb-[2rem] text-[1.2rem] font-[500]">
                   <p>메뉴</p>
                 </div>
                 <div className="grid-row-4 grid grid-cols-2 gap-[1rem]">

@@ -3,7 +3,7 @@
 import RequestDetailModal from "@/containers/requests/requestDetailModal";
 import { useRequestList } from "@/hooks/useRequestList";
 import { transformAge, transformDate } from "@/lib/utils/transeform";
-import { useModal } from "@/states/openModal";
+import { useModal } from "@/states/Modal";
 import { Request } from "@/states/requestStore";
 import { useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
