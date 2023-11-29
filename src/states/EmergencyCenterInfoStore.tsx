@@ -51,12 +51,12 @@ export interface EmergencyCenterInfo {
 }
 
 export interface EmergencyCenterStore {
-  emergencyCenterInfo?: EmergencyCenterInfo;
+  emergencyCenterInfo: EmergencyCenterInfo | null;
   setEmergencyCenterInfo: (newEmergency: EmergencyCenterInfo) => void;
 }
 
 const useEmergencyCenterInfoStore = create<EmergencyCenterStore>((set) => ({
-  emergencyCenterInfo: undefined,
+  emergencyCenterInfo: null,
   setEmergencyCenterInfo: (newInfo: EmergencyCenterInfo) => {
     set({ emergencyCenterInfo: newInfo });
   },
