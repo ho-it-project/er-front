@@ -41,7 +41,7 @@ export default function BottomMenu() {
                       closeMenu();
                     }}
                   >
-                    <div className="flex h-[6.3rem] w-[15.5rem] flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
+                    <div className="flex h-[6.3rem] w-[15.5rem] cursor-pointer flex-col items-center justify-center rounded-xl bg-main text-[1.5rem] font-[600] text-white">
                       <p>환자 수용</p>
                       <p>요청 목록</p>
                     </div>
@@ -51,6 +51,8 @@ export default function BottomMenu() {
                   </div>
                   <Link
                     href={"/findHospitals"}
+                    passHref
+                    prefetch={false}
                     className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -63,6 +65,8 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/message"}
+                    passHref
+                    prefetch={false}
                     className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -75,6 +79,8 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/hrm"}
+                    passHref
+                    prefetch={false}
                     className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -87,6 +93,8 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/department"}
+                    passHref
+                    prefetch={false}
                     className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -100,6 +108,8 @@ export default function BottomMenu() {
                   </Link>
                   <Link
                     href={"/equipment"}
+                    passHref
+                    prefetch={false}
                     className="cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
