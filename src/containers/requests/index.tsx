@@ -10,7 +10,7 @@ import {
   transformDate,
 } from "@/lib/utils/transeform";
 import { Request, RequestStatus } from "@/states/requestStore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RequestDetailModal from "./requestDetailModal";
 import RequestHeader from "./requestHeader";
 import RequestItem from "./requestItem";
@@ -33,10 +33,6 @@ export default function RequestsContainer() {
   const ClickedNavHandler = (value: RequestStatus[] | "전체") => {
     setClickedNav(value);
   };
-
-  useEffect(() => {
-    setSelectedRequest(selectedRequest);
-  }, [requests]);
 
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavRequest }}>
@@ -70,7 +66,9 @@ export default function RequestsContainer() {
                       request.patient.patient_gender === "MALE" ? "남" : "여"
                     }
                     age={transformAge(request.patient.patient_birth)}
-                    companyName={transeformName(request.emergency_center_name)}
+                    companyName={transeformName(
+                      request.patient.ambulance_company_name
+                    )}
                     symptom={request.patient.patient_symptom_summary}
                     status={request.request_status}
                   />
