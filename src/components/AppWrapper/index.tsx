@@ -24,9 +24,11 @@ export default function AppWrapper({
       const { result, is_success } = data;
       if (!is_success) return;
 
-      login();
-      setAccessToken(result.access_token);
-      updateUserData(result.employee);
+      if (result.is_login) {
+        login();
+        setAccessToken(result.access_token);
+        updateUserData(result.employee);
+      }
     }
   }, [data, updateUserData, login, setAccessToken]);
 

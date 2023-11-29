@@ -10,7 +10,7 @@ import {
   transformDate,
 } from "@/lib/utils/transeform";
 import { Request, RequestStatus } from "@/states/requestStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RequestDetailModal from "./requestDetailModal";
 import RequestHeader from "./requestHeader";
 import RequestItem from "./requestItem";
@@ -34,6 +34,10 @@ export default function RequestsContainer() {
     setClickedNav(value);
   };
 
+  useEffect(() => {
+    setSelectedRequest(selectedRequest);
+  }, [requests]);
+
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavRequest }}>
       {isLoading ? (
@@ -44,7 +48,7 @@ export default function RequestsContainer() {
             <RequestNav onClickNav={ClickedNavHandler} />
           </div>
           <RequestHeader />
-          <div className="mt-[2rem] h-[calc(100%-8rem)] w-full overflow-scroll">
+          <div className="mt-[2rem] h-[calc(100%-8rem)] w-full overflow-scroll pb-[5rem]">
             {requests
               .filter(
                 (request) =>
