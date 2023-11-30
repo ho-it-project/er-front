@@ -4,6 +4,7 @@ import Spinner from "@/components/Spinner";
 import useEmergencyCenterInfoStore, {
   EmergencyCenterInfo,
 } from "@/states/EmergencyCenterInfoStore";
+import useEmergencyRoomStore from "@/states/emergencyRoomStore";
 import useUserStore from "@/states/userStore";
 import { useEffect } from "react";
 import useSWR from "swr";
@@ -21,6 +22,7 @@ export default function InfoProvider({
 }) {
   const { userData, accessToken } = useUserStore();
   const { setEmergencyCenterInfo } = useEmergencyCenterInfoStore();
+  const { setEmergencyRooms, setNavs } = useEmergencyRoomStore();
 
   const url =
     userData && `/api/er/emergency-centers/${userData.emergency_center_id}`;
@@ -44,7 +46,12 @@ export default function InfoProvider({
       if (data) {
         if (data.is_success) {
           setEmergencyCenterInfo(data.result);
-          console.log(data.result.emergency_rooms);
+          setEmergencyRooms(data.result.emergency_rooms);
+          const items = data.result.emergency_rooms.map((room) => ({
+            title: room.emergency_room_name,
+          }));
+          setNavs(items);
+          console.log("a");
         }
       }
     };
