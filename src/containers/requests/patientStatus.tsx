@@ -1,3 +1,4 @@
+import { transformFormatDate } from "@/lib/utils/transeform";
 import { Patient } from "@/states/requestStore";
 import {
   ABCDE,
@@ -66,11 +67,11 @@ export default function PatientStatus({
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">Severity</td>
-              <td>{opqrst && opqrst.severity}</td>
+              <td>{opqrst && opqrst.severity} / 10</td>
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">Time</td>
-              <td>{opqrst && opqrst.time}</td>
+              <td>{opqrst && transformFormatDate(opqrst.time)}</td>
             </tr>
           </tbody>
         </table>
@@ -94,7 +95,7 @@ export default function PatientStatus({
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">Last oral intake</td>
-              <td>{sample && sample.last_oral_intake}</td>
+              <td>{sample && transformFormatDate(sample.last_oral_intake)}</td>
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">
@@ -108,11 +109,11 @@ export default function PatientStatus({
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">맥박수</td>
-              <td>{vs && vs.heart_rate}</td>
+              <td>{vs && vs.heart_rate}회</td>
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">호흡수</td>
-              <td>{vs && vs.respiratory_rate}</td>
+              <td>{vs && vs.respiratory_rate}회 / 분</td>
             </tr>
             <tr>
               <td className="leading-[3rem] text-main">혈압</td>

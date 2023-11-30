@@ -45,7 +45,7 @@ export default function HomeContainer() {
       setBeds(data.result.emergency_room_beds);
       mutate();
     }
-  }, [setBeds, mutate]);
+  }, [data, setBeds, mutate]);
 
   return (
     <MainNavContentWrapper>

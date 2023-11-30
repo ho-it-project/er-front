@@ -158,7 +158,7 @@ export default function RequestDetailModal({
                     <td className="leading-[3rem] text-main">나이 / 성별</td>
                     <td>
                       {transformAge(patient.patient_birth)} /{" "}
-                      {patient.patient_gender === "MALE" ? "남" : "야"}
+                      {patient.patient_gender === "MALE" ? "남" : "여"}
                     </td>
                   </tr>
                   <tr>
@@ -167,7 +167,7 @@ export default function RequestDetailModal({
                   </tr>
                   <tr>
                     <td className="leading-[3rem] text-main">거주지</td>
-                    <td>{}</td>
+                    <td>{patientDetail?.patient_address}</td>
                   </tr>
                   <tr>
                     <td className="leading-[3rem] text-main">연락처</td>
