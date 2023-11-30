@@ -51,13 +51,12 @@ export default function InfoProvider({
             title: room.emergency_room_name,
           }));
           setNavs(items);
-          console.log("a");
         }
       }
     };
 
     handleDataChange();
-  }, [data, setEmergencyCenterInfo]);
+  }, [data, setEmergencyCenterInfo, setEmergencyRooms, setNavs]);
 
   return <>{isLoading ? <Spinner /> : children}</>;
 }
