@@ -22,7 +22,7 @@ export default function InfoProvider({
 }) {
   const { userData, accessToken } = useUserStore();
   const { setEmergencyCenterInfo } = useEmergencyCenterInfoStore();
-  const { setEmergencyRooms, setNavs } = useEmergencyRoomStore();
+  const { setNavs } = useEmergencyRoomStore();
 
   const url =
     userData && `/api/er/emergency-centers/${userData.emergency_center_id}`;
@@ -46,7 +46,7 @@ export default function InfoProvider({
       if (data) {
         if (data.is_success) {
           setEmergencyCenterInfo(data.result);
-          setEmergencyRooms(data.result.emergency_rooms);
+
           const items = data.result.emergency_rooms.map((room) => ({
             title: room.emergency_room_name,
           }));
@@ -56,7 +56,7 @@ export default function InfoProvider({
     };
 
     handleDataChange();
-  }, [data, setEmergencyCenterInfo, setEmergencyRooms, setNavs]);
+  }, [data, setEmergencyCenterInfo, setNavs]);
 
   return <>{isLoading ? <Spinner /> : children}</>;
 }
