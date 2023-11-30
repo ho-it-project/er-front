@@ -1,5 +1,6 @@
+import { transeformName } from "@/lib/utils/transeform";
+import { RequestStatus } from "@/states/requestStore";
 import { Card } from "../common/Card";
-
 interface RequestProps {
   date: string;
   name: string;
@@ -7,7 +8,21 @@ interface RequestProps {
   age: string;
   companyName: string;
   symptom: string;
+  status: RequestStatus;
 }
+
+const getStatusStyles = (status: RequestStatus) => {
+  switch (status) {
+    case "ACCEPTED":
+      return { backgroundColor: "main", type: "이송대기" };
+
+    case "REJECTED":
+      return { backgroundColor: "L-gray", type: "요청거절" };
+
+    default:
+      return { backgroundColor: "yellow", type: "응답대기" };
+  }
+};
 
 export default function RequestBox({
   date,
@@ -16,6 +31,7 @@ export default function RequestBox({
   age,
   companyName,
   symptom,
+  status,
 }: RequestProps) {
   const reqeustDate = new Date(date);
   const currentDate = new Date();
@@ -25,19 +41,32 @@ export default function RequestBox({
   const formattedTimeDifference = `${String(
     Math.floor(minutesDifference / 60)
   ).padStart(2, "0")}:${String(minutesDifference % 60).padStart(2, "0")}`;
+
+  const styles = getStatusStyles(status);
   return (
     <Card size="medium" dropShadow="xl">
-      <div className="relative flex min-h-[19rem] min-w-[38rem] flex-wrap px-[2rem] py-[1.5rem] text-[1.8rem] font-[600]">
-        <div className="mb-[1rem] flex">
-          <p className={`${isOneHourAgo ? "text-black" : "text-red"}`}>
-            {formattedTimeDifference}
-          </p>
-        </div>
-        <div className="mb-[1rem] flex flex-col justify-between">
-          <p>
-            {name} / {gender} / {age}
-          </p>
-          <p>{companyName}</p>
+      <div
+        className={`relative flex min-h-[19rem] min-w-[36rem] flex-col justify-between rounded-3xl px-[2rem] py-[1.5rem] text-medium font-[600]`}
+      >
+        <span
+          className={`absolute left-[0.5rem] top-[0.5rem] bg-${styles.backgroundColor} h-[1rem] w-[1rem] rounded-full`}
+        ></span>
+        <div>
+          <div className="mb-[1rem] flex">
+            <p className={`${isOneHourAgo ? "text-black" : "text-red"}`}>
+              {formattedTimeDifference}
+            </p>
+          </div>
+          <div className="mb-[1rem] flex justify-between gap-[2rem]">
+            <div className="flex-1">
+              <p>
+                {name} / {gender} / {age}
+              </p>
+            </div>
+            <div className="flex-1">
+              <p>{transeformName(companyName)}</p>
+            </div>
+          </div>
         </div>
         <div>{symptom}</div>
       </div>

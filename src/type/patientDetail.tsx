@@ -115,7 +115,7 @@ export interface SAMPLE {
   status: Status;
 }
 
-export interface DACP_BTLS {
+export interface DCAP_BTLS {
   patient_id: string;
   affected_area: AffectedArea;
   deformity: string;
@@ -150,6 +150,17 @@ export interface AmbulanceEmployee {
     ambulance_company_phone: string;
   };
 }
+export interface VS {
+  created_at: string;
+  diastolic_blood_pressure: number;
+  heart_rate: number;
+  patient_id: string;
+  respiratory_rate: number;
+  status: Status;
+  systolic_blood_pressure: number;
+  temperature: number;
+  updated_at: string;
+}
 
 export interface PatientDetail {
   patient_id: string;
@@ -170,11 +181,12 @@ export interface PatientDetail {
   created_at: string;
   updated_at: string;
   status: Status;
-  rapid: RAPID;
-  abcde: ABCDE;
-  opqrst: OPQRST;
-  sample: SAMPLE;
-  dcap_btls: DACP_BTLS;
+  rapid: RAPID[];
+  abcde: ABCDE[];
+  opqrst: OPQRST[];
+  sample: SAMPLE[];
+  dcap_btls: DCAP_BTLS[];
+  vs: VS[];
   guardian: GUARDIAN;
   employee: AmbulanceEmployee;
 }

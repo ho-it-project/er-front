@@ -40,6 +40,7 @@ export default function RequestDetailModal({
   const [patientDetail, setPatientDetail] = useState<PatientDetail | undefined>(
     undefined
   );
+  const [count, setCount] = useState(0);
 
   const requestHandler = (res: "ACCEPTED" | "REJECTED") => {
     const url = `/api/requests/ems-to-er/${patient.patient_id}`;
@@ -80,7 +81,7 @@ export default function RequestDetailModal({
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((r) => r.json());
-  const { data, isLoading } = useSWR<GetDetailPatientResponse>(
+  const { data, isLoading, mutate } = useSWR<GetDetailPatientResponse>(
     url,
     (url: string) => fetcher(url, accessToken)
   );
@@ -88,10 +89,21 @@ export default function RequestDetailModal({
   useEffect(() => {
     if (data) {
       if (!data.is_success) return;
+      const { patient } = data.result;
 
-      setPatientDetail(data.result.patient);
+      setPatientDetail(patient);
+      const maxCount = Math.max(
+        patient.abcde.length,
+        patient.dcap_btls.length,
+        patient.opqrst.length,
+        patient.rapid.length,
+        patient.sample.length,
+        patient.vs.length
+      );
+      setCount(maxCount);
+      mutate();
     }
-  }, [data, setPatientDetail]);
+  }, [data, setPatientDetail, mutate]);
 
   return (
     <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[110rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] pb-[15rem] drop-shadow-2xl">
@@ -202,9 +214,19 @@ export default function RequestDetailModal({
               </table>
             </DetailBox>
           </div>
-          <DetailBox title="환자 상태">
-            <PatientStatus patient={patient} patientDetail={patientDetail} />
-          </DetailBox>
+          {Array.from({ length: count }).map((_, index) => (
+            <DetailBox title="환자 상태" key={index}>
+              <PatientStatus
+                patient={patient}
+                rapid={patientDetail?.rapid[index]}
+                abcde={patientDetail?.abcde[index]}
+                opqrst={patientDetail?.opqrst[index]}
+                sample={patientDetail?.sample[index]}
+                dcap_btls={patientDetail?.dcap_btls[index]}
+                vs={patientDetail?.vs[index]}
+              />
+            </DetailBox>
+          ))}
         </div>
       )}
     </div>

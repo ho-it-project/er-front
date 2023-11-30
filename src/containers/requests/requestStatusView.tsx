@@ -7,10 +7,10 @@ interface StatusProps {
 const getStatusStyles = (type: RequestStatus) => {
   switch (type) {
     case "ACCEPTED":
-      return { backgroundColor: "main", type: "요청수락" };
+      return { backgroundColor: "main", type: "이송대기" };
 
     case "REJECTED":
-      return { backgroundColor: "gray", type: "요청거절" };
+      return { backgroundColor: "L-gray", type: "요청거절" };
 
     default:
       return { backgroundColor: "yellow", type: "응답대기" };

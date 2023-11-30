@@ -30,7 +30,6 @@ export default function AppWrapper({
         login();
         setAccessToken(result.access_token);
         updateUserData(result.employee);
-        router.refresh();
       }
     }
   }, [data, updateUserData, login, setAccessToken, router]);

@@ -5,6 +5,7 @@ import { useRequestList } from "@/hooks/useRequestList";
 import { transformAge } from "@/lib/utils/transeform";
 import { useModal } from "@/states/Modal";
 import { Request } from "@/states/requestStore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
 import Spinner from "../Spinner";
@@ -50,7 +51,14 @@ export default function RightMenu() {
       <div className="h-[calc(100%-35rem)] overflow-hidden">
         <div className="h-full w-full">
           <div className="mt-[4rem] h-full">
-            <h4 className="text-[2rem] font-bold text-main">환자 수용 요청</h4>
+            <div className="flex items-center justify-between">
+              <h4 className="text-[2rem] font-bold text-main">
+                환자 수용 요청
+              </h4>
+              <Link href={"/requests"}>
+                <div className="h-[2rem] w-[8rem] cursor-pointer rounded-3xl bg-white"></div>
+              </Link>
+            </div>
             <div className="relative h-full w-full overflow-y-hidden">
               <ScrollBox>
                 <div className="mb-[7rem] flex flex-col gap-[2rem] pt-[1rem]">
@@ -75,8 +83,9 @@ export default function RightMenu() {
                               : "여"
                           }
                           age={transformAge(request.patient.patient_birth)}
-                          companyName={request.emergency_center_name}
+                          companyName={request.patient.ambulance_company_name}
                           symptom={request.patient.patient_symptom_summary}
+                          status={request.request_status}
                         />
                       </div>
                     ))
