@@ -1,55 +1,15 @@
 "use client";
 
-import Spinner from "@/components/Spinner";
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import useEmergencyCenterInfoStore, {
-  EmergencyCenterInfo,
-} from "@/states/EmergencyCenterInfoStore";
+import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
 import useLoginStore from "@/states/loginStore";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
-import { useEffect } from "react";
-import useSWR from "swr";
-
-interface GetEmergencyCenterResponse {
-  result: EmergencyCenterInfo;
-  is_success: boolean;
-  message: string;
-}
 
 const TopNavProfile = [{ title: "프로필", link: "/profile" }];
 export default function ProfileContainter() {
   const { userData, accessToken } = useUserStore();
-  const { emergencyCenterInfo, setEmergencyCenterInfo } =
-    useEmergencyCenterInfoStore();
-
-  const url =
-    userData && `/api/er/emergency-centers/${userData.emergency_center_id}`;
-
-  const fetcher = (url: string, accessToken: string) =>
-    fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).then((res) => res.json());
-  const { data, isLoading } = useSWR<GetEmergencyCenterResponse>(
-    url,
-    (url: string) => fetcher(url, accessToken)
-  );
-
-  useEffect(() => {
-    const handleDataChange = () => {
-      if (data) {
-        if (data.is_success) {
-          setEmergencyCenterInfo(data.result);
-        }
-      }
-    };
-
-    handleDataChange();
-  }, [data, setEmergencyCenterInfo]);
+  const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
 
   const Logouturl = "/api/er/auth/logout";
 
@@ -58,6 +18,11 @@ export default function ProfileContainter() {
   const handleLogout = () => {
     fetch(Logouturl, {
       method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -95,23 +60,18 @@ export default function ProfileContainter() {
             </div>
           </div>
         </div>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          userData &&
-          emergencyCenterInfo && (
-            <div className="flex flex-col justify-between gap-[2rem]">
-              <ProfileLine title="이름" value={userData.employee_name} />
-              <ProfileLine
-                title="기관명"
-                value={emergencyCenterInfo.emergency_center_name}
-              />
-              <ProfileLine title="역할" value={userData.role} />
-              <ProfileLine title="진료과" value={""} />
-              <ProfileLine title="전문분야" value={""} />
-              <ProfileLine title="ID" value={userData.id_card} />
-            </div>
-          )
+        {userData && emergencyCenterInfo && (
+          <div className="flex flex-col justify-between gap-[2rem]">
+            <ProfileLine title="이름" value={userData.employee_name} />
+            <ProfileLine
+              title="기관명"
+              value={emergencyCenterInfo.emergency_center_name}
+            />
+            <ProfileLine title="역할" value={userData.role} />
+            <ProfileLine title="진료과" value={""} />
+            <ProfileLine title="전문분야" value={""} />
+            <ProfileLine title="ID" value={userData.id_card} />
+          </div>
         )}
       </div>
     </TopNavContentWrapper>

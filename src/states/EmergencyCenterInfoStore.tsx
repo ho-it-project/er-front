@@ -18,6 +18,19 @@ type HospitalType =
   | "DENTAL_CLINIC"
   | "ORIENTAL_HOSPITAL"
   | "ORIENTAL_CLINIC";
+type EmergencyRoomType =
+  | "GENERAL"
+  | "COHORT_ISOLATION"
+  | "NEGATIVE_PRESSURE_ISOLATION"
+  | "STANDARD_ISOLATION"
+  | "PEDIATRIC"
+  | "PEDIATRIC_NEGATIVE_PRESSURE_ISOLATION"
+  | "PEDIATRIC_STANDARD_ISOLATION";
+type EmergencyRoomBedStauts =
+  | "AVAILABLE"
+  | "OCCUPIED"
+  | "CLEANING"
+  | "MAINTENANCE";
 export interface hospital {
   hospital_id: string;
   hospital_name: string;
@@ -31,6 +44,29 @@ export interface hospital {
   created_at: string;
   updated_at: string;
   status: Status;
+}
+export interface emergencyRoomBed {
+  emergency_room_id: string;
+  emergency_room_bed_num: 0;
+  emergency_room_bed_status: EmergencyRoomBedStauts;
+  patient_id: string;
+  created_at: string;
+  updated_at: string;
+  status: Status;
+}
+
+export interface emergencyRoom {
+  emergency_room_id: string;
+  emergency_center_id: string;
+  emergency_room_type: EmergencyRoomType;
+  emergency_room_name: string;
+  created_at: string;
+  updated_at: string;
+  status: Status;
+  emergency_room_beds: emergencyRoomBed[];
+  _count: {
+    emergency_room_beds: number;
+  };
 }
 
 export interface EmergencyCenterInfo {
@@ -48,6 +84,7 @@ export interface EmergencyCenterInfo {
   updated_at: string;
   status: Status;
   hospital: hospital;
+  emergency_rooms: emergencyRoom[];
 }
 
 export interface EmergencyCenterStore {
