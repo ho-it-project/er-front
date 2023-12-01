@@ -50,12 +50,14 @@ export default function EmergencyCenterContainer({
 
   useEffect(() => {
     if (emergencyCenterListRef.current) {
-      emergencyCenterListRef.current.scrollTo(0, 0);
+      if (emergencyCenterListRef.current.scrollTop > 0) {
+        emergencyCenterListRef.current.scrollTo(0, 0);
+      }
     }
   }, [query.emergency_center_type, query.search]);
 
   return (
-    <div className="h-full w-full pb-[10rem]">
+    <div className="h-full w-full pb-[8rem]">
       <div className="mb-[5rem] mr-[4rem] flex h-[7rem] w-full items-center justify-between bg-white py-[1rem] pr-[4rem]">
         <EmergencyCenterNav onClickNav={ClickedNavHandler} />
         <SearchInput
@@ -70,17 +72,18 @@ export default function EmergencyCenterContainer({
         ref={emergencyCenterListRef}
         onScroll={(e) => {
           const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-          if (scrollHeight - scrollTop === clientHeight) {
-            if (query.page < pageLimit.total_page) {
-              setQueryPage(query.page + 1);
-              console.log(query.page + 1);
-            }
+          const scrollPercentage =
+            (scrollTop / (scrollHeight - clientHeight)) * 100;
+          if (scrollPercentage > 95 && query.page < pageLimit.total_page) {
+            console.log(query.page);
+
+            setQueryPage(query.page + 1);
           }
         }}
       >
         {emergencyCenters.map((emergencyCenter, index) => (
           <EmergencyBox
-            key={index}
+            key={emergencyCenter.emergency_center_id}
             index={index}
             ChangeSelectedHospital={ChangeSelectedHospital}
             emergencyCenter={emergencyCenter}
