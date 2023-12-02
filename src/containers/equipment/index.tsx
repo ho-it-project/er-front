@@ -30,7 +30,9 @@ export default function MedicalEquipmentSettingContainer() {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((r) => r.json());
-  const { data, isLoading } = useSWR(url, (url) => fetcher(url, accessToken));
+  const { data, isLoading, mutate } = useSWR(url, (url) =>
+    fetcher(url, accessToken)
+  );
 
   const { updateList, addUpdateList } = useUpdateEquipmentListStore();
   const { isAlertVisible, showSuccessAlert } = useSaveAlert();
@@ -60,14 +62,15 @@ export default function MedicalEquipmentSettingContainer() {
       .then((r) => r.json())
       .then(() => showSuccessAlert());
   };
+  console.log("장비", updateList);
 
   useEffect(() => {
     if (data) {
       if (!data.is_success) return;
-
+      mutate();
       setEquipments(data.result);
     }
-  }, [data]);
+  }, [data, setEquipments, mutate]);
 
   return (
     <>
