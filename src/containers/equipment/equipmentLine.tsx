@@ -30,7 +30,7 @@ export default function EquipmentLine({
     if (!status) {
       setEquipmentCount(0);
     }
-  }, [clickSwitch, setEquipmentCount]);
+  }, [status, clickSwitch, setEquipmentCount]);
 
   return (
     <span className="my-[3.5rem] flex justify-between gap-[2rem]">
