@@ -2,7 +2,6 @@
 
 import MainNavContentWrapper from "@/components/MainNavContentWrapper";
 import Spinner from "@/components/Spinner";
-import PatientCard from "@/components/pages/home/patientCard";
 import useEmergencyCenterInfoStore, {
   emergencyRoom,
   emergencyRoomBed,
@@ -11,6 +10,7 @@ import useEmergencyRoomStore from "@/states/emergencyRoomStore";
 import useUserStore from "@/states/userStore";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import EmergencyRoom from "./emergencyRoom";
 
 interface GetEmergencyRoom {
   result: emergencyRoom;
@@ -23,9 +23,11 @@ export default function HomeContainer() {
   const { emergencyRoomNumber } = useEmergencyRoomStore();
   const { accessToken } = useUserStore();
 
-  const [, setBeds] = useState<emergencyRoomBed[]>();
+  const [beds, setBeds] = useState<emergencyRoomBed[]>();
 
-  const url = `/api/er/emergency-centers/emergency-room/${emergencyCenterInfo?.emergency_rooms[emergencyRoomNumber].emergency_room_id}`;
+  const url = emergencyCenterInfo
+    ? `/api/er/emergency-centers/emergency-room/${emergencyCenterInfo?.emergency_rooms[emergencyRoomNumber].emergency_room_id}`
+    : null;
   const fetcher = (url: string, accessToken: string) =>
     fetch(url, {
       headers: {
@@ -36,30 +38,23 @@ export default function HomeContainer() {
     }).then((res) => res.json());
   const { data, isLoading, mutate } = useSWR<GetEmergencyRoom>(
     url,
-    (url: string) => fetcher(url, accessToken)
+    url ? (url: string) => fetcher(url, accessToken) : null
   );
 
   useEffect(() => {
-    if (data) {
-      if (!data.is_success) return;
-      setBeds(data.result.emergency_room_beds);
+    if (data && data.is_success) {
+      const sortedBeds = data.result.emergency_room_beds.sort(
+        (a, b) => a.emergency_room_bed_num - b.emergency_room_bed_num
+      );
+      setBeds(sortedBeds);
       mutate();
     }
-  }, [data, setBeds, mutate]);
+  }, [data, setBeds, emergencyRoomNumber, mutate]);
 
   return (
     <MainNavContentWrapper>
       <div className="px-[1rem]">
-        <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(24rem,24rem))] gap-[2rem]">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            data !== undefined &&
-            data.result.emergency_room_beds.map((bed, index) => (
-              <PatientCard key={index} />
-            ))
-          )}
-        </div>
+        {isLoading ? <Spinner /> : <>{beds && <EmergencyRoom beds={beds} />}</>}
       </div>
     </MainNavContentWrapper>
   );
