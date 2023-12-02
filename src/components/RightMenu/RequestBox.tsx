@@ -1,3 +1,4 @@
+import { getStatusStyles } from "@/lib/utils/requestStyle";
 import { transeformName } from "@/lib/utils/transeform";
 import { RequestStatus } from "@/states/requestStore";
 import { Card } from "../common/Card";
@@ -10,19 +11,6 @@ interface RequestProps {
   symptom: string;
   status: RequestStatus;
 }
-
-const getStatusStyles = (status: RequestStatus) => {
-  switch (status) {
-    case "ACCEPTED":
-      return { backgroundColor: "main", type: "이송대기" };
-
-    case "REJECTED":
-      return { backgroundColor: "L-gray", type: "요청거절" };
-
-    default:
-      return { backgroundColor: "yellow", type: "응답대기" };
-  }
-};
 
 export default function RequestBox({
   date,

@@ -2,6 +2,7 @@
 
 import Spinner from "@/components/Spinner";
 import useModal from "@/hooks/useModal";
+import { getStatusStyles } from "@/lib/utils/requestStyle";
 import {
   transformAge,
   transformFormatDate,
@@ -115,6 +116,8 @@ export default function RequestDetailModal({
     }
   }, [data, setPatientDetail, mutate]);
 
+  const styles = getStatusStyles(requestStatus);
+
   return (
     <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[110rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] pb-[15rem] drop-shadow-2xl">
       <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-white px-[2rem]">
@@ -145,7 +148,13 @@ export default function RequestDetailModal({
         <Spinner />
       ) : (
         <div className="h-full w-full overflow-scroll px-[2rem]">
-          <p>{requestStatus}</p>
+          <div className="flex items-center pb-[2rem] text-medium font-medium">
+            <div className="pr-[2rem] text-main">상태</div>
+            <div className="pr-[1rem] font-medium-L">{styles.type}</div>
+            <div
+              className={`bg-${styles.backgroundColor} h-[1rem] w-[1rem] rounded-full`}
+            ></div>
+          </div>
           <div className="grid grid-cols-2 gap-x-[2rem] gap-y-[3rem] pb-[3rem]">
             <DetailBox title="구급업체 및 구급대원 정보">
               <p>

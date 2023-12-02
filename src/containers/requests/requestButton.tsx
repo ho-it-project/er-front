@@ -1,4 +1,5 @@
 import { RequestStatus } from "@/states/requestStore";
+import { useRouter } from "next/navigation";
 
 interface RequestButtonPros {
   requestStatus: RequestStatus;
@@ -11,6 +12,7 @@ export default function RequestButton({
   requestHandler,
   bedAssignmentHandler,
 }: RequestButtonPros) {
+  const router = useRouter();
   let button;
 
   switch (requestStatus) {
@@ -24,15 +26,20 @@ export default function RequestButton({
 
     case "CANCELED":
       button = (
-        <button className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-main">
-          수락하기
+        <button className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-L-gray">
+          요청취소됨
         </button>
       );
       break;
 
     case "COMPLETED":
       button = (
-        <button className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-L-gray">
+        <button
+          className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-L-gray"
+          onClick={() => {
+            router.push("/");
+          }}
+        >
           병상정보확인하기
         </button>
       );

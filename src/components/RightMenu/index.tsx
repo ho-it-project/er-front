@@ -100,7 +100,8 @@ export default function RightMenu() {
         <RequestDetailModal
           request={selectedRequest}
           patient={selectedRequest.patient}
-          closeModal={closeModal}
+          requestStatus={selectedRequest.request_status}
+          close={closeModal}
         />
       )}
     </div>

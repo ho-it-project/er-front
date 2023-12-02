@@ -36,7 +36,7 @@ export default function HomeContainer() {
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((res) => res.json());
-  const { data, isLoading, mutate } = useSWR<GetEmergencyRoom>(
+  const { data, isLoading } = useSWR<GetEmergencyRoom>(
     url,
     url ? (url: string) => fetcher(url, accessToken) : null
   );
@@ -47,9 +47,8 @@ export default function HomeContainer() {
         (a, b) => a.emergency_room_bed_num - b.emergency_room_bed_num
       );
       setBeds(sortedBeds);
-      mutate();
     }
-  }, [data, setBeds, emergencyRoomNumber, mutate]);
+  }, [data, setBeds, emergencyRoomNumber, emergencyCenterInfo]);
 
   return (
     <MainNavContentWrapper>
