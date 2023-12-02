@@ -10,7 +10,7 @@ import {
   transformDate,
 } from "@/lib/utils/transeform";
 import { Request, RequestStatus } from "@/states/requestStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RequestDetailModal from "./requestDetailModal";
 import RequestHeader from "./requestHeader";
 import RequestItem from "./requestItem";
@@ -19,10 +19,11 @@ import RequestNav from "./requestNav";
 const TopNavRequest = [{ title: "환자 수용 요청", link: "/requests" }];
 
 export default function RequestsContainer() {
-  const { requests, isLoading } = useRequestList();
+  const { requests, isLoading, mutate } = useRequestList();
   const { isOpen, openModal, closeModal } = useModal();
 
   const [selectedRequest, setSelectedRequest] = useState<Request>();
+
   const clickRequestHanlder = (request: Request) => {
     setSelectedRequest(request);
   };
@@ -33,6 +34,31 @@ export default function RequestsContainer() {
   const ClickedNavHandler = (value: RequestStatus[] | "전체") => {
     setClickedNav(value);
   };
+
+  useEffect(() => {
+    mutate();
+    setSelectedRequest((prevSelectedRequest) => {
+      // 만약 prevSelectedRequest가 존재하고, 해당 request의 request_status가 바뀌었다면
+      // 새로운 request로 교체하도록 업데이트합니다.
+      return (
+        (prevSelectedRequest &&
+          requests.find(
+            (request) =>
+              request.patient_id === prevSelectedRequest.patient_id &&
+              request.emergency_center_id ===
+                prevSelectedRequest.emergency_center_id
+          )) ||
+        prevSelectedRequest
+      );
+    });
+  }, [requests, setSelectedRequest, mutate]);
+
+  useEffect(() => {
+    if (isOpen && selectedRequest) {
+      closeModal();
+      openModal();
+    }
+  }, [selectedRequest, isOpen, closeModal, openModal]);
 
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavRequest }}>
@@ -79,7 +105,8 @@ export default function RequestsContainer() {
             <RequestDetailModal
               request={selectedRequest}
               patient={selectedRequest.patient}
-              closeModal={closeModal}
+              requestStatus={selectedRequest.request_status}
+              close={closeModal}
             />
           )}
         </div>

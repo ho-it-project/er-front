@@ -1,24 +1,33 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
+import useModal from "@/hooks/useModal";
 import {
   transformAge,
   transformFormatDate,
   transformPhone,
 } from "@/lib/utils/transeform";
-import { Patient, Request, useRequestListStore } from "@/states/requestStore";
+import {
+  Patient,
+  Request,
+  RequestStatus,
+  useRequestListStore,
+} from "@/states/requestStore";
 import useUserStore from "@/states/userStore";
 import { PatientDetail } from "@/type/patientDetail";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DetailBox from "./DetailBox";
+import BedAssignmentModal from "./bedAssignmentModal";
 import PatientStatus from "./patientStatus";
+import RequestButton from "./requestButton";
 
 interface RequestDetailModalProps {
   request: Request;
   patient: Patient;
-  closeModal: () => void;
+  requestStatus: RequestStatus;
+  close: () => void;
 }
 
 interface GetDetailPatientResponse {
@@ -32,7 +41,8 @@ interface GetDetailPatientResponse {
 export default function RequestDetailModal({
   request,
   patient,
-  closeModal,
+  requestStatus,
+  close,
 }: RequestDetailModalProps) {
   const { accessToken } = useUserStore();
   const { setRequests } = useRequestListStore();
@@ -41,8 +51,9 @@ export default function RequestDetailModal({
     undefined
   );
   const [count, setCount] = useState(0);
+  const { isOpen, openModal, closeModal } = useModal();
 
-  const requestHandler = (res: "ACCEPTED" | "REJECTED") => {
+  const requestHandler = (res: RequestStatus) => {
     const url = `/api/requests/ems-to-er/${patient.patient_id}`;
     const option = {
       method: "POST",
@@ -59,7 +70,6 @@ export default function RequestDetailModal({
     fetch(url, option)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.is_success) {
           setRequests((prevReq) =>
             prevReq.map((prev) =>
@@ -115,28 +125,27 @@ export default function RequestDetailModal({
           width={24}
           height={24}
           alt="닫기"
-          onClick={closeModal}
+          onClick={close}
         />
       </span>
-      <div className="flex justify-end px-[2rem] py-[3rem] text-[1.8rem] font-[500] text-white">
-        <div
-          className="flex h-[7rem] w-[12rem] cursor-pointer items-center justify-center rounded-l-3xl bg-L-gray"
-          onClick={() => requestHandler("REJECTED")}
-        >
-          거절하기
-        </div>
-        <div
-          className="flex h-[7rem] w-[24rem] cursor-pointer items-center justify-center rounded-r-3xl bg-main"
-          onClick={() => requestHandler("ACCEPTED")}
-        >
-          수락하기
-        </div>
+      {isOpen && (
+        <BedAssignmentModal
+          patientId={patient.patient_id}
+          closeModal={closeModal}
+        />
+      )}
+      <div className="h-max w-full">
+        <RequestButton
+          requestStatus={requestStatus}
+          requestHandler={requestHandler}
+          bedAssignmentHandler={openModal}
+        />
       </div>
       {isLoading && patientDetail ? (
         <Spinner />
       ) : (
         <div className="h-full w-full overflow-scroll px-[2rem]">
-          <p>{request.request_status}</p>
+          <p>{requestStatus}</p>
           <div className="grid grid-cols-2 gap-x-[2rem] gap-y-[3rem] pb-[3rem]">
             <DetailBox title="구급업체 및 구급대원 정보">
               <p>

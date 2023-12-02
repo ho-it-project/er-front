@@ -47,7 +47,7 @@ export interface hospital {
 }
 export interface emergencyRoomBed {
   emergency_room_id: string;
-  emergency_room_bed_num: 0;
+  emergency_room_bed_num: number;
   emergency_room_bed_status: EmergencyRoomBedStauts;
   patient_id: string;
   created_at: string;

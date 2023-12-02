@@ -14,7 +14,7 @@ export default function RequestNav({ onClickNav }: NavProps) {
   };
 
   return (
-    <div className="flex min-w-[38rem] items-center justify-around text-[2rem] font-[700]">
+    <div className="flex min-w-[50rem] items-center justify-around text-[2rem] font-[700]">
       <span
         onClick={() => {
           handleSelected(0);
@@ -38,21 +38,31 @@ export default function RequestNav({ onClickNav }: NavProps) {
       <span
         onClick={() => {
           handleSelected(2);
-          onClickNav(["ACCEPTED"]);
+          onClickNav(["REJECTED"]);
         }}
         className={`${selected == 2 ? "text-main" : ""} cursor-pointer`}
       >
-        요청수락
+        요청거절
       </span>
       <span className="text-main30">|</span>
       <span
         onClick={() => {
           handleSelected(3);
-          onClickNav(["REJECTED"]);
+          onClickNav(["ACCEPTED", "TRANSFER"]);
         }}
         className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
       >
-        요청거절
+        이송대기
+      </span>
+      <span className="text-main30">|</span>
+      <span
+        onClick={() => {
+          handleSelected(3);
+          onClickNav(["TRANSFER_COMPLETED", "COMPLETED"]);
+        }}
+        className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
+      >
+        이송완료
       </span>
     </div>
   );

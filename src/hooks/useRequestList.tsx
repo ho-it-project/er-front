@@ -61,8 +61,9 @@ export const useRequestList = () => {
         total_count: count,
         total_page: Math.ceil(count / query.limit),
       });
+      mutate();
     }
-  }, [data, setRequests, setPageLimit, query.limit, query.page]);
+  }, [data, setRequests, setPageLimit, query.limit, query.page, mutate]);
 
   return { isLoading, requests, error, mutate };
 };
