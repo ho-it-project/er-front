@@ -25,8 +25,7 @@ export default function ProfileContainter() {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         logout();
       });
   };

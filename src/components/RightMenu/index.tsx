@@ -66,7 +66,7 @@ export default function RightMenu() {
               <h4 className="text-[2rem] font-bold text-main">
                 환자 수용 요청
               </h4>
-              <Link href={"/requests"}>
+              <Link href={"/patients"}>
                 <div className="h-[2rem] w-[8rem] cursor-pointer rounded-3xl bg-white"></div>
               </Link>
             </div>
