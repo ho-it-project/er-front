@@ -33,6 +33,17 @@ export default function RightMenu() {
   };
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newTime = currentTimer();
+      if (newTime !== timer) {
+        setTimer(newTime);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timer]);
+
+  useEffect(() => {
     mutate();
   }, [requests, mutate]);
 
@@ -65,10 +76,10 @@ export default function RightMenu() {
                   {isLoading ? (
                     <Spinner />
                   ) : (
-                    requests.map((request, index) => (
+                    requests.map((request) => (
                       <div
                         className="cursor-pointer"
-                        key={index + request.patient_id}
+                        key={request.patient_id}
                         onClick={() => {
                           clickRequestHanlder(request);
                           openModal();

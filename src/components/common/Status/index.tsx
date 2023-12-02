@@ -38,7 +38,7 @@ export default function Status({
           <p className="text-[1.8rem] font-[600]">
             {status} / {full}
           </p>
-          {wait != undefined && (
+          {wait != 0 && (
             <span className="absolute -bottom-[2rem] text-[1.5rem] font-[400]">
               대기 {wait}
             </span>
