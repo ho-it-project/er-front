@@ -1,42 +1,47 @@
-import Status from "../common/Status";
+import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
+import { useEffect, useState } from "react";
 
-const DUMMYSTATUS1 = [
-  { title: "일반", status: 12, full: 12, wait: 12 },
-  { title: "코호트", status: 1, full: 2 },
-  { title: "음압", status: 2, full: 4 },
-  { title: "일반격리", status: 6, full: 8 },
-];
-
-const DUMMYSTATUS2 = [
-  { title: "소아음압격리", status: 0, full: 2 },
-  { title: "소아일반격리", status: 2, full: 2, wait: 12 },
-  { title: "소아", status: 7, full: 8 },
-];
+interface bedSummary {
+  title: string;
+  count: number;
+  full: number;
+}
 
 export default function StatusBox() {
+  const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
+  const [bedSummarys, setBedSummarys] = useState<bedSummary[]>();
+
+  useEffect(() => {
+    if (emergencyCenterInfo) {
+      setBedSummarys(
+        emergencyCenterInfo.emergency_rooms.map((room) => ({
+          title: room.emergency_room_name,
+          count: room.emergency_room_beds.filter(
+            (bed) => bed.emergency_room_bed_status === "OCCUPIED"
+          ).length,
+          full: room._count.emergency_room_beds,
+        }))
+      );
+    }
+  }, [emergencyCenterInfo]);
+
   return (
-    <div className="mb-[2rem] rounded-2xl bg-white px-[2rem] py-[3rem]">
-      <div className="flex justify-around">
-        {DUMMYSTATUS1.map((i, index) => (
-          <Status
-            key={index}
-            title={i.title}
-            status={i.status}
-            full={i.full}
-            wait={i.wait}
-          />
-        ))}
-      </div>
-      <div className="mt-[3.5rem] flex justify-around">
-        {DUMMYSTATUS2.map((i, index) => (
-          <Status
-            key={index}
-            title={i.title}
-            status={i.status}
-            full={i.full}
-            wait={i.wait}
-          />
-        ))}
+    <div className="mb-[2rem] h-[21rem] w-[38rem] rounded-2xl bg-white px-[2rem] py-[3rem]">
+      <div className="flex flex-wrap gap-[2rem]">
+        {bedSummarys &&
+          bedSummarys.map((summary, index) => (
+            <div
+              className="flex flex-col items-center justify-center text-regular font-large"
+              key={index}
+            >
+              <div className="rounded-full bg-main px-[2rem] py-[0.5rem] text-white">
+                {summary.title}
+              </div>
+              <div className="pt-[0.5rem] text-black">
+                {summary.count} / {summary.full}
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

@@ -50,12 +50,14 @@ export default function EmergencyCenterContainer({
 
   useEffect(() => {
     if (emergencyCenterListRef.current) {
-      emergencyCenterListRef.current.scrollTo(0, 0);
+      if (emergencyCenterListRef.current.scrollTop > 0) {
+        emergencyCenterListRef.current.scrollTo(0, 0);
+      }
     }
   }, [query.emergency_center_type, query.search]);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full pb-[8rem]">
       <div className="mb-[5rem] mr-[4rem] flex h-[7rem] w-full items-center justify-between bg-white py-[1rem] pr-[4rem]">
         <EmergencyCenterNav onClickNav={ClickedNavHandler} />
         <SearchInput
@@ -65,31 +67,32 @@ export default function EmergencyCenterContainer({
           }}
         />
       </div>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div
-          className="flex h-full w-full flex-col gap-[2rem] overflow-scroll pb-[10rem]"
-          ref={emergencyCenterListRef}
-          onScroll={(e) => {
-            const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-            if (scrollHeight - scrollTop === clientHeight) {
-              if (query.page < pageLimit.total_page) {
-                setQueryPage(query.page + 1);
-              }
-            }
-          }}
-        >
-          {emergencyCenters.map((emergencyCenter, index) => (
-            <EmergencyBox
-              key={index}
-              index={index}
-              ChangeSelectedHospital={ChangeSelectedHospital}
-              emergencyCenter={emergencyCenter}
-            />
-          ))}
-        </div>
-      )}
+      <div
+        className="relative flex h-full w-full flex-col gap-[2rem] overflow-scroll"
+        ref={emergencyCenterListRef}
+        onScroll={(e) => {
+          const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+          const scrollPercentage =
+            (scrollTop / (scrollHeight - clientHeight)) * 100;
+          if (scrollPercentage > 95 && query.page < pageLimit.total_page) {
+            console.log(query.page);
+
+            setQueryPage(query.page + 1);
+          }
+        }}
+      >
+        {emergencyCenters.map((emergencyCenter, index) => (
+          <EmergencyBox
+            key={emergencyCenter.emergency_center_id}
+            index={index}
+            ChangeSelectedHospital={ChangeSelectedHospital}
+            emergencyCenter={emergencyCenter}
+          />
+        ))}
+        <span className=" absolute left-1/2 top-1/2">
+          {isLoading && <Spinner />}
+        </span>
+      </div>
     </div>
   );
 }

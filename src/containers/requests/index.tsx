@@ -19,10 +19,11 @@ import RequestNav from "./requestNav";
 const TopNavRequest = [{ title: "환자 수용 요청", link: "/requests" }];
 
 export default function RequestsContainer() {
-  const { requests, isLoading } = useRequestList();
+  const { requests, isLoading, mutate } = useRequestList();
   const { isOpen, openModal, closeModal } = useModal();
 
   const [selectedRequest, setSelectedRequest] = useState<Request>();
+
   const clickRequestHanlder = (request: Request) => {
     setSelectedRequest(request);
   };
@@ -35,8 +36,29 @@ export default function RequestsContainer() {
   };
 
   useEffect(() => {
-    setSelectedRequest(selectedRequest);
-  }, [requests]);
+    mutate();
+    setSelectedRequest((prevSelectedRequest) => {
+      // 만약 prevSelectedRequest가 존재하고, 해당 request의 request_status가 바뀌었다면
+      // 새로운 request로 교체하도록 업데이트합니다.
+      return (
+        (prevSelectedRequest &&
+          requests.find(
+            (request) =>
+              request.patient_id === prevSelectedRequest.patient_id &&
+              request.emergency_center_id ===
+                prevSelectedRequest.emergency_center_id
+          )) ||
+        prevSelectedRequest
+      );
+    });
+  }, [requests, setSelectedRequest, mutate]);
+
+  useEffect(() => {
+    if (isOpen && selectedRequest) {
+      closeModal();
+      openModal();
+    }
+  }, [selectedRequest, isOpen, closeModal, openModal]);
 
   return (
     <TopNavContentWrapper isScroll={false} topNav={{ items: TopNavRequest }}>
@@ -70,7 +92,9 @@ export default function RequestsContainer() {
                       request.patient.patient_gender === "MALE" ? "남" : "여"
                     }
                     age={transformAge(request.patient.patient_birth)}
-                    companyName={transeformName(request.emergency_center_name)}
+                    companyName={transeformName(
+                      request.patient.ambulance_company_name
+                    )}
                     symptom={request.patient.patient_symptom_summary}
                     status={request.request_status}
                   />
@@ -81,7 +105,8 @@ export default function RequestsContainer() {
             <RequestDetailModal
               request={selectedRequest}
               patient={selectedRequest.patient}
-              closeModal={closeModal}
+              requestStatus={selectedRequest.request_status}
+              close={closeModal}
             />
           )}
         </div>

@@ -1,24 +1,34 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
+import useModal from "@/hooks/useModal";
+import { getStatusStyles } from "@/lib/utils/requestStyle";
 import {
   transformAge,
   transformFormatDate,
   transformPhone,
 } from "@/lib/utils/transeform";
-import { Patient, Request, useRequestListStore } from "@/states/requestStore";
+import {
+  Patient,
+  Request,
+  RequestStatus,
+  useRequestListStore,
+} from "@/states/requestStore";
 import useUserStore from "@/states/userStore";
 import { PatientDetail } from "@/type/patientDetail";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DetailBox from "./DetailBox";
+import BedAssignmentModal from "./bedAssignmentModal";
 import PatientStatus from "./patientStatus";
+import RequestButton from "./requestButton";
 
 interface RequestDetailModalProps {
   request: Request;
   patient: Patient;
-  closeModal: () => void;
+  requestStatus: RequestStatus;
+  close: () => void;
 }
 
 interface GetDetailPatientResponse {
@@ -32,7 +42,8 @@ interface GetDetailPatientResponse {
 export default function RequestDetailModal({
   request,
   patient,
-  closeModal,
+  requestStatus,
+  close,
 }: RequestDetailModalProps) {
   const { accessToken } = useUserStore();
   const { setRequests } = useRequestListStore();
@@ -40,8 +51,10 @@ export default function RequestDetailModal({
   const [patientDetail, setPatientDetail] = useState<PatientDetail | undefined>(
     undefined
   );
+  const [count, setCount] = useState(0);
+  const { isOpen, openModal, closeModal } = useModal();
 
-  const requestHandler = (res: "ACCEPTED" | "REJECTED") => {
+  const requestHandler = (res: RequestStatus) => {
     const url = `/api/requests/ems-to-er/${patient.patient_id}`;
     const option = {
       method: "POST",
@@ -58,7 +71,6 @@ export default function RequestDetailModal({
     fetch(url, option)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.is_success) {
           setRequests((prevReq) =>
             prevReq.map((prev) =>
@@ -80,7 +92,7 @@ export default function RequestDetailModal({
         Authorization: `Bearer ${accessToken}`,
       },
     }).then((r) => r.json());
-  const { data, isLoading } = useSWR<GetDetailPatientResponse>(
+  const { data, isLoading, mutate } = useSWR<GetDetailPatientResponse>(
     url,
     (url: string) => fetcher(url, accessToken)
   );
@@ -88,10 +100,23 @@ export default function RequestDetailModal({
   useEffect(() => {
     if (data) {
       if (!data.is_success) return;
+      const { patient } = data.result;
 
-      setPatientDetail(data.result.patient);
+      setPatientDetail(patient);
+      const maxCount = Math.max(
+        patient.abcde.length,
+        patient.dcap_btls.length,
+        patient.opqrst.length,
+        patient.rapid.length,
+        patient.sample.length,
+        patient.vs.length
+      );
+      setCount(maxCount);
+      mutate();
     }
-  }, [data, setPatientDetail]);
+  }, [data, setPatientDetail, mutate]);
+
+  const styles = getStatusStyles(requestStatus);
 
   return (
     <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[110rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] pb-[15rem] drop-shadow-2xl">
@@ -103,28 +128,33 @@ export default function RequestDetailModal({
           width={24}
           height={24}
           alt="닫기"
-          onClick={closeModal}
+          onClick={close}
         />
       </span>
-      <div className="flex justify-end px-[2rem] py-[3rem] text-[1.8rem] font-[500] text-white">
-        <div
-          className="flex h-[7rem] w-[12rem] cursor-pointer items-center justify-center rounded-l-3xl bg-L-gray"
-          onClick={() => requestHandler("REJECTED")}
-        >
-          거절하기
-        </div>
-        <div
-          className="flex h-[7rem] w-[24rem] cursor-pointer items-center justify-center rounded-r-3xl bg-main"
-          onClick={() => requestHandler("ACCEPTED")}
-        >
-          수락하기
-        </div>
+      {isOpen && (
+        <BedAssignmentModal
+          patientId={patient.patient_id}
+          closeModal={closeModal}
+        />
+      )}
+      <div className="h-max w-full">
+        <RequestButton
+          requestStatus={requestStatus}
+          requestHandler={requestHandler}
+          bedAssignmentHandler={openModal}
+        />
       </div>
       {isLoading && patientDetail ? (
         <Spinner />
       ) : (
         <div className="h-full w-full overflow-scroll px-[2rem]">
-          <p>{request.request_status}</p>
+          <div className="flex items-center pb-[2rem] text-medium font-medium">
+            <div className="pr-[2rem] text-main">상태</div>
+            <div className="pr-[1rem] font-medium-L">{styles.type}</div>
+            <div
+              className={`bg-${styles.backgroundColor} h-[1rem] w-[1rem] rounded-full`}
+            ></div>
+          </div>
           <div className="grid grid-cols-2 gap-x-[2rem] gap-y-[3rem] pb-[3rem]">
             <DetailBox title="구급업체 및 구급대원 정보">
               <p>
@@ -146,7 +176,7 @@ export default function RequestDetailModal({
                     <td className="leading-[3rem] text-main">나이 / 성별</td>
                     <td>
                       {transformAge(patient.patient_birth)} /{" "}
-                      {patient.patient_gender === "MALE" ? "남" : "야"}
+                      {patient.patient_gender === "MALE" ? "남" : "여"}
                     </td>
                   </tr>
                   <tr>
@@ -155,7 +185,7 @@ export default function RequestDetailModal({
                   </tr>
                   <tr>
                     <td className="leading-[3rem] text-main">거주지</td>
-                    <td>{}</td>
+                    <td>{patientDetail?.patient_address}</td>
                   </tr>
                   <tr>
                     <td className="leading-[3rem] text-main">연락처</td>
@@ -202,9 +232,19 @@ export default function RequestDetailModal({
               </table>
             </DetailBox>
           </div>
-          <DetailBox title="환자 상태">
-            <PatientStatus patient={patient} patientDetail={patientDetail} />
-          </DetailBox>
+          {Array.from({ length: count }).map((_, index) => (
+            <DetailBox title="환자 상태" key={index}>
+              <PatientStatus
+                patient={patient}
+                rapid={patientDetail?.rapid[index]}
+                abcde={patientDetail?.abcde[index]}
+                opqrst={patientDetail?.opqrst[index]}
+                sample={patientDetail?.sample[index]}
+                dcap_btls={patientDetail?.dcap_btls[index]}
+                vs={patientDetail?.vs[index]}
+              />
+            </DetailBox>
+          ))}
         </div>
       )}
     </div>

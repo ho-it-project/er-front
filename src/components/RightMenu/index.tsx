@@ -2,10 +2,11 @@
 
 import RequestDetailModal from "@/containers/requests/requestDetailModal";
 import { useRequestList } from "@/hooks/useRequestList";
-import { transformAge, transformDate } from "@/lib/utils/transeform";
+import { transformAge } from "@/lib/utils/transeform";
 import { useModal } from "@/states/Modal";
 import { Request } from "@/states/requestStore";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import ScrollBox from "../ScrollBox/ScrollBox";
 import Spinner from "../Spinner";
 import RequsetBox from "./RequestBox";
@@ -24,12 +25,27 @@ export default function RightMenu() {
   const [timer, setTimer] = useState(() => currentTimer());
   setInterval(() => setTimer(currentTimer()), 1000);
 
-  const { requests, isLoading } = useRequestList();
+  const { requests, isLoading, mutate } = useRequestList();
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedRequest, setSelectedRequest] = useState<Request>();
   const clickRequestHanlder = (request: Request) => {
     setSelectedRequest(request);
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newTime = currentTimer();
+      if (newTime !== timer) {
+        setTimer(newTime);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timer]);
+
+  useEffect(() => {
+    mutate();
+  }, [requests, mutate]);
 
   return (
     <div className=" right-menu mr-[2rem] mt-[4.5rem] w-[38rem]">
@@ -46,24 +62,31 @@ export default function RightMenu() {
       <div className="h-[calc(100%-35rem)] overflow-hidden">
         <div className="h-full w-full">
           <div className="mt-[4rem] h-full">
-            <h4 className="text-[2rem] font-bold text-main">환자 수용 요청</h4>
+            <div className="flex items-center justify-between">
+              <h4 className="text-[2rem] font-bold text-main">
+                환자 수용 요청
+              </h4>
+              <Link href={"/patients"}>
+                <div className="h-[2rem] w-[8rem] cursor-pointer rounded-3xl bg-white"></div>
+              </Link>
+            </div>
             <div className="relative h-full w-full overflow-y-hidden">
               <ScrollBox>
-                <div className="mb-[7rem] flex flex-col gap-[2rem]">
+                <div className="mb-[7rem] flex flex-col gap-[2rem] pt-[1rem]">
                   {isLoading ? (
                     <Spinner />
                   ) : (
-                    requests.map((request, index) => (
+                    requests.map((request) => (
                       <div
                         className="cursor-pointer"
-                        key={index + request.patient_id}
+                        key={request.patient_id}
                         onClick={() => {
                           clickRequestHanlder(request);
                           openModal();
                         }}
                       >
                         <RequsetBox
-                          date={transformDate(request.request_date)}
+                          date={request.request_date}
                           name={request.patient.patient_name}
                           gender={
                             request.patient.patient_gender === "MALE"
@@ -71,8 +94,9 @@ export default function RightMenu() {
                               : "여"
                           }
                           age={transformAge(request.patient.patient_birth)}
-                          companyName={request.emergency_center_name}
+                          companyName={request.patient.ambulance_company_name}
                           symptom={request.patient.patient_symptom_summary}
+                          status={request.request_status}
                         />
                       </div>
                     ))
@@ -87,7 +111,8 @@ export default function RightMenu() {
         <RequestDetailModal
           request={selectedRequest}
           patient={selectedRequest.patient}
-          closeModal={closeModal}
+          requestStatus={selectedRequest.request_status}
+          close={closeModal}
         />
       )}
     </div>

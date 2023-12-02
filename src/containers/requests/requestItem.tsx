@@ -27,7 +27,7 @@ export default function RequestItem({
       <span className="w-2/5 min-w-[15rem]">{companyName}</span>
       <span className="w-1/5 min-w-[15rem]">{symptom}</span>
       <span className="flex w-full justify-end">
-        <RequestStatusView type={status} />
+        <RequestStatusView status={status} />
       </span>
     </div>
   );

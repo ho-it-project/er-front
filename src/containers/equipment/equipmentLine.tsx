@@ -2,7 +2,7 @@
 
 import Count from "@/components/Count";
 import Switch from "@/components/Switch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface EquipmentLineProps {
   id: number;
@@ -25,6 +25,12 @@ export default function EquipmentLine({
     setStatus((prev) => !prev);
     onClickSwitch && onClickSwitch(!status);
   };
+
+  useEffect(() => {
+    if (!status) {
+      setEquipmentCount(0);
+    }
+  }, [status, setEquipmentCount]);
 
   return (
     <span className="my-[3.5rem] flex justify-between gap-[2rem]">

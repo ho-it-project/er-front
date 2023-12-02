@@ -31,7 +31,7 @@ export const useEmoployeeList = () => {
   query.role.forEach((role) => queryParam.append("role", role));
 
   const { accessToken } = useUserStore();
-  const { data, error, isLoading } = useSWR<GetEmployeeListResponse>(
+  const { data, error, isLoading, mutate } = useSWR<GetEmployeeListResponse>(
     `/api/er/employees?${queryParam.toString()}`,
     (url: string) => fetcher(url, accessToken)
   );
@@ -60,5 +60,5 @@ export const useEmoployeeList = () => {
     }
   }, [data, setEmployees, setPageLimit, query.limit, query.page]);
 
-  return { isLoading, employees, error };
+  return { isLoading, employees, error, mutate };
 };

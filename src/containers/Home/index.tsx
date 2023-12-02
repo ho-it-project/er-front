@@ -1,30 +1,60 @@
 "use client";
 
-import TopNavContentWrapper from "@/components/TopNavContentWrapper";
-import PatientCard from "@/components/pages/home/patientCard";
-const exTopNavs = [
-  { title: "B1 응급병동", link: "/" },
-  { title: "B1 음압병동", link: "/" },
-  { title: "1F 소아응급병동", link: "/" },
-  { title: "B1 중증응급병동", link: "/" },
-];
+import MainNavContentWrapper from "@/components/MainNavContentWrapper";
+import Spinner from "@/components/Spinner";
+import useEmergencyCenterInfoStore, {
+  emergencyRoom,
+  emergencyRoomBed,
+} from "@/states/EmergencyCenterInfoStore";
+import useEmergencyRoomStore from "@/states/emergencyRoomStore";
+import useUserStore from "@/states/userStore";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+import EmergencyRoom from "./emergencyRoom";
+
+interface GetEmergencyRoom {
+  result: emergencyRoom;
+  is_success: boolean;
+  message: string;
+}
+
 export default function HomeContainer() {
+  const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
+  const { emergencyRoomNumber } = useEmergencyRoomStore();
+  const { accessToken } = useUserStore();
+
+  const [beds, setBeds] = useState<emergencyRoomBed[]>();
+
+  const url = emergencyCenterInfo
+    ? `/api/er/emergency-centers/emergency-room/${emergencyCenterInfo?.emergency_rooms[emergencyRoomNumber].emergency_room_id}`
+    : null;
+  const fetcher = (url: string, accessToken: string) =>
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((res) => res.json());
+  const { data, isLoading } = useSWR<GetEmergencyRoom>(
+    url,
+    url ? (url: string) => fetcher(url, accessToken) : null
+  );
+
+  useEffect(() => {
+    if (data && data.is_success) {
+      const sortedBeds = data.result.emergency_room_beds.sort(
+        (a, b) => a.emergency_room_bed_num - b.emergency_room_bed_num
+      );
+      setBeds(sortedBeds);
+    }
+  }, [data, setBeds, emergencyRoomNumber, emergencyCenterInfo]);
+
   return (
-    <TopNavContentWrapper topNav={{ items: exTopNavs }}>
+    <MainNavContentWrapper>
       <div className="px-[1rem]">
-        {Array.from({ length: 4 }, (_, index) => (
-          <div className="mb-[3rem]" key={index}>
-            <h4 className="text-[2rem] font-[600] text-main">
-              {index + 1} 구역
-            </h4>
-            <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(24rem,24rem))] gap-[2rem]">
-              {Array.from({ length: 8 }, (_, index) => (
-                <PatientCard key={index} />
-              ))}
-            </div>
-          </div>
-        ))}
+        {isLoading ? <Spinner /> : <>{beds && <EmergencyRoom beds={beds} />}</>}
       </div>
-    </TopNavContentWrapper>
+    </MainNavContentWrapper>
   );
 }

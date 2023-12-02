@@ -72,7 +72,7 @@ export default function EditEmployModal({
       <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-bg px-[2rem]">
         <p className="text-[1.8rem] font-[600] text-main">인력 수정하기</p>
         <Image
-          className="cursor-pointer"
+          className="z-30 cursor-pointer"
           src="/fi-rr-cross-small.png"
           width={24}
           height={24}

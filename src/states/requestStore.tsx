@@ -8,7 +8,9 @@ export type RequestStatus =
   | "CANCELED"
   | "COMPLETED"
   | "VIEWED"
-  | "REJECTED";
+  | "REJECTED"
+  | "TRANSFER"
+  | "TRANSFER_COMPLETED";
 export type PatientSeverity = "UNKNOWN" | "SEVERE" | "MILD" | "NONE";
 export type Gender = "MALE" | "FEMALE";
 

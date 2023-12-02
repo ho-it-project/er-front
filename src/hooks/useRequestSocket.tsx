@@ -3,8 +3,10 @@ import { Request, useRequestListStore } from "@/states/requestStore";
 import { useSocketStore } from "@/states/socketStore";
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { useRequestList } from "./useRequestList";
 
 export const useRequestSocket = () => {
+  const { mutate } = useRequestList();
   const setRequestList = useRequestListStore(
     useShallow((state) => state.setRequests)
   );
@@ -33,7 +35,8 @@ export const useRequestSocket = () => {
         }
         return [...prevReq, data];
       });
+      mutate();
     });
-  }, [requestSocket, setRequestList]);
+  }, [requestSocket, setRequestList, mutate]);
   return { requestSocket };
 };

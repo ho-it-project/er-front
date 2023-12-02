@@ -1,9 +1,11 @@
 "use client";
 
 import useLoginStore from "@/states/loginStore";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function LoginBox() {
+  const router = useRouter();
   const [emergencyId, setEmergencyId] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +44,7 @@ export default function LoginBox() {
         .then((data) => {
           if (data.is_success) {
             useLoginStore.getState().login();
+            router.push("/");
           } else {
             setFail(true);
             setPassword("");
@@ -94,7 +97,6 @@ export default function LoginBox() {
           </button>
         </div>
       </div>
-      <span className="fixed left-0 top-0 z-20 h-full w-full bg-black"></span>
     </>
   );
 }
@@ -110,14 +112,17 @@ function LoginSection({ title, value, onChange }: loginSectionProps) {
     const { value } = e.target;
     onChange(value);
   };
+  const isPassword = title === "비밀번호";
+
   return (
     <div className="flex flex-col gap-[1.5rem]">
       <p className="text-[2.4rem] font-[700] text-main">{title}</p>
       <input
         value={value}
         onChange={handleChange}
+        type={isPassword ? "password" : "text"}
         placeholder={`${title}를 입력해주세요`}
-        className="h-[8rem] w-[62rem] rounded-xl border-2 border-main bg-white text-center text-[2.4rem] placeholder:text-L-gray"
+        className="h-[8rem] w-[62rem] rounded-xl border-2 border-main bg-white text-center text-[2.4rem] placeholder:text-L-gray focus:outline-none"
       />
     </div>
   );

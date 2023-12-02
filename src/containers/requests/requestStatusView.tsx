@@ -1,24 +1,12 @@
+import { getStatusStyles } from "@/lib/utils/requestStyle";
 import { RequestStatus } from "@/states/requestStore";
 
 interface StatusProps {
-  type: RequestStatus;
+  status: RequestStatus;
 }
 
-const getStatusStyles = (type: RequestStatus) => {
-  switch (type) {
-    case "ACCEPTED":
-      return { backgroundColor: "main", type: "요청수락" };
-
-    case "REJECTED":
-      return { backgroundColor: "gray", type: "요청거절" };
-
-    default:
-      return { backgroundColor: "yellow", type: "응답대기" };
-  }
-};
-
-export default function RequestStatusView({ type }: StatusProps) {
-  const styles = getStatusStyles(type);
+export default function RequestStatusView({ status }: StatusProps) {
+  const styles = getStatusStyles(status);
 
   return (
     <div

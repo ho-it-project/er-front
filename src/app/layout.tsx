@@ -1,6 +1,7 @@
 import AppWrapper from "@/components/AppWrapper";
 import LeftMenu from "@/components/LeftMenu";
 import RightMenu from "@/components/RightMenu";
+import InfoProvider from "@/lib/provider/InfoProvider";
 import LayoutProvider from "@/lib/provider/LayoutProvider";
 import { SWRProvider } from "@/lib/provider/SwrProvider";
 import type { Metadata } from "next";
@@ -23,15 +24,17 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <SWRProvider>
           {/* <AuthProvider> */}
-          <LayoutProvider>
-            <AppWrapper>
-              <div className=" relative flex h-screen justify-between gap-[2rem] pl-[12rem]">
-                <LeftMenu />
-                {children}
-                <RightMenu />
-              </div>
-            </AppWrapper>
-          </LayoutProvider>
+          <AppWrapper>
+            <LayoutProvider>
+              <InfoProvider>
+                <div className=" relative flex h-screen justify-between gap-[2rem] pl-[12rem]">
+                  <LeftMenu />
+                  {children}
+                  <RightMenu />
+                </div>
+              </InfoProvider>
+            </LayoutProvider>
+          </AppWrapper>
           {/* </AuthProvider> */}
         </SWRProvider>
       </body>

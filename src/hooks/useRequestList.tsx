@@ -35,7 +35,7 @@ export const useRequestList = () => {
 
   const { accessToken } = useUserStore();
 
-  const { data, isLoading, error } = useSWR<GetRequestListResponse>(
+  const { data, isLoading, error, mutate } = useSWR<GetRequestListResponse>(
     `/api/requests/ems-to-er/er?${queryParam.toString()}`,
     (url: string) => fetcher(url, accessToken)
   );
@@ -61,8 +61,9 @@ export const useRequestList = () => {
         total_count: count,
         total_page: Math.ceil(count / query.limit),
       });
+      mutate();
     }
-  }, [data, setRequests, setPageLimit, query.limit, query.page]);
+  }, [data, setRequests, setPageLimit, query.limit, query.page, mutate]);
 
-  return { isLoading, requests, error };
+  return { isLoading, requests, error, mutate };
 };

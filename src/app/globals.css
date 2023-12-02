@@ -14,6 +14,7 @@
     @apply bg-bg;
     @apply text-black;
     font-family: "inter";
+    overflow: hidden;
   }
 }
 @media (max-width: 1920px) {

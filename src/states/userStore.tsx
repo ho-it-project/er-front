@@ -2,11 +2,12 @@ import { Role } from "@/type";
 import { create } from "zustand";
 
 interface UserData {
-  emergency_center_id?: string;
-  employee_id?: string;
-  hospital_id?: string;
-  id_card?: string;
-  role?: Role;
+  emergency_center_id: string | null;
+  employee_id: string | null;
+  employee_name: string | null;
+  hospital_id: string | null;
+  id_card: string | null;
+  role: Role | null;
 }
 
 interface UserStore {
@@ -24,11 +25,12 @@ const useUserStore = create<UserStore>((set) => ({
     });
   },
   userData: {
-    emergency_center_id: undefined,
-    employee_id: undefined,
-    hospital_id: undefined,
-    id_card: undefined,
-    role: undefined,
+    emergency_center_id: null,
+    employee_id: null,
+    employee_name: null,
+    hospital_id: null,
+    id_card: null,
+    role: null,
   },
   updateUserData: (newUserData: UserData) => {
     set({
