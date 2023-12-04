@@ -57,10 +57,10 @@ export default function RequestNav({ onClickNav }: NavProps) {
       <span className="text-main30">|</span>
       <span
         onClick={() => {
-          handleSelected(3);
+          handleSelected(4);
           onClickNav(["TRANSFER_COMPLETED", "COMPLETED"]);
         }}
-        className={`${selected == 3 ? "text-main" : ""} cursor-pointer`}
+        className={`${selected == 4 ? "text-main" : ""} cursor-pointer`}
       >
         이송완료
       </span>
