@@ -6,7 +6,6 @@ interface Nav {
 interface EmergencyRoomNumber {
   emergencyRoomNumber: number;
   setEmergencyRoomNumber: (Clicked: number) => void;
-
   navs: Nav[];
   setNavs: (newNavs: Nav[]) => void;
 }
