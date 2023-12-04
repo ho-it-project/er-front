@@ -86,9 +86,9 @@ export default function LoginBox() {
         </div>
 
         <div className=" relative flex flex-col gap-[4rem]">
-          <button className="ml-auto w-[15rem] border-b-2 border-L-gray text-[2rem] font-[600] text-gray">
+          <div className="ml-auto w-[15rem] border-b-2 border-L-gray text-[2rem] font-[600] text-gray">
             ID/비밀번호 찾기
-          </button>
+          </div>
           <button
             onClick={handleLogin}
             className="h-[10rem] w-full rounded-2xl bg-main text-[2.5rem] font-[700] text-white"

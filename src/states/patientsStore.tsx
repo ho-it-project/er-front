@@ -1,5 +1,11 @@
-import { PatientStatus } from "@/type/patientDetail";
 import { Gender, RequestStatus, Status } from "./requestStore";
+
+export type ERPatientStatus =
+  | "PENDING"
+  | "DISCHARGE"
+  | "DEATH"
+  | "ADMISSION"
+  | "TRANSFERED";
 
 export interface PatientLog {
   patient_log_id: string;
@@ -30,11 +36,11 @@ export interface PatientInfo {
   status: Status;
 }
 
-export interface Patient {
-  patient: PatientInfo[];
+export interface PatientSummary {
+  patient: PatientInfo;
   patient_id: string;
   hospital_id: string;
-  patient_status: PatientStatus;
+  patient_status: ERPatientStatus;
   created_at: string;
   status: Status;
   updated_at: string;

@@ -54,9 +54,11 @@ export default function RightMenu() {
       </p>
       <StatusBox />
       <div className="flex justify-between gap-[2rem]">
-        <button className="h-[8rem] w-[28rem] rounded-2xl bg-main text-[2rem] font-[700] text-white">
-          병상 정보 관리
-        </button>
+        <Link href={"/roomManagement"}>
+          <div className="flex h-[8rem] w-[28rem] items-center justify-center rounded-2xl bg-main text-[2rem] font-[700] text-white">
+            병상 정보 관리
+          </div>
+        </Link>
         <div className="relative h-[8rem] w-[8rem] rounded-2xl border-2 border-slate-100 bg-white"></div>
       </div>
       <div className="h-[calc(100%-35rem)] overflow-hidden">
