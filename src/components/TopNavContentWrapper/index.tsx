@@ -13,16 +13,18 @@ interface TopNavContentWrapperProps {
   children: React.ReactNode;
   topNav: TopNavProps;
   isScroll?: boolean;
+  goHome?: boolean;
 }
 
 export default function TopNavContentWrapper({
   topNav,
   children,
   isScroll = true,
+  goHome = true,
 }: TopNavContentWrapperProps) {
   return (
     <Board>
-      <TopNav items={topNav.items} />
+      <TopNav items={topNav.items} goHome={goHome} />
       {isScroll ? (
         <ScrollBox>
           <div>{children}</div>

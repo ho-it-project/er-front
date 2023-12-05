@@ -46,7 +46,8 @@ export default function PatientsBox({ clickdeNav }: PatientBoxProps) {
     if (data && data.is_success) {
       setPatients(data.result.patient_list);
     }
-  });
+  }, [data, setPatients]);
+
   return (
     <div className="flex flex-col">
       {isLoading ? (

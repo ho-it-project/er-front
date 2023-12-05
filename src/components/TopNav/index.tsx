@@ -11,9 +11,10 @@ interface TopNavItem {
 }
 interface TopNavProps {
   items: TopNavItem[];
+  goHome?: boolean;
 }
 
-export const TopNav = ({ items }: TopNavProps) => {
+export const TopNav = ({ items, goHome }: TopNavProps) => {
   const pathname = usePathname();
 
   const [select, setSelect] = useState(pathname);
@@ -38,14 +39,16 @@ export const TopNav = ({ items }: TopNavProps) => {
               {item.title}
             </div>
           </Link>
-          <Link href={"/"} className="absolute right-[2rem] top-[2rem]">
-            <Image
-              src="/fi-rr-cross-small.png"
-              width={24}
-              height={24}
-              alt="X"
-            />
-          </Link>
+          {goHome && (
+            <Link href={"/"} className="absolute right-[2rem] top-[2rem]">
+              <Image
+                src="/fi-rr-cross-small.png"
+                width={24}
+                height={24}
+                alt="X"
+              />
+            </Link>
+          )}
         </div>
       ))}
     </div>

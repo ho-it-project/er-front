@@ -1,13 +1,14 @@
 "use client";
 
-import MainNavContentWrapper from "@/components/MainNavContentWrapper";
 import Spinner from "@/components/Spinner";
+import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import useEmergencyCenterInfoStore, {
   emergencyRoom,
   emergencyRoomBed,
 } from "@/states/EmergencyCenterInfoStore";
 import useEmergencyRoomStore from "@/states/emergencyRoomStore";
 import useUserStore from "@/states/userStore";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import EmergencyRoom from "./emergencyRoom";
@@ -18,15 +19,16 @@ interface GetEmergencyRoom {
   message: string;
 }
 
-export default function HomeContainer() {
+export default function EmergencyRoomContainer() {
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
-  const { emergencyRoomNumber } = useEmergencyRoomStore();
+  const { navs } = useEmergencyRoomStore();
   const { accessToken } = useUserStore();
 
   const [beds, setBeds] = useState<emergencyRoomBed[]>();
+  const pathname = usePathname();
 
   const url = emergencyCenterInfo
-    ? `/api/er/emergency-centers/emergency-room/${emergencyCenterInfo?.emergency_rooms[emergencyRoomNumber].emergency_room_id}`
+    ? `/api/er/emergency-centers/emergency-room${pathname}`
     : null;
   const fetcher = (url: string, accessToken: string) =>
     fetch(url, {
@@ -48,13 +50,13 @@ export default function HomeContainer() {
       );
       setBeds(sortedBeds);
     }
-  }, [data, setBeds, emergencyRoomNumber, emergencyCenterInfo]);
+  }, [data, setBeds, emergencyCenterInfo]);
 
   return (
-    <MainNavContentWrapper>
+    <TopNavContentWrapper topNav={{ items: navs }} goHome={false}>
       <div className="px-[1rem]">
         {isLoading ? <Spinner /> : <>{beds && <EmergencyRoom beds={beds} />}</>}
       </div>
-    </MainNavContentWrapper>
+    </TopNavContentWrapper>
   );
 }
