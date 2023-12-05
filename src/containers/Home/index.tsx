@@ -5,7 +5,7 @@ import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
 import useEmergencyRoomStore from "@/states/emergencyRoomStore";
 import EmergencyRoom from "../emergencyRoom/emergencyRoom";
 
-export default function MainContainer() {
+export default function HomeContainer() {
   const { navs } = useEmergencyRoomStore();
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
 

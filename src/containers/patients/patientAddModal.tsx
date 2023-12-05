@@ -39,10 +39,10 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   };
 
   const residentNumber2ChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isNaN(Number(e.target.value)) && e.target.value.length <= 6) {
+    if (!isNaN(Number(e.target.value)) && e.target.value.length <= 7) {
       setResidentNumber2(e.target.value);
     }
-    if (e.target.value.length === 6 && addressRed.current) {
+    if (e.target.value.length === 7 && addressRed.current) {
       addressRed.current.focus();
     }
   };
@@ -58,7 +58,7 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   };
 
   return (
-    <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[104rem] w-[57.8rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[2rem] py-[3.5rem] drop-shadow-2xl">
+    <div className="fixed left-1/2 top-1/2 z-30 mt-[2rem] h-[99rem] w-[57.8rem] -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-white px-[3.7rem] py-[3.5rem] drop-shadow-2xl">
       <span className="absolute -top-[5rem] left-0 flex h-[7rem] w-[26rem] items-center justify-between rounded-2xl bg-white px-[2rem]">
         <p className="text-[1.8rem] font-[600] text-main">환자 추가하기</p>
         <Image
@@ -90,20 +90,20 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
           </DetailBox>
           <div className="flex h-full w-full flex-col gap-[1rem]">
             <div className="text-medium font-medium text-main">성별</div>
-            <div className="flex h-full w-full items-center justify-around text-large font-medium">
+            <div className="flex h-full w-full items-center justify-around">
               <div
-                className={`flex h-full w-full cursor-pointer items-center justify-center rounded-l-2xl transition-all duration-200 ease-in hover:bg-bg ${
-                  gender === "남" && "bg-bg"
+                className={`flex h-full w-full cursor-pointer items-center justify-center rounded-l-2xl text-large font-medium transition-all duration-200 ease-in hover:bg-bg ${
+                  gender === "MALE" && "bg-bg"
                 }`}
-                onClick={() => setGender("남")}
+                onClick={() => setGender("MALE")}
               >
                 남
               </div>
               <div
-                className={`flex h-full w-full cursor-pointer items-center justify-center rounded-r-2xl transition-all duration-200 ease-in hover:bg-bg ${
-                  gender === "여" && "bg-bg"
+                className={`flex h-full w-full cursor-pointer items-center justify-center rounded-r-2xl text-large  font-medium transition-all duration-200 ease-in hover:bg-bg ${
+                  gender === "FEMALE" && "bg-bg"
                 }`}
-                onClick={() => setGender("여")}
+                onClick={() => setGender("FEMALE")}
               >
                 여
               </div>
