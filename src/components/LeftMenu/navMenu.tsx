@@ -3,14 +3,14 @@
 import MenuContent from "./MenuContent";
 import useMenu from "./useMenu";
 
-export default function BottomMenu() {
+export default function NavMenu() {
   const { expanded, openMenu, closeMenu } = useMenu();
   const handleMouseLeave = () => {
     closeMenu();
   };
   return (
     <div
-      className="relative z-10 mt-[2rem] h-[8rem] w-[8rem] drop-shadow-xl"
+      className="relative z-10 h-[8rem] w-[8rem] drop-shadow-xl"
       onMouseLeave={handleMouseLeave}
     >
       <span
