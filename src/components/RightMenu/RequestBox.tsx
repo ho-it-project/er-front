@@ -1,6 +1,7 @@
 import { getStatusStyles } from "@/lib/utils/requestStyle";
 import { transeformName } from "@/lib/utils/transeform";
 import { RequestStatus } from "@/states/requestStore";
+import { useEffect, useState } from "react";
 import { Card } from "../common/Card";
 interface RequestProps {
   date: string;
@@ -21,14 +22,34 @@ export default function RequestBox({
   symptom,
   status,
 }: RequestProps) {
-  const reqeustDate = new Date(date);
-  const currentDate = new Date();
-  const timeDifference = currentDate.getTime() - reqeustDate.getTime();
-  const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-  const isOneHourAgo = minutesDifference >= 60;
-  const formattedTimeDifference = `${String(
-    Math.floor(minutesDifference / 60)
-  ).padStart(2, "0")}:${String(minutesDifference % 60).padStart(2, "0")}`;
+  const [formattedTimeDifference, setFormattedTimeDifference] =
+    useState<string>("");
+  const [isOneHourAgo, setIsOneHourAgo] = useState<boolean>(true);
+
+  useEffect(() => {
+    const calculateTimeDifference = () => {
+      const reqeustDate = new Date(date);
+      const currentDate = new Date();
+      const timeDifference = currentDate.getTime() - reqeustDate.getTime();
+      const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+      setIsOneHourAgo(minutesDifference >= 60);
+      setFormattedTimeDifference(
+        `${String(Math.floor(minutesDifference / 60)).padStart(
+          2,
+          "0"
+        )}:${String(minutesDifference % 60).padStart(2, "0")}`
+      );
+    };
+
+    calculateTimeDifference();
+
+    const intervalId = setInterval(() => {
+      calculateTimeDifference();
+    }, 60 * 1000); // 60 seconds * 1000 milliseconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [date]);
 
   const styles = getStatusStyles(status);
   return (

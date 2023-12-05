@@ -49,7 +49,9 @@ export default function InfoProvider({
 
           const items = data.result.emergency_rooms.map((room) => ({
             title: room.emergency_room_name,
+            link: `/${room.emergency_room_id}`,
           }));
+          items.unshift({ title: "전체 병동", link: "/" });
           setNavs(items);
         }
       }

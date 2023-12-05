@@ -46,7 +46,7 @@ export type EmergencyCause =
   | "DISASTER"
   | "DISEASE"
   | "OTHER";
-export type PatientStatus =
+export type EMSPatientStatus =
   | "PENDING"
   | "REQUESTED"
   | "ACCEPTED"
@@ -177,7 +177,7 @@ export interface PatientDetail {
   guardian_id: string;
   ems_employee_id: string;
   complete_date: string;
-  patient_status: PatientStatus;
+  patient_status: EMSPatientStatus;
   created_at: string;
   updated_at: string;
   status: Status;

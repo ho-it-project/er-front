@@ -38,8 +38,6 @@ export default function RequestsContainer() {
   useEffect(() => {
     mutate();
     setSelectedRequest((prevSelectedRequest) => {
-      // 만약 prevSelectedRequest가 존재하고, 해당 request의 request_status가 바뀌었다면
-      // 새로운 request로 교체하도록 업데이트합니다.
       return (
         (prevSelectedRequest &&
           requests.find(
@@ -74,8 +72,9 @@ export default function RequestsContainer() {
             {requests
               .filter(
                 (request) =>
-                  clickedNav === "전체" ||
-                  clickedNav.includes(request.request_status)
+                  (clickedNav === "전체" ||
+                    clickedNav.includes(request.request_status)) &&
+                  request.request_status !== "CANCELED"
               )
               .map((request) => (
                 <div

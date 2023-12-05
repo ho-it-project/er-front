@@ -1,60 +1,32 @@
 "use client";
 
-import MainNavContentWrapper from "@/components/MainNavContentWrapper";
-import Spinner from "@/components/Spinner";
-import useEmergencyCenterInfoStore, {
-  emergencyRoom,
-  emergencyRoomBed,
-} from "@/states/EmergencyCenterInfoStore";
+import TopNavContentWrapper from "@/components/TopNavContentWrapper";
+import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
 import useEmergencyRoomStore from "@/states/emergencyRoomStore";
-import useUserStore from "@/states/userStore";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import EmergencyRoom from "./emergencyRoom";
-
-interface GetEmergencyRoom {
-  result: emergencyRoom;
-  is_success: boolean;
-  message: string;
-}
+import EmergencyRoom from "../emergencyRoom/emergencyRoom";
 
 export default function HomeContainer() {
+  const { navs } = useEmergencyRoomStore();
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
-  const { emergencyRoomNumber } = useEmergencyRoomStore();
-  const { accessToken } = useUserStore();
 
-  const [beds, setBeds] = useState<emergencyRoomBed[]>();
-
-  const url = emergencyCenterInfo
-    ? `/api/er/emergency-centers/emergency-room/${emergencyCenterInfo?.emergency_rooms[emergencyRoomNumber].emergency_room_id}`
-    : null;
-  const fetcher = (url: string, accessToken: string) =>
-    fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }).then((res) => res.json());
-  const { data, isLoading } = useSWR<GetEmergencyRoom>(
-    url,
-    url ? (url: string) => fetcher(url, accessToken) : null
-  );
-
-  useEffect(() => {
-    if (data && data.is_success) {
-      const sortedBeds = data.result.emergency_room_beds.sort(
-        (a, b) => a.emergency_room_bed_num - b.emergency_room_bed_num
-      );
-      setBeds(sortedBeds);
-    }
-  }, [data, setBeds, emergencyRoomNumber, emergencyCenterInfo]);
+  const roomsData = emergencyCenterInfo?.emergency_rooms.map((room) => ({
+    name: room.emergency_room_name,
+    beds: room.emergency_room_beds.sort(
+      (a, b) => a.emergency_room_bed_num - b.emergency_room_bed_num
+    ),
+  }));
 
   return (
-    <MainNavContentWrapper>
-      <div className="px-[1rem]">
-        {isLoading ? <Spinner /> : <>{beds && <EmergencyRoom beds={beds} />}</>}
+    <TopNavContentWrapper topNav={{ items: navs }} goHome={false}>
+      <div className="flex flex-col gap-[4rem] px-[1rem]">
+        {roomsData &&
+          roomsData.map((room, index) => (
+            <div key={index} className="h-full w-full">
+              <div className="text-large font-large text-main">{room.name}</div>
+              <EmergencyRoom beds={room.beds} />
+            </div>
+          ))}
       </div>
-    </MainNavContentWrapper>
+    </TopNavContentWrapper>
   );
 }

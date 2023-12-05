@@ -1,6 +1,7 @@
 import Link from "next/link";
-import BottomMenu from "./BottomMenu";
+import NavMenu from "./navMenu";
 import ProfileButton from "./profileButton";
+import SimpleMenu from "./simpleMenu";
 
 export default function LeftMenu() {
   return (
@@ -13,8 +14,15 @@ export default function LeftMenu() {
           <div className="mt-[2rem] flex flex-col gap-[2rem]">
             <ProfileButton />
           </div>
+          <div className="mt-[8rem] flex flex-col gap-[2rem]">
+            <div className="h-[8rem] w-[8rem] cursor-pointer rounded-3xl bg-white"></div>
+            <div className="h-[8rem] w-[8rem] cursor-pointer rounded-3xl bg-white"></div>
+          </div>
         </div>
-        <BottomMenu />
+        <div className="flex flex-col gap-[2rem]">
+          <SimpleMenu />
+          <NavMenu />
+        </div>
       </div>
     </div>
   );

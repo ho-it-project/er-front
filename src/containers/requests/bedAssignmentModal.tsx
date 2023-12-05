@@ -2,6 +2,7 @@ import { useEmoployeeList } from "@/hooks/useEmployeeList";
 import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DropDownInput from "./dropdownInput";
 
@@ -14,6 +15,7 @@ export default function BedAssignmentModal({
   patientId,
   closeModal,
 }: BedAssignmentModalProps) {
+  const router = useRouter();
   const { accessToken } = useUserStore();
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
   const { employees } = useEmoployeeList();
@@ -43,7 +45,10 @@ export default function BedAssignmentModal({
 
   const Numbers = emergencyCenterInfo?.emergency_rooms
     .find((room) => room.emergency_room_id === emergencyRoom)
-    ?.emergency_room_beds.map((bed) => ({
+    ?.emergency_room_beds.filter(
+      (bed) => bed.emergency_room_bed_status !== "OCCUPIED"
+    )
+    .map((bed) => ({
       value: bed.emergency_room_bed_num.toString(),
       code: bed.emergency_room_bed_num.toString(),
     }));
@@ -84,10 +89,9 @@ export default function BedAssignmentModal({
 
     fetch(url, options)
       .then((response) => response.json())
-      .then((d) => {
-        console.log(d);
-
+      .then(() => {
         closeModal();
+        router.replace("/requests");
       });
   };
   return (

@@ -5,9 +5,11 @@ import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
 import useLoginStore from "@/states/loginStore";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const TopNavProfile = [{ title: "프로필", link: "/profile" }];
 export default function ProfileContainter() {
+  const router = useRouter();
   const { userData, accessToken } = useUserStore();
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
 
@@ -27,6 +29,7 @@ export default function ProfileContainter() {
       .then((res) => res.json())
       .then(() => {
         logout();
+        router.replace("/");
       });
   };
 
