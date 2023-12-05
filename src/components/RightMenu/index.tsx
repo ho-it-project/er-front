@@ -78,30 +78,34 @@ export default function RightMenu() {
                   {isLoading ? (
                     <Spinner />
                   ) : (
-                    requests.map((request) => (
-                      <div
-                        className="cursor-pointer"
-                        key={request.patient_id}
-                        onClick={() => {
-                          clickRequestHanlder(request);
-                          openModal();
-                        }}
-                      >
-                        <RequsetBox
-                          date={request.request_date}
-                          name={request.patient.patient_name}
-                          gender={
-                            request.patient.patient_gender === "MALE"
-                              ? "남"
-                              : "여"
-                          }
-                          age={transformAge(request.patient.patient_birth)}
-                          companyName={request.patient.ambulance_company_name}
-                          symptom={request.patient.patient_symptom_summary}
-                          status={request.request_status}
-                        />
-                      </div>
-                    ))
+                    requests
+                      .filter(
+                        (request) => request.request_status !== "CANCELED"
+                      )
+                      .map((request) => (
+                        <div
+                          className="cursor-pointer"
+                          key={request.patient_id}
+                          onClick={() => {
+                            clickRequestHanlder(request);
+                            openModal();
+                          }}
+                        >
+                          <RequsetBox
+                            date={request.request_date}
+                            name={request.patient.patient_name}
+                            gender={
+                              request.patient.patient_gender === "MALE"
+                                ? "남"
+                                : "여"
+                            }
+                            age={transformAge(request.patient.patient_birth)}
+                            companyName={request.patient.ambulance_company_name}
+                            symptom={request.patient.patient_symptom_summary}
+                            status={request.request_status}
+                          />
+                        </div>
+                      ))
                   )}
                 </div>
               </ScrollBox>
