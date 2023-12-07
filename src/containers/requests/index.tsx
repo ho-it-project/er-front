@@ -72,7 +72,8 @@ export default function RequestsContainer() {
             {requests
               .filter(
                 (request) =>
-                  (clickedNav === "전체" ||
+                  ((clickedNav === "전체" &&
+                    request.request_status !== "COMPLETED") ||
                     clickedNav.includes(request.request_status)) &&
                   request.request_status !== "CANCELED"
               )
