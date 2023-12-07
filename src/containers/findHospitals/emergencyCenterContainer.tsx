@@ -78,7 +78,6 @@ export default function EmergencyCenterContainer({
           ) {
             if (query.page < pageLimit.total_page) {
               setQueryPage(query.page + 1);
-              console.log(query.page + 1);
             }
           }
         }}
