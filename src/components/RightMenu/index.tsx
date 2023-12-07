@@ -80,7 +80,9 @@ export default function RightMenu() {
                   ) : (
                     requests
                       .filter(
-                        (request) => request.request_status !== "CANCELED"
+                        (request) =>
+                          request.request_status !== "COMPLETED" &&
+                          request.request_status !== "CANCELED"
                       )
                       .map((request) => (
                         <div

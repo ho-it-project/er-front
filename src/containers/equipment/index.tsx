@@ -62,7 +62,6 @@ export default function MedicalEquipmentSettingContainer() {
       .then((r) => r.json())
       .then(() => showSuccessAlert());
   };
-  console.log("장비", updateList);
 
   useEffect(() => {
     if (data) {
