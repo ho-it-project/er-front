@@ -7,6 +7,17 @@ interface bedSummary {
   full: number;
 }
 
+const getColorByRatio = (occupiedCount: number, totalCount: number) => {
+  const ratio = occupiedCount / totalCount;
+  if (ratio > 0.5) {
+    return "red";
+  } else if (ratio > 0.3) {
+    return "yellow";
+  } else {
+    return "main";
+  }
+};
+
 export default function StatusBox() {
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
   const [bedSummarys, setBedSummarys] = useState<bedSummary[]>();
@@ -34,7 +45,12 @@ export default function StatusBox() {
               className="flex flex-col items-center justify-center text-regular font-large"
               key={index}
             >
-              <div className="rounded-full bg-main px-[2rem] py-[0.5rem] text-white">
+              <div
+                className={`rounded-full bg-${getColorByRatio(
+                  summary.count,
+                  summary.full
+                )} px-[2rem] py-[0.5rem] text-white`}
+              >
                 {summary.title}
               </div>
               <div className="pt-[0.5rem] text-black">
