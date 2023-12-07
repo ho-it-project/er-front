@@ -72,12 +72,14 @@ export default function EmergencyCenterContainer({
         ref={emergencyCenterListRef}
         onScroll={(e) => {
           const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-          const scrollPercentage =
-            (scrollTop / (scrollHeight - clientHeight)) * 100;
-          if (scrollPercentage > 95 && query.page < pageLimit.total_page) {
-            console.log(query.page);
-
-            setQueryPage(query.page + 1);
+          if (
+            scrollHeight - scrollTop - clientHeight < 1 &&
+            isLoading === false
+          ) {
+            if (query.page < pageLimit.total_page) {
+              setQueryPage(query.page + 1);
+              console.log(query.page + 1);
+            }
           }
         }}
       >
