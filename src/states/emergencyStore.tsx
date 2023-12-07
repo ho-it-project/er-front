@@ -1,5 +1,7 @@
 import { arr_diff } from "@/lib/utils";
 import { create } from "zustand";
+import { emergencyRoom, hospital } from "./EmergencyCenterInfoStore";
+import { Status } from "./requestStore";
 
 export type EmergencyCenterType =
   | "NON_EMERGENCY_MEDICAL_INSTITUTION"
@@ -24,12 +26,22 @@ export interface EmergencyCeterQuery {
 }
 
 export interface EmergencyCenter {
-  emergency_center_id: string;
-  emergency_center_name: string;
-  emergency_center_type: EmergencyCenterType;
-  distance: string;
-  emergency_center_primary_phone: string;
+  created_at: string;
+  distance: number;
   emergency_center_address: string;
+  emergency_center_id: string;
+  emergency_center_latitude: number;
+  emergency_center_longitude: number;
+  emergency_center_name: string;
+  emergency_center_primary_phone: string;
+  emergency_center_secondary_phone: string;
+  emergency_center_type: EmergencyCenterType;
+  emergency_center_type_code: string;
+  emergency_rooms: emergencyRoom[];
+  hospital: hospital;
+  hospital_id: string;
+  status: Status;
+  updated_at: string;
 }
 
 interface EmergencyCenterListStore {

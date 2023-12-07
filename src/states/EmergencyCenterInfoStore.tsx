@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { EmergencyCenterType } from "./emergencyStore";
 import { Status } from "./requestStore";
 
-type HospitalType =
+export type HospitalType =
   | "HOSPITAL"
   | "HEALTH_CENTER"
   | "HEALTH_MEDICAL_CENTER"
@@ -18,7 +18,7 @@ type HospitalType =
   | "DENTAL_CLINIC"
   | "ORIENTAL_HOSPITAL"
   | "ORIENTAL_CLINIC";
-type EmergencyRoomType =
+export type EmergencyRoomType =
   | "GENERAL"
   | "COHORT_ISOLATION"
   | "NEGATIVE_PRESSURE_ISOLATION"
@@ -26,7 +26,7 @@ type EmergencyRoomType =
   | "PEDIATRIC"
   | "PEDIATRIC_NEGATIVE_PRESSURE_ISOLATION"
   | "PEDIATRIC_STANDARD_ISOLATION";
-type EmergencyRoomBedStauts =
+export type EmergencyRoomBedStauts =
   | "AVAILABLE"
   | "OCCUPIED"
   | "CLEANING"

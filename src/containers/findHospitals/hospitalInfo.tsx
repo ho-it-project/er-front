@@ -1,4 +1,7 @@
-import Status from "@/components/common/Status";
+interface RoomInfo {
+  name: string;
+  color: string;
+}
 
 interface HospitalInfoProps {
   name: string;
@@ -6,17 +9,8 @@ interface HospitalInfoProps {
   distance: string;
   number: string;
   location: string;
+  roomInfo: RoomInfo[];
 }
-
-const DUMMYSTATUS = [
-  { title: "일반", status: 12, full: 12, wait: 12 },
-  { title: "코호트", status: 1, full: 2 },
-  { title: "음압", status: 2, full: 4 },
-  { title: "일반격리", status: 6, full: 8 },
-  { title: "소아음압격리", status: 0, full: 2 },
-  { title: "소아일반격리", status: 2, full: 2, wait: 12 },
-  { title: "소아", status: 7, full: 8 },
-];
 
 export default function HospitalInfo({
   name,
@@ -24,6 +18,7 @@ export default function HospitalInfo({
   distance,
   number,
   location,
+  roomInfo,
 }: HospitalInfoProps) {
   return (
     <div className="flex  w-full rounded-2xl border-2 border-main px-[3rem] py-[2rem] hover:bg-bg">
@@ -38,16 +33,13 @@ export default function HospitalInfo({
         <InfoItem text={number} />
         <InfoItem text={location} />
         <span className="flex w-full gap-[1rem]">
-          {DUMMYSTATUS.map((s, index) => (
-            <Status
+          {roomInfo.map((info, index) => (
+            <div
               key={index}
-              size="sm"
-              title={s.title}
-              status={s.status}
-              full={s.full}
-              wait={s.wait}
-              view={false}
-            />
+              className={`text-${info.color} border-2 text-small font-medium border-${info.color} rounded-3xl px-[1rem] py-[0.2rem]`}
+            >
+              {info.name}
+            </div>
           ))}
         </span>
       </div>
