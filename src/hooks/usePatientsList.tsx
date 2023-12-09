@@ -43,8 +43,6 @@ export const usePatientList = () => {
       mutate();
       if (!data.is_success) return;
 
-      console.log("data", data);
-
       const { patient_list, count } = data.result;
 
       setPatients((prev) => {
