@@ -38,15 +38,17 @@ export default function PatientsBox({ clickdeNav }: PatientBoxProps) {
       },
     }).then((res) => res.json());
 
-  const { data, isLoading } = useSWR<GetPatientsResponse>(url, (url: string) =>
-    fetcher(url, accessToken)
+  const { data, isLoading, mutate } = useSWR<GetPatientsResponse>(
+    url,
+    (url: string) => fetcher(url, accessToken)
   );
 
   useEffect(() => {
     if (data && data.is_success) {
       setPatients(data.result.patient_list);
+      mutate();
     }
-  }, [data, setPatients]);
+  }, [data, setPatients, mutate]);
 
   return (
     <div className="flex flex-col">
@@ -59,6 +61,20 @@ export default function PatientsBox({ clickdeNav }: PatientBoxProps) {
             (patient) =>
               clickdeNav === "전체" || patient.patient_status === clickdeNav
           )
+          .sort((a, b) => {
+            if (
+              a.patient_status === "PENDING" &&
+              b.patient_status !== "PENDING"
+            ) {
+              return -1;
+            } else if (
+              a.patient_status !== "PENDING" &&
+              b.patient_status === "PENDING"
+            ) {
+              return 1;
+            }
+            return 0;
+          })
           .map((patient, index) => (
             <div
               className="cursor-pointer"
