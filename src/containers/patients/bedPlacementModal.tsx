@@ -61,7 +61,7 @@ export default function BedPlacementModal({
       .then((response) => response.json())
       .then(() => {
         closeModal();
-        router.refresh();
+        router.replace("patients");
       });
   };
   return (

@@ -55,8 +55,26 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   };
 
   const phoneNumberChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isNaN(Number(e.target.value)) && e.target.value.length <= 11) {
-      setPhoneNumber(e.target.value);
+    const inputPhoneNumber = e.target.value.replace(/\D/g, ""); // 숫자 이외의 문자 제거
+
+    if (!isNaN(Number(inputPhoneNumber)) && phoneNumber.length <= 12) {
+      let formattedPhoneNumber = "";
+
+      if (inputPhoneNumber.length <= 3) {
+        formattedPhoneNumber = inputPhoneNumber;
+      } else if (inputPhoneNumber.length <= 7) {
+        formattedPhoneNumber = `${inputPhoneNumber.slice(
+          0,
+          3
+        )}-${inputPhoneNumber.slice(3)}`;
+      } else {
+        formattedPhoneNumber = `${inputPhoneNumber.slice(
+          0,
+          3
+        )}-${inputPhoneNumber.slice(3, 7)}-${inputPhoneNumber.slice(7)}`;
+      }
+
+      setPhoneNumber(formattedPhoneNumber);
     }
   };
 
