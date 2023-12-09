@@ -78,7 +78,7 @@ interface PatientListStore {
 export const usePatientListStore = create<PatientListStore>((set) => ({
   query: {
     page: 1,
-    limit: 13,
+    limit: 30,
     patient_status: [],
   },
   patients: [],
