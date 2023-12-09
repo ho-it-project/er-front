@@ -7,7 +7,7 @@ import {
   transformAge,
   transformFormatDate,
   transformPhone,
-} from "@/lib/utils/transeform";
+} from "@/lib/utils/transform";
 import {
   Patient,
   Request,

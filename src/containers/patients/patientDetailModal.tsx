@@ -1,6 +1,6 @@
 import useModal from "@/hooks/useModal";
 import { getPatientStatusStyles } from "@/lib/utils/patientStyle";
-import { transformAge, transformPhone } from "@/lib/utils/transeform";
+import { transformAge, transformPhone } from "@/lib/utils/transform";
 import { PatientSummary } from "@/states/patientsStore";
 import Image from "next/image";
 import { useState } from "react";

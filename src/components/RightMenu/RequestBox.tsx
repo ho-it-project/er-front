@@ -1,5 +1,5 @@
 import { getStatusStyles } from "@/lib/utils/requestStyle";
-import { transeformName } from "@/lib/utils/transeform";
+import { transeformName } from "@/lib/utils/transform";
 import { RequestStatus } from "@/states/requestStore";
 import { useEffect, useState } from "react";
 import { Card } from "../common/Card";

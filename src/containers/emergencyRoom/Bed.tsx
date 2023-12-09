@@ -1,5 +1,5 @@
 import Spinner from "@/components/Spinner";
-import { transformAge } from "@/lib/utils/transeform";
+import { transformAge } from "@/lib/utils/transform";
 import { emergencyRoomBed } from "@/states/EmergencyCenterInfoStore";
 import useUserStore from "@/states/userStore";
 import { PatientDetail } from "@/type/patientDetail";
