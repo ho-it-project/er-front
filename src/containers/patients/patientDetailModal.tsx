@@ -5,7 +5,7 @@ import { PatientSummary } from "@/states/patientsStore";
 import Image from "next/image";
 import { useState } from "react";
 import DetailBox from "../requests/DetailBox";
-import BedAssignmentModal from "../requests/bedAssignmentModal";
+import BedPlacementModal from "./bedPlacementModal";
 import PatientButton from "./patientButton";
 
 interface PatientDetailModalProps {
@@ -37,7 +37,7 @@ export default function PatientDetailModal({
         />
       </span>
       {isOpen && (
-        <BedAssignmentModal
+        <BedPlacementModal
           patientId={patient.patient_id}
           closeModal={closeModal}
         />

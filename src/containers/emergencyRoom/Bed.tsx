@@ -23,7 +23,7 @@ export default function Bed({ bed, patientId }: BedProps) {
   const { accessToken } = useUserStore();
   const [patient, setPatient] = useState<PatientDetail | null>();
 
-  const url = patientId ? `/api/er/request-patients/${patientId}` : null;
+  const url = patientId ? `/api/er/patients/${patientId}` : null;
   const fetcher = (url: string, accessToken: string) =>
     fetch(url, {
       headers: {

@@ -1,41 +1,31 @@
-import { useEmoployeeList } from "@/hooks/useEmployeeList";
 import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import DropDownInput from "./dropdownInput";
+import DropDownInput from "../requests/dropdownInput";
 
 interface BedAssignmentModalProps {
   patientId: string;
   closeModal: () => void;
 }
 
-export default function BedAssignmentModal({
+export default function BedPlacementModal({
   patientId,
   closeModal,
 }: BedAssignmentModalProps) {
   const router = useRouter();
   const { accessToken } = useUserStore();
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
-  const { employees } = useEmoployeeList();
 
   const [emergencyRoom, setEmergencyRoom] = useState<string>("");
   const [roomNumber, setRoomNumber] = useState<string>("");
-  const [doctor, setDoctor] = useState("");
-  const [nurse, setNurse] = useState("");
 
   const ChangeEmergencyRoom = (room: string) => {
     setEmergencyRoom(room);
   };
   const ChangeRoomNumber = (number: string) => {
     setRoomNumber(number);
-  };
-  const ChangeDoctor = (doctor: string) => {
-    setDoctor(doctor);
-  };
-  const ChangeNurse = (nurse: string) => {
-    setNurse(nurse);
   };
 
   const Rooms = emergencyCenterInfo?.emergency_rooms.map((room) => ({
@@ -53,25 +43,8 @@ export default function BedAssignmentModal({
       code: bed.emergency_room_bed_num.toString(),
     }));
 
-  const Doctors = employees
-    .filter(
-      (employee) =>
-        employee.role === "SPECIALIST" || employee.role === "RESIDENT"
-    )
-    .map((employee) => ({
-      value: employee.employee_name,
-      code: employee.employee_id,
-    }));
-
-  const Nurses = employees
-    .filter((employee) => employee.role === "NURSE")
-    .map((employee) => ({
-      value: employee.employee_name,
-      code: employee.employee_id,
-    }));
-
   const onClickSubmit = () => {
-    const url = `/api/er/request-patients/${patientId}`;
+    const url = `/api/er/emergency-centers/emergency-room/${emergencyRoom}/beds/${roomNumber}`;
     const options = {
       method: "POST",
       headers: {
@@ -80,10 +53,7 @@ export default function BedAssignmentModal({
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        emergency_room_id: emergencyRoom,
-        emergency_room_bed_num: Number(roomNumber),
-        doctor_id: doctor,
-        nurse_id: nurse,
+        patient_id: patientId,
       }),
     };
 
@@ -133,26 +103,6 @@ export default function BedAssignmentModal({
               onChange={ChangeRoomNumber}
               values={Numbers}
               value={roomNumber}
-            />
-          </div>
-        )}
-        {Doctors && (
-          <div className="flex items-center justify-between gap-[2rem]">
-            <div>의사</div>
-            <DropDownInput
-              onChange={ChangeDoctor}
-              values={Doctors}
-              value={doctor}
-            />
-          </div>
-        )}
-        {Nurses && (
-          <div className="flex items-center justify-between gap-[2rem]">
-            <div>간호사</div>
-            <DropDownInput
-              onChange={ChangeNurse}
-              values={Nurses}
-              value={nurse}
             />
           </div>
         )}

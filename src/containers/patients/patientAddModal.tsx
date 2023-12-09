@@ -1,3 +1,4 @@
+import useUserStore from "@/states/userStore";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import DetailBox from "../requests/DetailBox";
@@ -10,6 +11,8 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   const residentNumber1Ref = useRef<HTMLInputElement>(null);
   const residentNumber2Ref = useRef<HTMLInputElement>(null);
   const addressRed = useRef<HTMLInputElement>(null);
+
+  const { accessToken } = useUserStore();
 
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -52,9 +55,39 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   };
 
   const phoneNumberChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isNaN(Number(e.target.value))) {
+    if (!isNaN(Number(e.target.value)) && e.target.value.length <= 11) {
       setPhoneNumber(e.target.value);
     }
+  };
+
+  const addPatientHandler = () => {
+    const url = "api/er/patients";
+    const options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        patient_name: name,
+        patient_gender: gender,
+        patient_birth: residentNumber1,
+        patient_identity_number: `${residentNumber1}-${residentNumber2}`,
+        patient_phone: phoneNumber,
+        patient_address: address,
+        doctor_id: "e7109a46-7593-4147-a51a-fe0b93070bd6",
+        nurse_id: "a497c19d-b884-43fd-bf60-ceb3c1ec988b",
+      }),
+    };
+
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.is_success) {
+          close();
+        }
+      });
   };
 
   return (
@@ -148,7 +181,10 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
           />
         </DetailBox>
         <div className="flex h-full w-full justify-center text-large font-large text-white">
-          <button className="h-[7rem] w-[36rem] rounded-2xl bg-main ">
+          <button
+            className="h-[7rem] w-[36rem] rounded-2xl bg-main"
+            onClick={addPatientHandler}
+          >
             환자 추가하기
           </button>
         </div>
