@@ -24,8 +24,6 @@ export default function PatientsBox({ clickdeNav }: PatientBoxProps) {
   const { patients, isLoading } = usePatientList();
   const { query, setQueryPage, pageLimit } = usePatientListStore();
 
-  console.log(patients);
-
   useEffect(() => {
     if (patientListRef.current) {
       if (patientListRef.current.scrollTop > 0) {

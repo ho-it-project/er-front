@@ -22,8 +22,6 @@ export default function PatientInfo({ patient }: PatientInfoProps) {
     return null;
   };
 
-  console.log(patient.patient.patient_name);
-
   return (
     <div className="flex h-[8rem] w-full items-center justify-center border-b-2 border-L-gray pl-[4rem] text-medium font-large">
       <div className="w-1/4 min-w-[20rem]">
