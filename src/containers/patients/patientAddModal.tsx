@@ -55,7 +55,7 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   };
 
   const phoneNumberChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isNaN(Number(e.target.value)) && phoneNumber.length <= 11) {
+    if (!isNaN(Number(e.target.value)) && e.target.value.length <= 11) {
       setPhoneNumber(e.target.value);
     }
   };

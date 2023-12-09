@@ -17,7 +17,7 @@ export const transformAge = (birthdate: string): string => {
   const month = Number(birthdate.substring(2, 4)) - 1;
   const day = Number(birthdate.substring(4, 6));
 
-  const baseYear = year >= 0 && year <= 21 ? 2000 : 1900;
+  const baseYear = year < 0 ? 2000 : 1900;
   const fullYear = baseYear + year;
 
   const birthDate = new Date(fullYear, month, day);
@@ -27,7 +27,10 @@ export const transformAge = (birthdate: string): string => {
   }
 
   const currentDate = new Date();
-  const age = currentDate.getFullYear() - birthDate.getFullYear();
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+  if (age > 100) {
+    age = age - 100;
+  }
 
   if (
     currentDate.getMonth() < birthDate.getMonth() ||
