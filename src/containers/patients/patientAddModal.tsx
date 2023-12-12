@@ -1,3 +1,4 @@
+import { usePatientList } from "@/hooks/usePatientsList";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
@@ -13,6 +14,7 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
   const addressRed = useRef<HTMLInputElement>(null);
 
   const { accessToken } = useUserStore();
+  const { mutate } = usePatientList();
 
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -85,6 +87,7 @@ export default function PatientAddModal({ close }: PatientAddModalProps) {
       .then((res) => res.json())
       .then((data) => {
         if (data.is_success) {
+          mutate();
           close();
         }
       });
