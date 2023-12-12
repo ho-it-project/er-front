@@ -119,41 +119,49 @@ export default function BedAssignmentModal({
         {Rooms && (
           <div className="flex items-center justify-between gap-[2rem]">
             <div>병동구역</div>
-            <DropDownInput
-              onChange={ChangeEmergencyRoom}
-              values={Rooms}
-              value={emergencyRoom}
-            />
+            <div className="w-[58rem]">
+              <DropDownInput
+                onChange={ChangeEmergencyRoom}
+                values={Rooms}
+                value={emergencyRoom}
+              />
+            </div>
           </div>
         )}
         {emergencyRoom !== "" && Numbers && (
           <div className="flex items-center justify-between gap-[2rem]">
             <div>병상번호</div>
-            <DropDownInput
-              onChange={ChangeRoomNumber}
-              values={Numbers}
-              value={roomNumber}
-            />
+            <div className="w-[58rem]">
+              <DropDownInput
+                onChange={ChangeRoomNumber}
+                values={Numbers}
+                value={roomNumber}
+              />
+            </div>
           </div>
         )}
         {Doctors && (
           <div className="flex items-center justify-between gap-[2rem]">
             <div>의사</div>
-            <DropDownInput
-              onChange={ChangeDoctor}
-              values={Doctors}
-              value={doctor}
-            />
+            <div className="w-[58rem]">
+              <DropDownInput
+                onChange={ChangeDoctor}
+                values={Doctors}
+                value={doctor}
+              />
+            </div>
           </div>
         )}
         {Nurses && (
           <div className="flex items-center justify-between gap-[2rem]">
             <div>간호사</div>
-            <DropDownInput
-              onChange={ChangeNurse}
-              values={Nurses}
-              value={nurse}
-            />
+            <div className="w-[58rem]">
+              <DropDownInput
+                onChange={ChangeNurse}
+                values={Nurses}
+                value={nurse}
+              />
+            </div>
           </div>
         )}
       </div>

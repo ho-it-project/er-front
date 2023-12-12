@@ -1,6 +1,6 @@
 import { arr_diff } from "@/lib/utils";
 import { create } from "zustand";
-import { Gender, RequestStatus, Status } from "./requestStore";
+import { Gender, Status } from "./requestStore";
 
 export type ERPatientStatus =
   | "PENDING"
@@ -8,12 +8,18 @@ export type ERPatientStatus =
   | "DEATH"
   | "ADMISSION"
   | "TRANSFERED";
-
+export type LogType =
+  | "DIAGNOSIS"
+  | "TREATMENT"
+  | "MEDICATION"
+  | "TRANSFER"
+  | "DISCHARGE"
+  | "DEATH";
 export interface PatientLog {
   patient_log_id: string;
   patient_id: string;
   log_date: string;
-  log_type: RequestStatus;
+  log_type: LogType;
   log_desc: string;
   employee_id: string;
   created_at: string;

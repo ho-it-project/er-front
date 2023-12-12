@@ -40,7 +40,6 @@ export const usePatientList = () => {
 
   useEffect(() => {
     if (data) {
-      mutate();
       if (!data.is_success) return;
 
       const { patient_list, count } = data.result;
@@ -68,8 +67,7 @@ export const usePatientList = () => {
     query.limit,
     query.page,
     query.patient_status,
-    mutate,
   ]);
 
-  return { isLoading, patients, error };
+  return { isLoading, patients, error, mutate };
 };

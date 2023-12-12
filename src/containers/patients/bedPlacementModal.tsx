@@ -1,22 +1,29 @@
 import useEmergencyCenterInfoStore from "@/states/EmergencyCenterInfoStore";
+import { usePatientListStore } from "@/states/patientsStore";
 import useUserStore from "@/states/userStore";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DropDownInput from "../requests/dropdownInput";
 
 interface BedAssignmentModalProps {
   patientId: string;
   closeModal: () => void;
+  close: () => void;
+}
+interface GetData {
+  is_success: boolean;
+  message: string;
+  result: string;
 }
 
 export default function BedPlacementModal({
   patientId,
   closeModal,
+  close,
 }: BedAssignmentModalProps) {
-  const router = useRouter();
   const { accessToken } = useUserStore();
   const { emergencyCenterInfo } = useEmergencyCenterInfoStore();
+  const { setPatients } = usePatientListStore();
 
   const [emergencyRoom, setEmergencyRoom] = useState<string>("");
   const [roomNumber, setRoomNumber] = useState<string>("");
@@ -41,7 +48,8 @@ export default function BedPlacementModal({
     .map((bed) => ({
       value: bed.emergency_room_bed_num.toString(),
       code: bed.emergency_room_bed_num.toString(),
-    }));
+    }))
+    .sort((a, b) => parseInt(a.code) - parseInt(b.code));
 
   const onClickSubmit = () => {
     const url = `/api/er/emergency-centers/emergency-room/${emergencyRoom}/beds/${roomNumber}`;
@@ -59,9 +67,19 @@ export default function BedPlacementModal({
 
     fetch(url, options)
       .then((response) => response.json())
-      .then(() => {
-        closeModal();
-        router.replace("patients");
+      .then((data: GetData) => {
+        if (data && data.is_success) {
+          setPatients((prevPatients) => {
+            return prevPatients.map((patient) => {
+              if (patient.patient_id === patientId) {
+                return { ...patient, patient_status: "ADMISSION" };
+              }
+              return patient;
+            });
+          });
+          closeModal();
+          close();
+        }
       });
   };
   return (
@@ -89,21 +107,25 @@ export default function BedPlacementModal({
         {Rooms && (
           <div className="flex items-center justify-between gap-[2rem]">
             <div>병동구역</div>
-            <DropDownInput
-              onChange={ChangeEmergencyRoom}
-              values={Rooms}
-              value={emergencyRoom}
-            />
+            <div className="w-[58rem]">
+              <DropDownInput
+                onChange={ChangeEmergencyRoom}
+                values={Rooms}
+                value={emergencyRoom}
+              />
+            </div>
           </div>
         )}
         {emergencyRoom !== "" && Numbers && (
           <div className="flex items-center justify-between gap-[2rem]">
             <div>병상번호</div>
-            <DropDownInput
-              onChange={ChangeRoomNumber}
-              values={Numbers}
-              value={roomNumber}
-            />
+            <div className="w-[58rem]">
+              <DropDownInput
+                onChange={ChangeRoomNumber}
+                values={Numbers}
+                value={roomNumber}
+              />
+            </div>
           </div>
         )}
       </div>

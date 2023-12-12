@@ -56,7 +56,9 @@ export default function PatientsBox({ clickdeNav }: PatientBoxProps) {
           patients
             .filter(
               (patient) =>
-                clickdeNav === "전체" || patient.patient_status === clickdeNav
+                (clickdeNav === "전체" ||
+                  patient.patient_status === clickdeNav) &&
+                patient.patient_status !== "DISCHARGE"
             )
             .sort((a, b) => {
               if (

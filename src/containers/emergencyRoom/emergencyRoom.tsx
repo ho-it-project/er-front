@@ -14,6 +14,7 @@ const EmergencyRoom = React.memo(({ beds }: EmergencyRoomProps) => {
   const { accessToken } = useUserStore();
   const { isOpen, openModal, closeModal } = useModal();
   const [selected, setSelected] = useState<PatientSummary>();
+
   const clickedPatient = (id: string | null) => {
     if (id !== null) {
       const url = `/api/er/patients/${id}`;
