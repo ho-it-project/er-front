@@ -1,5 +1,5 @@
 import Spinner from "@/components/Spinner";
-import { transformAge } from "@/lib/utils/transeform";
+import { transformAge } from "@/lib/utils/transform";
 import { emergencyRoomBed } from "@/states/EmergencyCenterInfoStore";
 import useUserStore from "@/states/userStore";
 import { PatientDetail } from "@/type/patientDetail";
@@ -23,7 +23,7 @@ export default function Bed({ bed, patientId }: BedProps) {
   const { accessToken } = useUserStore();
   const [patient, setPatient] = useState<PatientDetail | null>();
 
-  const url = patientId ? `/api/er/request-patients/${patientId}` : null;
+  const url = patientId ? `/api/er/patients/${patientId}` : null;
   const fetcher = (url: string, accessToken: string) =>
     fetch(url, {
       headers: {

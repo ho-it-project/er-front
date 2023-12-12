@@ -17,8 +17,8 @@ export default function PatientButton({
     case "PENDING":
       button = (
         <button
-          className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-main30"
-          onClick={() => bedAssignmentHandler}
+          className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-main"
+          onClick={bedAssignmentHandler}
         >
           병상배치하기
         </button>
@@ -40,8 +40,13 @@ export default function PatientButton({
 
     default:
       button = (
-        <button className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-main30">
-          안뇽
+        <button
+          className="flex h-[7rem] w-[36rem] cursor-pointer items-center justify-center rounded-3xl bg-L-gray"
+          onClick={() => {
+            router.push("/");
+          }}
+        >
+          병상정보확인하기
         </button>
       );
       break;

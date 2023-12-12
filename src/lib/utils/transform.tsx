@@ -13,23 +13,34 @@ export const transformDate = (dateString: string) => {
 };
 
 export const transformAge = (birthdate: string): string => {
-  const birthDate = new Date(Number(birthdate));
+  const year = Number(birthdate.substring(0, 2));
+  const month = Number(birthdate.substring(2, 4)) - 1;
+  const day = Number(birthdate.substring(4, 6));
+
+  const baseYear = year < 0 ? 2000 : 1900;
+  const fullYear = baseYear + year;
+
+  const birthDate = new Date(fullYear, month, day);
 
   if (isNaN(birthDate.getTime())) {
     return "미상";
   }
 
   const currentDate = new Date();
-  const age = currentDate.getFullYear() - birthDate.getFullYear();
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+  if (age > 100) {
+    age = age - 100;
+  }
+
   if (
     currentDate.getMonth() < birthDate.getMonth() ||
     (currentDate.getMonth() === birthDate.getMonth() &&
       currentDate.getDate() < birthDate.getDate())
   ) {
-    return String(age - 1);
+    return String(age - 1) + "세";
+  } else {
+    return String(age) + "세";
   }
-
-  return String(age) + "세";
 };
 
 export const transeformName = (name: string) => {

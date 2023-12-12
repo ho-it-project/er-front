@@ -8,7 +8,7 @@ import {
   transeformName,
   transformAge,
   transformDate,
-} from "@/lib/utils/transeform";
+} from "@/lib/utils/transform";
 import { Request, RequestStatus } from "@/states/requestStore";
 import { useEffect, useState } from "react";
 import RequestDetailModal from "./requestDetailModal";

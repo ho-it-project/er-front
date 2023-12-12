@@ -3,7 +3,7 @@
 import TopNavContentWrapper from "@/components/TopNavContentWrapper";
 import SearchInput from "@/components/common/SearchInput";
 import useModal from "@/hooks/useModal";
-import { ERPatientStatus } from "@/states/patientsStore";
+import { ERPatientStatus, usePatientListStore } from "@/states/patientsStore";
 import { useState } from "react";
 import PatientAddModal from "./patientAddModal";
 import PatientHeader from "./patientHeader";
@@ -18,6 +18,7 @@ export default function PatientsContainer() {
   );
   const [, setSearchWord] = useState("");
   const { isOpen, closeModal, openModal } = useModal();
+  const { setQueryPaientStatus } = usePatientListStore();
 
   const ChanegeSearch = (word: string) => {
     setSearchWord(word);
@@ -26,8 +27,10 @@ export default function PatientsContainer() {
   const onClickNav = (value: ERPatientStatus | "전체") => {
     if (value === "전체") {
       setClickedNav("전체");
+      setQueryPaientStatus([]);
     } else {
       setClickedNav(value);
+      setQueryPaientStatus([value]);
     }
   };
 
@@ -48,7 +51,7 @@ export default function PatientsContainer() {
       </div>
       <div className="h-full w-full px-[1rem]">
         <PatientHeader />
-        <div className="h-full w-full overflow-scroll">
+        <div className="h-full w-full">
           <PatientsBox clickdeNav={clickedNav} />
         </div>
       </div>

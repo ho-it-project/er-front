@@ -30,7 +30,7 @@ export default function DropDownInput({
   };
 
   return (
-    <div className="relative w-[58rem]">
+    <div className="relative w-full">
       <div
         className={`flex h-[3.8rem] w-full cursor-pointer items-center justify-center border-main bg-white pr-[4rem]
          ${
